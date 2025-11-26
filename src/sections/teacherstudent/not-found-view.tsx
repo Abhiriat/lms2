@@ -24,6 +24,7 @@ import {
   InputAdornment,
 } from '@mui/material';
 import { Iconify } from 'src/components/iconify';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 // Teacher's assigned English batches (realistic names)
 const teacherAssignedCourses = [
@@ -128,7 +129,7 @@ export function TeacherStudentListView() {
                 value={course}
                 label={
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Iconify icon="fluent:class-24-filled" sx={{ fontSize: 20 }} />
+                    <Icon icon="fluent:class-24-filled" style={{ fontSize: 20 }} />
                     <Box>
                       <Typography variant="body2" sx={{ fontWeight: 600, lineHeight: 1.2 }}>
                         {course.split(' - ')[0]}
@@ -138,7 +139,7 @@ export function TeacherStudentListView() {
                       </Typography>
                     </Box>
                     <Badge badgeContent={count} color="primary" sx={{ ml: 1 }}>
-                      <Iconify icon="eva:people-fill" />
+                      <Icon icon="eva:people-fill" />
                     </Badge>
                   </Box>
                 }
@@ -162,14 +163,14 @@ export function TeacherStudentListView() {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <Iconify icon="eva:search-fill" />
+                  <Icon icon="eva:search-fill" />
                 </InputAdornment>
               ),
               endAdornment: searchQuery && (
                 <InputAdornment position="end">
-                  <Iconify
+                  <Icon
                     icon="eva:close-fill"
-                    sx={{ cursor: 'pointer', color: 'text.disabled' }}
+                    style={{ cursor: 'pointer', color: 'text.disabled' }}
                     onClick={() => setSearchQuery('')}
                   />
                 </InputAdornment>
@@ -186,7 +187,7 @@ export function TeacherStudentListView() {
                 </MenuItem>
                 {availableBatches.map(batch => (
                   <MenuItem key={batch} value={batch}>
-                    <Iconify icon="eva:bookmark-fill" sx={{ mr: 1, fontSize: 16 }} />
+                    <Icon icon="eva:bookmark-fill" style={{  fontSize: 16 }} />
                     {batch}
                   </MenuItem>
                 ))}
@@ -196,7 +197,7 @@ export function TeacherStudentListView() {
 
           <Button
             variant="outlined"
-            startIcon={<Iconify icon="eva:trash-2-outline" />}
+            startIcon={<Icon icon="eva:trash-2-outline" />}
             onClick={handleClearFilters}
             disabled={!hasActiveFilters}
           >
@@ -211,7 +212,7 @@ export function TeacherStudentListView() {
               <Chip
                 label={`Batch: ${batchFilter}`}
                 onDelete={() => setBatchFilter('')}
-                deleteIcon={<Iconify icon="eva:close-fill" />}
+                deleteIcon={<Icon icon="eva:close-fill" />}
                 color="primary"
                 size="small"
               />
@@ -239,7 +240,7 @@ export function TeacherStudentListView() {
                   <TableRow key={student.id} hover>
                     <TableCell>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Iconify icon="eva:person-fill" sx={{ color: 'text.secondary' }} />
+                        <Icon icon="eva:person-fill" style={{ color: 'text.secondary' }} />
                         {student.name}
                       </Box>
                     </TableCell>
@@ -250,7 +251,7 @@ export function TeacherStudentListView() {
                         label={student.batch}
                         size="small"
                         color="info"
-                        icon={<Iconify icon="eva:bookmark-fill" />}
+                        icon={<Icon icon="eva:bookmark-fill" />}
                       />
                     </TableCell>
                     <TableCell>
@@ -261,7 +262,7 @@ export function TeacherStudentListView() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={5} align="center" sx={{ py: 6 }}>
-                    <Iconify icon="eva:book-open-outline" sx={{ fontSize: 64, color: 'text.disabled', mb: 2 }} />
+                    <Icon icon="eva:book-open-outline" style={{ fontSize: 64, color: 'text.disabled' }} />
                     <Typography variant="h6" color="text.secondary">
                       No students found
                     </Typography>

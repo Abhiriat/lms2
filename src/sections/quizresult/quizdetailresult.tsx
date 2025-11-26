@@ -23,16 +23,15 @@ import {
   Card,
   CardContent,
   LinearProgress,
-  Grid,
+  
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
 } from '@mui/material';
-
+import Grid from '@mui/material/GridLegacy';
 // Iconify Icons
 import { Icon } from '@iconify/react';
-
 const initialQuizzes = [
   { id: 1, name: 'Data Structures Midterm', courses: ['Data Structures', 'Algorithms'], startDate: '2024-10-01', endDate: '2024-10-08', totalQuestions: 50, attemptedQuestions: 48, correctAnswers: 42, score: 84, topics: ['Arrays', 'Linked Lists', 'Trees', 'Graphs'] },
   { id: 2, name: 'Web Development Quiz 1', courses: ['Web Development'], startDate: '2024-10-05', endDate: '2024-10-12', totalQuestions: 30, attemptedQuestions: 30, correctAnswers: 27, score: 90, topics: ['HTML', 'CSS', 'JavaScript', 'React'] },

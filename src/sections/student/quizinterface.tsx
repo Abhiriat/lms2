@@ -11,14 +11,14 @@ import {
   Paper,
   Alert,
   Chip,
-  Grid,
+
   IconButton,
   Tooltip,
   Divider,
 } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
-
+import Grid from '@mui/material/GridLegacy';
 interface Quiz {
   id: number;
   title: string;

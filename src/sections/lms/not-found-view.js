@@ -1,0 +1,447 @@
+import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import React, { useState, useEffect } from 'react';
+import { Box, Container, Paper, Typography, List, ListItemButton, ListItemIcon, ListItemText, Collapse, Chip, IconButton, Button, Card, LinearProgress, Alert, Radio, RadioGroup, FormControlLabel, DialogActions, DialogContent, DialogTitle, Dialog, CircularProgress, } from '@mui/material';
+import { Icon } from '@iconify/react';
+import Grid from '@mui/material/GridLegacy';
+import Drawer from '@mui/material/Drawer';
+import Fab from '@mui/material/Fab';
+import useMediaQuery from '@mui/material/useMediaQuery';
+export function LMSView() {
+    const [selectedTopic, setSelectedTopic] = useState(null);
+    const [selectedSubtopic, setSelectedSubtopic] = useState(null);
+    const [selectedContent, setSelectedContent] = useState(null);
+    const [openTopics, setOpenTopics] = useState(['writing']);
+    const [completedItems, setCompletedItems] = useState([]);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const isMobile = useMediaQuery('(max-width:960px)');
+    // Load & Save Progress
+    useEffect(() => {
+        const saved = localStorage.getItem('lms-completed-items');
+        if (saved)
+            setCompletedItems(JSON.parse(saved));
+    }, []);
+    useEffect(() => {
+        localStorage.setItem('lms-completed-items', JSON.stringify(completedItems));
+    }, [completedItems]);
+    const markAsComplete = (itemId) => {
+        if (!completedItems.includes(itemId)) {
+            setCompletedItems(prev => [...prev, itemId]);
+        }
+    };
+    const handleTopicClick = (topicId) => {
+        setOpenTopics(prev => prev.includes(topicId) ? prev.filter(t => t !== topicId) : [...prev, topicId]);
+    };
+    const handleSubtopicClick = (subtopic) => {
+        setSelectedSubtopic(subtopic);
+        setSelectedContent(null);
+    };
+    const handleContentClick = (content) => {
+        setSelectedContent(content);
+    };
+    const handleBack = () => {
+        setSelectedContent(null);
+    };
+    const getTypeIcon = (type) => {
+        switch (type) {
+            case 'video': return 'mdi:play-circle-outline';
+            case 'assignment': return 'mdi:file-document-edit-outline';
+            case 'quiz': return 'mdi:clipboard-check-outline';
+            default: return 'mdi:book-open-page-variant-outline';
+        }
+    };
+    const getTypeColor = (type) => {
+        switch (type) {
+            case 'video': return '#ef4444';
+            case 'assignment': return '#f59e0b';
+            case 'quiz': return '#8b5cf6';
+            default: return '#3b82f6';
+        }
+    };
+    // Video Lesson
+    // Replace your current VideoLesson with this upgraded version
+    const VideoLesson = ({ title, onComplete }) => {
+        const [isPlaying, setIsPlaying] = useState(false);
+        const [progress, setProgress] = useState(0);
+        const [currentTime, setCurrentTime] = useState(0);
+        const [duration, setDuration] = useState(300); // 5 minutes default (in seconds)
+        const [volume, setVolume] = useState(0.8);
+        const [isMuted, setIsMuted] = useState(false);
+        const [playbackRate, setPlaybackRate] = useState(1);
+        const [showControls, setShowControls] = useState(true);
+        const controlsTimeoutRef = React.useRef(null);
+        // Simulated video duration = 5 minutes (300 seconds)
+        const TOTAL_DURATION = 300;
+        // Format time helper
+        const formatTime = (seconds) => {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        };
+        // Simulate video progress
+        useEffect(() => {
+            let interval;
+            if (isPlaying && progress < 100) {
+                interval = setInterval(() => {
+                    setProgress((prev) => {
+                        const increment = (100 / TOTAL_DURATION) * (playbackRate * 1.8); // speed-adjusted
+                        const newProgress = Math.min(prev + increment, 100);
+                        setCurrentTime((newProgress / 100) * TOTAL_DURATION);
+                        if (newProgress >= 100) {
+                            setIsPlaying(false);
+                            onComplete();
+                        }
+                        return newProgress;
+                    });
+                }, 100);
+            }
+            return () => clearInterval(interval);
+        }, [isPlaying, playbackRate, onComplete]);
+        // Auto-hide controls after 3 seconds of inactivity
+        useEffect(() => {
+            if (isPlaying) {
+                controlsTimeoutRef.current = setTimeout(() => setShowControls(false), 3000);
+            }
+            else {
+                setShowControls(true);
+            }
+            return () => {
+                if (controlsTimeoutRef.current)
+                    clearTimeout(controlsTimeoutRef.current);
+            };
+        }, [isPlaying, progress]);
+        const handleMouseMove = () => {
+            setShowControls(true);
+            if (controlsTimeoutRef.current)
+                clearTimeout(controlsTimeoutRef.current);
+            if (isPlaying) {
+                controlsTimeoutRef.current = setTimeout(() => setShowControls(false), 3000);
+            }
+        };
+        const togglePlayPause = () => setIsPlaying(!isPlaying);
+        const toggleMute = () => {
+            setIsMuted(!isMuted);
+            setVolume(isMuted ? 0.8 : 0);
+        };
+        const handleSeek = (e) => {
+            const newProgress = Number(e.target.value);
+            setProgress(newProgress);
+            setCurrentTime((newProgress / 100) * TOTAL_DURATION);
+        };
+        const handleVolumeChange = (e) => {
+            const newVol = Number(e.target.value);
+            setVolume(newVol);
+            setIsMuted(newVol === 0);
+        };
+        return (_jsxs(Box, { sx: { p: { xs: 2, md: 5 }, maxWidth: '100%' }, onMouseMove: handleMouseMove, onMouseLeave: () => isPlaying && setShowControls(false), children: [_jsx(Typography, { variant: "h5", fontWeight: 700, gutterBottom: true, children: title }), _jsxs(Box, { sx: {
+                        position: 'relative',
+                        borderRadius: 3,
+                        overflow: 'hidden',
+                        bgcolor: '#0f172a',
+                        color: 'white',
+                        boxShadow: 10,
+                        aspectRatio: '16/9',
+                        cursor: showControls ? 'default' : 'none',
+                        transition: 'all 0.3s ease',
+                    }, children: [_jsx(Box, { sx: {
+                                position: 'absolute',
+                                inset: 0,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                bgcolor: 'rgba(0,0,0,0.4)',
+                                zIndex: 1,
+                            }, children: _jsx(IconButton, { onClick: togglePlayPause, sx: {
+                                    bgcolor: 'rgba(255,255,255,0.2)',
+                                    '&:hover': { bgcolor: 'rgba(255,255,255,0.3)', transform: 'scale(1.1)' },
+                                    width: 100,
+                                    height: 100,
+                                    transition: 'all 0.3s',
+                                }, children: _jsx(Icon, { icon: isPlaying ? 'mdi:pause' : 'mdi:play', width: 60 }) }) }), _jsx(Box, { sx: {
+                                position: 'absolute',
+                                bottom: 70,
+                                left: 16,
+                                right: 16,
+                                zIndex: 3,
+                            }, children: _jsx("input", { type: "range", min: "0", max: "100", step: "0.1", value: progress, onChange: handleSeek, style: {
+                                    width: '100%',
+                                    height: '6px',
+                                    background: `linear-gradient(to right, #ef4444 ${progress}%, #475569 ${progress}%)`,
+                                    borderRadius: '3px',
+                                    outline: 'none',
+                                    appearance: 'none',
+                                } }) }), _jsxs(Box, { sx: {
+                                position: 'absolute',
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                bgcolor: 'linear-gradient(transparent, rgba(0,0,0,0.8))',
+                                p: 4,
+                                pt: 8,
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 2,
+                                opacity: showControls ? 1 : 0,
+                                transition: 'opacity 0.4s ease',
+                                pointerEvents: showControls ? 'all' : 'none',
+                            }, children: [_jsx(IconButton, { onClick: togglePlayPause, sx: { color: 'white' }, children: _jsx(Icon, { icon: isPlaying ? 'mdi:pause' : 'mdi:play', width: 32 }) }), _jsx(IconButton, { onClick: toggleMute, sx: { color: 'white' }, children: _jsx(Icon, { icon: isMuted || volume === 0
+                                            ? 'mdi:volume-off'
+                                            : volume < 0.5
+                                                ? 'mdi:volume-low'
+                                                : 'mdi:volume-high', width: 28 }) }), _jsx("input", { type: "range", min: "0", max: "1", step: "0.05", value: isMuted ? 0 : volume, onChange: handleVolumeChange, style: {
+                                        width: '80px',
+                                        height: '4px',
+                                        background: `linear-gradient(to right, #fff ${volume * 100}%, #475569 ${volume * 100}%)`,
+                                        borderRadius: '2px',
+                                    } }), _jsxs(Typography, { variant: "body2", sx: { minWidth: 100, fontFeatureSettings: '"tnum"' }, children: [formatTime(currentTime), " / ", formatTime(TOTAL_DURATION)] }), _jsxs(Button, { size: "small", onClick: () => setPlaybackRate((prev) => (prev === 2 ? 0.5 : prev + 0.25 > 2 ? 0.5 : prev + 0.25)), sx: { color: 'white', fontSize: '0.8rem', ml: 'auto' }, children: [playbackRate.toFixed(2), "x"] }), _jsx(IconButton, { sx: { color: 'white' }, children: _jsx(Icon, { icon: "mdi:fullscreen", width: 28 }) })] }), progress === 100 && (_jsxs(Alert, { severity: "success", icon: _jsx(Icon, { icon: "mdi:check-circle", width: 32 }), sx: { position: 'absolute', top: 20, left: 20, right: 20, zIndex: 10 }, children: [_jsx("strong", { children: "Video completed!" }), " You've earned full progress."] }))] }), _jsx(Box, { sx: { mt: 3, textAlign: 'center' }, children: _jsxs(Typography, { variant: "body2", color: "text.secondary", children: ["Tip: Click the video to show/hide controls \u2022 Current speed: ", _jsxs("strong", { children: [playbackRate, "x"] })] }) })] }));
+    };
+    const Assignment = ({ title, onComplete }) => {
+        const [uploadedFile, setUploadedFile] = useState(null);
+        const [submitted, setSubmitted] = useState(false);
+        const [analyzing, setAnalyzing] = useState(false);
+        const [feedbackOpen, setFeedbackOpen] = useState(false);
+        // Simulated AI feedback (you can later connect to real API)
+        const generateFeedback = () => {
+            return {
+                score: Math.floor(Math.random() * 25) + 70, // 70–95
+                goodPoints: [
+                    "Excellent use of topic vocabulary (coherence, bandwidth, digital divide)",
+                    "Clear overall position in introduction and conclusion",
+                    "Well-developed paragraphs with good supporting examples",
+                    "Good range of complex structures",
+                ],
+                suggestions: [
+                    "Try to use more linking words (e.g., 'Moreover', 'On the other hand')",
+                    "Some sentences are a bit long – consider splitting for clarity",
+                    "Include one more real-world example in body paragraph 2",
+                    "Minor spelling: 'accomodate' → 'accommodate'",
+                ],
+            };
+        };
+        const handleSubmit = () => {
+            if (!uploadedFile)
+                return;
+            setSubmitted(true);
+            setAnalyzing(true);
+            // Simulate AI analysis delay
+            setTimeout(() => {
+                setAnalyzing(false);
+                setFeedbackOpen(true);
+            }, 4500);
+        };
+        const handleContinue = () => {
+            setFeedbackOpen(false);
+            setTimeout(() => onComplete(), 800);
+        };
+        return (_jsxs(_Fragment, { children: [_jsxs(Box, { sx: { p: { xs: 3, md: 5 }, maxWidth: 900, mx: 'auto' }, children: [_jsx(Typography, { variant: "h5", fontWeight: 700, gutterBottom: true, children: title }), _jsx(Typography, { color: "text.secondary", paragraph: true, children: "Upload your completed essay (PDF format recommended)." }), _jsxs(Paper, { sx: {
+                                p: 8,
+                                textAlign: 'center',
+                                cursor: uploadedFile ? 'default' : 'pointer',
+                                border: '2px dashed',
+                                borderColor: uploadedFile ? '#10b981' : '#cbd5e1',
+                                bgcolor: uploadedFile ? '#f0fdf4' : '#f8fafc',
+                                borderRadius: 3,
+                                mb: 4,
+                                transition: 'all 0.3s',
+                                position: 'relative',
+                                '&:hover': uploadedFile ? {} : { borderColor: '#3b82f6', bgcolor: '#eff6ff' },
+                            }, onClick: () => !uploadedFile && document.getElementById('assign-file')?.click(), children: [_jsx("input", { id: "assign-file", type: "file", accept: ".pdf,.doc,.docx", style: { display: 'none' }, onChange: (e) => e.target.files?.[0] && setUploadedFile(e.target.files[0]) }), analyzing ? (_jsxs(Box, { sx: { py: 4 }, children: [_jsx(CircularProgress, { size: 68, thickness: 5 }), _jsx(Typography, { variant: "h6", sx: { mt: 3, fontWeight: 600 }, children: "Analyzing your essay..." }), _jsx(Typography, { variant: "body2", color: "text.secondary", sx: { mt: 1 }, children: "Our AI is checking vocabulary, grammar, coherence & task response" })] })) : uploadedFile ? (_jsxs(Box, { children: [_jsx(Icon, { icon: "mdi:file-document-check", width: 80, color: "#10b981" }), _jsx(Typography, { variant: "h6", color: "success.main", fontWeight: 600, sx: { mt: 2 }, children: uploadedFile.name }), _jsx(Typography, { variant: "body2", color: "success.main", children: "Ready for submission" })] })) : (_jsxs(Box, { children: [_jsx(Icon, { icon: "mdi:cloud-upload-outline", width: 80, color: "#64748b" }), _jsx(Typography, { variant: "h6", sx: { mt: 2, color: '#475569' }, children: "Click to upload your essay" }), _jsx(Typography, { variant: "body2", color: "text.secondary", children: "PDF, Word \u2022 Max 10MB" })] }))] }), _jsx(Button, { fullWidth: true, variant: "contained", size: "large", disabled: !uploadedFile || submitted, onClick: handleSubmit, sx: {
+                                height: 60,
+                                fontSize: '1.2rem',
+                                fontWeight: 600,
+                                textTransform: 'none',
+                                bgcolor: '#1e40af',
+                                '&:hover': { bgcolor: '#1e3a8a' },
+                            }, children: analyzing ? (_jsx(_Fragment, { children: "Analyzing... Please wait" })) : submitted ? ('Submitted – Analyzing Your Work') : ('Submit Assignment for Review') })] }), _jsxs(Dialog, { open: feedbackOpen, onClose: () => { }, maxWidth: "md", fullWidth: true, PaperProps: {
+                        sx: { borderRadius: 3, p: { xs: 2, md: 4 }, maxHeight: '90vh' },
+                    }, children: [_jsx(DialogTitle, { sx: { pb: 1 }, children: _jsxs(Box, { display: "flex", alignItems: "center", justifyContent: "space-between", children: [_jsx(Typography, { variant: "h5", fontWeight: 700, children: "AI Feedback Report" }), _jsx(IconButton, { onClick: handleContinue, children: _jsx(Icon, { icon: "mdi:close" }) })] }) }), _jsx(DialogContent, { dividers: true, children: (() => {
+                                const feedback = generateFeedback();
+                                return (_jsxs(Box, { children: [_jsxs(Box, { textAlign: "center", mb: 4, children: [_jsxs(Typography, { variant: "h3", fontWeight: 800, color: "#1e40af", children: [feedback.score, "/100"] }), _jsx(Typography, { variant: "h6", color: "success.main", fontWeight: 600, children: feedback.score >= 85 ? 'Outstanding!' : feedback.score >= 75 ? 'Very Good!' : 'Good Effort!' })] }), _jsx(Typography, { variant: "h6", fontWeight: 700, color: "success.main", gutterBottom: true, children: "Excellent Work" }), feedback.goodPoints.map((point, i) => (_jsxs(Box, { display: "flex", alignItems: "flex-start", gap: 1, mb: 1.5, children: [_jsx(Icon, { icon: "mdi:check-circle", color: "#10b981", width: 22, style: { marginTop: 2 } }), _jsx(Typography, { variant: "body1", children: point })] }, i))), _jsx(Box, { my: 3 }), _jsx(Typography, { variant: "h6", fontWeight: 700, color: "warning.main", gutterBottom: true, children: "Areas to Improve" }), feedback.suggestions.map((suggestion, i) => (_jsxs(Box, { display: "flex", alignItems: "flex-start", gap: 1, mb: 1.5, children: [_jsx(Icon, { icon: "mdi:alert-circle", color: "#f59e0b", width: 22, style: { marginTop: 2 } }), _jsx(Typography, { variant: "body1", children: suggestion })] }, i)))] }));
+                            })() }), _jsx(DialogActions, { sx: { p: 3, pt: 4 }, children: _jsx(Button, { fullWidth: true, variant: "contained", size: "large", onClick: handleContinue, startIcon: _jsx(Icon, { icon: "mdi:arrow-right" }), sx: {
+                                    height: 56,
+                                    fontSize: '1.1rem',
+                                    bgcolor: '#10b981',
+                                    '&:hover': { bgcolor: '#059669' },
+                                }, children: "Continue to Next Lesson" }) })] })] }));
+    };
+    // Quiz
+    const Quiz = ({ title, onComplete }) => {
+        const [answers, setAnswers] = useState({});
+        const [submitting, setSubmitting] = useState(false);
+        const [resultOpen, setResultOpen] = useState(false);
+        const questions = [
+            { q: "What is the correct sentence structure?", options: ["Subject + Verb + Object", "Verb + Subject + Object", "Object + Subject + Verb"], correct: 0 },
+            { q: "Which is a complex sentence?", options: ["I ran fast.", "Although it rained, we played.", "She sings well."], correct: 1 },
+            { q: "Identify the correct punctuation:", options: ["Let's eat grandma", "Let's eat, grandma", "Lets eat grandma"], correct: 1 }
+        ];
+        const handleSubmit = () => {
+            setSubmitting(true);
+            // Simulate processing
+            setTimeout(() => {
+                setSubmitting(false);
+                setResultOpen(true);
+            }, 1800);
+        };
+        const correctCount = questions.filter((q, i) => answers[i] === String(q.correct)).length;
+        const totalQuestions = questions.length;
+        const passed = correctCount >= 2;
+        const handleContinue = () => {
+            setResultOpen(false);
+            if (passed) {
+                setTimeout(() => onComplete(), 600);
+            }
+        };
+        const handleClose = () => {
+            setResultOpen(false);
+        };
+        return (_jsxs(_Fragment, { children: [_jsxs(Box, { sx: { p: { xs: 3, md: 5 }, maxWidth: 900, mx: 'auto' }, children: [_jsx(Typography, { variant: "h5", fontWeight: 700, gutterBottom: true, children: title }), _jsxs(Typography, { color: "text.secondary", paragraph: true, mb: 4, children: ["You need at least ", _jsx("strong", { children: "2 out of 3" }), " correct to pass and unlock the next lesson."] }), questions.map((q, i) => (_jsxs(Card, { sx: { mb: 3, p: 4, borderRadius: 3, boxShadow: 2 }, children: [_jsxs(Typography, { fontWeight: 600, gutterBottom: true, children: ["Q", i + 1, ". ", q.q] }), _jsx(RadioGroup, { value: answers[i] || '', onChange: (e) => setAnswers({ ...answers, [i]: e.target.value }), children: q.options.map((opt, j) => (_jsx(FormControlLabel, { value: String(j), control: _jsx(Radio, { color: "primary" }), label: opt, disabled: submitting || resultOpen, sx: { mb: 1.5 } }, j))) }), resultOpen && (_jsx(Alert, { severity: answers[i] === String(q.correct) ? "success" : "error", icon: answers[i] === String(q.correct)
+                                        ? _jsx(Icon, { icon: "mdi:check-circle", width: 20 })
+                                        : _jsx(Icon, { icon: "mdi:close-circle", width: 20 }), sx: { mt: 2, borderRadius: 2 }, children: _jsx("strong", { children: answers[i] === String(q.correct)
+                                            ? "Correct!"
+                                            : `Incorrect – Correct answer: "${q.options[q.correct]}"` }) }))] }, i))), _jsx(Button, { fullWidth: true, variant: "contained", size: "large", disabled: Object.keys(answers).length < questions.length || submitting || resultOpen, onClick: handleSubmit, sx: {
+                                height: 64,
+                                fontSize: '1.25rem',
+                                fontWeight: 700,
+                                textTransform: 'none',
+                                bgcolor: '#1e40af',
+                                '&:hover': { bgcolor: '#1e3a8a' },
+                                borderRadius: 3,
+                                boxShadow: 4,
+                            }, children: submitting ? (_jsxs(_Fragment, { children: [_jsx(CircularProgress, { size: 28, color: "inherit", sx: { mr: 2 } }), "Checking Answers..."] })) : resultOpen ? ('Quiz Completed') : ('Submit Quiz') })] }), _jsxs(Dialog, { open: resultOpen, onClose: handleClose, maxWidth: "sm", fullWidth: true, PaperProps: {
+                        sx: { borderRadius: 4, overflow: 'hidden', boxShadow: 10 },
+                    }, children: [_jsxs(Box, { sx: {
+                                bgcolor: passed ? '#10b981' : '#f59e0b',
+                                color: 'white',
+                                p: 4,
+                                textAlign: 'center',
+                            }, children: [_jsxs(Typography, { variant: "h3", fontWeight: 800, children: [correctCount, "/", totalQuestions] }), _jsx(Typography, { variant: "h5", fontWeight: 700, sx: { mt: 1 }, children: passed ? "Great Job! You Passed" : "Not Yet – Keep Practicing" }), _jsx(Box, { sx: { mt: 2 }, children: _jsx(Icon, { icon: passed ? "mdi:trophy-award" : "mdi:school", width: 64, style: { opacity: 0.9 } }) })] }), _jsxs(DialogContent, { sx: { p: 4 }, children: [_jsx(Typography, { variant: "h6", fontWeight: 700, gutterBottom: true, children: "Summary" }), _jsx(Typography, { variant: "body1", color: "text.secondary", paragraph: true, children: passed
+                                        ? "You've demonstrated solid understanding of the topic. Well done!"
+                                        : "You got some answers right, but review the mistakes above and try again to pass." }), _jsxs(Box, { sx: { mt: 3, display: 'flex', justifyContent: 'center', gap: 3 }, children: [_jsxs(Box, { textAlign: "center", children: [_jsx(Typography, { variant: "h4", fontWeight: 800, color: "success.main", children: correctCount }), _jsx(Typography, { variant: "body2", color: "text.secondary", children: "Correct" })] }), _jsxs(Box, { textAlign: "center", children: [_jsx(Typography, { variant: "h4", fontWeight: 800, color: "error.main", children: totalQuestions - correctCount }), _jsx(Typography, { variant: "body2", color: "text.secondary", children: "Incorrect" })] })] })] }), _jsx(DialogActions, { sx: { p: 3, bgcolor: '#f8fafc' }, children: !passed ? (_jsx(Button, { fullWidth: true, variant: "outlined", size: "large", onClick: handleClose, sx: { height: 52, fontSize: '1.1rem' }, children: "Close & Review Answers" })) : (_jsx(Button, { fullWidth: true, variant: "contained", size: "large", onClick: handleContinue, startIcon: _jsx(Icon, { icon: "mdi:arrow-right-bold" }), sx: {
+                                    height: 56,
+                                    fontSize: '1.1rem',
+                                    fontWeight: 700,
+                                    bgcolor: '#10b981',
+                                    '&:hover': { bgcolor: '#059669' },
+                                }, children: "Continue to Next Lesson" })) })] })] }));
+    };
+    // Essay Structure PDF Lesson (NEW!)
+    const EssayStructurePDF = ({ title, onComplete }) => {
+        const pdfUrl = "https://www.ieltsadvantage.com/wp-content/uploads/2015/03/IELTS-Writing-Task-2-Essay-Structures.pdf";
+        useEffect(() => {
+            const timer = setTimeout(() => {
+                onComplete();
+            }, 2000); // Auto-complete after ~18 seconds of reading
+            return () => clearTimeout(timer);
+        }, [onComplete]);
+        return (_jsxs(Box, { sx: { p: 4 }, children: [_jsx(Typography, { variant: "h5", fontWeight: 700, gutterBottom: true, children: title }), _jsx(Typography, { color: "text.secondary", paragraph: true, sx: { mb: 4 }, children: "Study this professional guide on IELTS essay structures (Opinion, Discussion, Advantages/Disadvantages, etc.)." }), _jsx(Paper, { elevation: 6, sx: { borderRadius: 3, overflow: 'hidden', mb: 4, boxShadow: 8 }, children: _jsx(Box, { sx: { height: '80vh', bgcolor: '#f8fafc' }, children: _jsx("iframe", { src: pdfUrl, width: "100%", height: "100%", style: { border: 'none' }, title: "IELTS Essay Structures Guide" }) }) }), _jsxs(Box, { sx: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }, children: [_jsx(Alert, { severity: "success", sx: { flex: 1, minWidth: 300 }, children: "This lesson will auto-complete in a few seconds after viewing" }), _jsx(Button, { variant: "contained", size: "large", href: pdfUrl, target: "_blank", startIcon: _jsx(Icon, { icon: "mdi:download", width: 24 }), sx: { bgcolor: '#1e40af', '&:hover': { bgcolor: '#1e3a8a' } }, children: "Download PDF Guide" })] })] }));
+    };
+    const topics = [
+        {
+            id: 'writing', title: 'Writing Practice', icon: 'mdi:pencil', color: '#3b82f6',
+            subtopics: [
+                {
+                    id: 'essays', title: 'Essay Writing', category: 'writing',
+                    content: [
+                        { id: 'e1', title: 'Introduction to Essays', type: 'video', component: VideoLesson, duration: '15 min' },
+                        { id: 'e2', title: 'Essay Structure & Planning', type: 'lesson', component: EssayStructurePDF, duration: '30 min' },
+                        { id: 'e3', title: 'Write Your First Essay', type: 'assignment', component: Assignment, duration: '45 min' },
+                        { id: 'e4', title: 'Essay Knowledge Check', type: 'quiz', component: Quiz, duration: '10 min' },
+                    ]
+                },
+                {
+                    id: 'letters', title: 'Formal Letters', category: 'writing',
+                    content: [
+                        { id: 'l1', title: 'Letter Writing Basics', type: 'video', component: VideoLesson, duration: '12 min' },
+                        { id: 'l2', title: 'Write a Formal Letter', type: 'assignment', component: Assignment, duration: '30 min' },
+                        { id: 'l3', title: 'Letter Format Quiz', type: 'quiz', component: Quiz, duration: '8 min' },
+                    ]
+                },
+            ]
+        },
+        {
+            id: 'speaking', title: 'Speaking Practice', icon: 'mdi:microphone', color: '#10b981',
+            subtopics: [
+                {
+                    id: 'readaloud', title: 'Read Aloud Practice', category: 'speaking',
+                    content: [
+                        { id: 's1', title: 'Pronunciation & Fluency', type: 'video', component: VideoLesson, duration: '18 min' },
+                        { id: 's2', title: 'Record Your Reading', type: 'assignment', component: Assignment, duration: '15 min' },
+                    ]
+                },
+            ]
+        },
+        {
+            id: 'listening', title: 'Listening Practice', icon: 'mdi:headphones', color: '#8b5cf6',
+            subtopics: [
+                {
+                    id: 'meetings', title: 'Business Meetings', category: 'listening',
+                    content: [
+                        { id: 'l1', title: 'Business Communication', type: 'video', component: VideoLesson, duration: '20 min' },
+                        { id: 'l2', title: 'Listening Comprehension', type: 'quiz', component: Quiz, duration: '15 min' },
+                    ]
+                },
+            ]
+        },
+    ];
+    const CurrentComponent = selectedContent?.component || null;
+    return (_jsxs(Box, { sx: { bgcolor: '#f1f5f9', minHeight: '100vh', position: 'relative' }, children: [_jsx(Fab, { color: "primary", "aria-label": "menu", onClick: () => setMenuOpen(true), sx: {
+                    position: 'fixed',
+                    bottom: { xs: 16, md: 24 },
+                    right: { xs: 16, md: 24 },
+                    zIndex: 1301,
+                    bgcolor: '#1e40af',
+                    '&:hover': { bgcolor: '#1e3a8a' },
+                    boxShadow: 6,
+                }, children: _jsx(Icon, { icon: "mdi:menu", width: 28 }) }), _jsxs(Drawer, { anchor: "right", open: menuOpen, onClose: () => setMenuOpen(false), sx: {
+                    '& .MuiDrawer-paper': {
+                        width: { xs: '85vw', sm: 380, md: 400 },
+                        maxWidth: '95vw',
+                        bgcolor: '#ffffff',
+                        boxShadow: '0 0 30px rgba(0,0,0,0.3)',
+                        zIndex: 2300,
+                    },
+                }, ModalProps: { keepMounted: true }, children: [_jsxs(Box, { sx: {
+                            p: 3,
+                            bgcolor: '#1e293b',
+                            color: 'white',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                        }, children: [_jsxs(Box, { sx: { display: 'flex', alignItems: 'center', gap: 2 }, children: [_jsx(Icon, { icon: "mdi:bookshelf", width: 36 }), _jsx(Typography, { variant: "h6", fontWeight: 700, children: "Learning Modules" })] }), _jsx(IconButton, { onClick: () => setMenuOpen(false), sx: { color: 'white' }, children: _jsx(Icon, { icon: "mdi:close", width: 28 }) })] }), _jsx(Box, { sx: { flex: 1, overflow: 'auto' }, children: _jsx(List, { sx: { p: 2 }, children: topics.map(topic => (_jsxs(Box, { children: [_jsxs(ListItemButton, { onClick: () => {
+                                            handleTopicClick(topic.id);
+                                            // Optional: close menu on mobile after selection
+                                            // if (isMobile) setMenuOpen(false);
+                                        }, sx: { borderRadius: 2, mb: 1 }, children: [_jsx(ListItemIcon, { sx: { minWidth: 44 }, children: _jsx(Icon, { icon: topic.icon, width: 26, color: topic.color }) }), _jsx(ListItemText, { primary: topic.title, primaryTypographyProps: { fontWeight: 600 } }), _jsx(Icon, { icon: openTopics.includes(topic.id) ? "mdi:chevron-up" : "mdi:chevron-down", width: 22 })] }), _jsx(Collapse, { in: openTopics.includes(topic.id), timeout: "auto", unmountOnExit: true, children: _jsx(List, { disablePadding: true, children: topic.subtopics.map(subtopic => (_jsxs(Box, { children: [_jsxs(ListItemButton, { sx: {
+                                                            pl: 7,
+                                                            py: 1.5,
+                                                            borderRadius: 1,
+                                                            bgcolor: selectedSubtopic?.id === subtopic.id ? '#dbeafe' : 'transparent',
+                                                        }, onClick: () => {
+                                                            handleSubtopicClick(subtopic);
+                                                            // if (isMobile) setMenuOpen(false);
+                                                        }, children: [_jsx(ListItemIcon, { sx: { minWidth: 36 }, children: subtopic.content.every(c => completedItems.includes(c.id)) ? (_jsx(Icon, { icon: "mdi:check-circle", width: 22, color: "#10b981" })) : (_jsx(Icon, { icon: "mdi:circle-outline", width: 22, color: "#cbd5e1" })) }), _jsx(ListItemText, { primary: subtopic.title, primaryTypographyProps: { fontWeight: 600, fontSize: '0.95rem' } })] }), _jsx(Collapse, { in: selectedSubtopic?.id === subtopic.id, children: _jsx(List, { disablePadding: true, children: subtopic.content.map((item, idx) => {
+                                                                const isCompleted = completedItems.includes(item.id);
+                                                                const isLocked = idx > 0 && !completedItems.includes(subtopic.content[idx - 1].id);
+                                                                return (_jsxs(ListItemButton, { disabled: isLocked, onClick: () => {
+                                                                        if (!isLocked) {
+                                                                            handleContentClick(item);
+                                                                            // if (isMobile) setMenuOpen(false);
+                                                                        }
+                                                                    }, selected: selectedContent?.id === item.id, sx: {
+                                                                        pl: 10,
+                                                                        py: 1.8,
+                                                                        borderRadius: 2,
+                                                                        bgcolor: selectedContent?.id === item.id ? '#fffbeb' : 'transparent',
+                                                                        borderLeft: selectedContent?.id === item.id ? '4px solid #f59e0b' : 'none',
+                                                                        opacity: isLocked ? 0.5 : 1,
+                                                                    }, children: [_jsx(ListItemIcon, { sx: { minWidth: 40 }, children: isCompleted ? (_jsx(Icon, { icon: "mdi:check-circle", width: 24, color: "#10b981" })) : isLocked ? (_jsx(Icon, { icon: "mdi:lock", width: 24, color: "#94a3b8" })) : (_jsx(Icon, { icon: getTypeIcon(item.type), width: 24, color: getTypeColor(item.type) })) }), _jsx(ListItemText, { primary: item.title, secondary: _jsxs(Box, { sx: { display: 'flex', alignItems: 'center', gap: 1, mt: 0.5 }, children: [_jsx(Chip, { label: item.type, size: "small", sx: { height: 20, fontSize: '0.7rem', bgcolor: getTypeColor(item.type) + '22' } }), _jsx(Typography, { variant: "caption", children: item.duration })] }), primaryTypographyProps: { fontWeight: 500 } })] }, item.id));
+                                                            }) }) })] }, subtopic.id))) }) })] }, topic.id))) }) }), _jsxs(Box, { sx: { p: 3, borderTop: '1px solid #e2e8f0', bgcolor: '#f8fafc' }, children: [_jsxs(Typography, { variant: "body2", color: "text.secondary", children: ["Completed: ", _jsx("strong", { children: completedItems.length }), " /", ' ', topics.reduce((a, t) => a + t.subtopics.reduce((b, s) => b + s.content.length, 0), 0), " items"] }), _jsx(LinearProgress, { variant: "determinate", value: (completedItems.length /
+                                    topics.reduce((a, t) => a + t.subtopics.reduce((b, s) => b + s.content.length, 0), 0)) *
+                                    100, sx: { mt: 1, height: 8, borderRadius: 4 } })] })] }), _jsx(Container, { maxWidth: "xl", sx: { py: { xs: 3, md: 4 }, pt: { xs: 10, md: 6 } }, children: _jsx(Grid, { container: true, children: _jsx(Grid, { item: true, xs: 12, children: _jsx(Paper, { sx: { borderRadius: 3, overflow: 'hidden', boxShadow: 3, minHeight: '80vh' }, children: !selectedContent ? (_jsxs(Box, { sx: { p: 8, textAlign: 'center', color: '#64748b' }, children: [_jsx(Icon, { icon: "mdi:play-box-outline", width: 100 }), _jsx(Typography, { variant: "h4", sx: { mt: 4, fontWeight: 600 }, children: "Select a lesson to begin" }), _jsx(Typography, { variant: "body1", sx: { mt: 2 }, children: "Tap the menu button to explore modules" })] })) : (_jsxs(Box, { children: [_jsxs(Box, { sx: {
+                                            p: 4,
+                                            bgcolor: '#f8fafc',
+                                            borderBottom: '1px solid #e2e8f0',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 2,
+                                        }, children: [_jsx(IconButton, { onClick: handleBack, children: _jsx(Icon, { icon: "mdi:arrow-left", width: 28 }) }), _jsxs(Box, { children: [_jsx(Typography, { variant: "h5", fontWeight: 700, children: selectedContent.title }), _jsxs(Typography, { color: "text.secondary", children: [selectedSubtopic?.title, " \u2022 ", selectedContent.duration] })] })] }), _jsx(CurrentComponent, { title: selectedContent.title, onComplete: () => markAsComplete(selectedContent.id) })] })) }) }) }) })] }));
+}

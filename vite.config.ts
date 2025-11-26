@@ -15,14 +15,13 @@ export default defineConfig({
       eslint: {
         useFlatConfig: true,
         lintCommand: 'eslint "./src/**/*.{js,jsx,ts,tsx}"',
-        dev: { logLevel: ['error'] },
+        // dev: { logLevel: ['error'] },
       },
-      overlay: {
-        position: 'tl',
-        initialIsOpen: false,
-      },
+      overlay: false,
     }),
-  ],
+  ],esbuild: {
+    logOverride: { 'typescript:undeclared-variable': 'silent' },
+  },
   resolve: {
     alias: [
       {

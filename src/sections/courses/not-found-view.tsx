@@ -10,9 +10,10 @@ import CardMedia from '@mui/material/CardMedia';
 import LinearProgress from '@mui/material/LinearProgress';
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
+
+import Grid from '@mui/material/GridLegacy';
 
 // Sample course data
 const coursesData = {
@@ -322,7 +323,10 @@ function UpcomingCourseCard({ course }) {
         </Typography>
         
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, p: 1.5, bgcolor: 'action.hover', borderRadius: 1 }}>
-          <Icon icon="mdi:calendar-today" sx={{ fontSize: 18, mr: 1, color: 'primary.main' }} />
+         <Icon
+  icon="mdi:calendar-today"
+  style={{ fontSize: 18, marginRight: 4, color: 'var(--mui-palette-primary-main)' }}
+/>
           <Box>
             <Typography variant="caption" color="text.secondary" display="block">
               Starts on

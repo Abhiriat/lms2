@@ -56,7 +56,7 @@ export function UserView() {
           color="inherit"
           startIcon={<Iconify icon="mingcute:add-line" />}
         >
-          New user
+          New userss
         </Button>
       </Box>
 

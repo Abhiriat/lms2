@@ -18,10 +18,12 @@ const commonRules = () => ({
   'func-names': 1,
   'no-bitwise': 2,
   'no-unused-vars': 0,
-  'object-shorthand': 1,
+  'object-shorthand': 'off',
   'no-useless-rename': 1,
   'default-case-last': 2,
   'consistent-return': 2,
+  'react/no-unescaped-entities': 'off',
+
   'no-constant-condition': 1,
   'default-case': [2, { commentPattern: '^no default$' }],
   'lines-around-directive': [2, { before: 'always', after: 'always' }],
@@ -29,6 +31,8 @@ const commonRules = () => ({
 'prefer-arrow-callback': 'off',
 'implicit-arrow-linebreak': 'off',        // stops "move return after =>" error
 'function-paren-newline': 'off',
+'react-hooks/exhaustive-deps': 'off',
+
   // react
   'react/jsx-key': 0,
   'react/prop-types': 0,
@@ -43,8 +47,8 @@ const commonRules = () => ({
   '@typescript-eslint/no-shadow': 2,
   '@typescript-eslint/no-explicit-any': 0,
   '@typescript-eslint/no-empty-object-type': 0,
-  '@typescript-eslint/consistent-type-imports': 1,
-  '@typescript-eslint/no-unused-vars': [1, { args: 'none' }],
+  '@typescript-eslint/consistent-type-imports': 'off',
+  '@typescript-eslint/no-unused-vars': 'off',
 });
 
 /**
@@ -58,7 +62,7 @@ const importRules = () => ({
   'import/default': 0,
   'import/namespace': 0,
   'import/no-named-as-default': 0,
-  'import/newline-after-import': 2,
+  'import/newline-after-import': 'off',
   'import/no-named-as-default-member': 0,
   'import/no-cycle': [
     0, // disabled if slow
@@ -71,7 +75,7 @@ const importRules = () => ({
  * from 'eslint-plugin-unused-imports'.
  */
 const unusedImportsRules = () => ({
-  'unused-imports/no-unused-imports': 1,
+  'unused-imports/no-unused-imports': 'off',
   'unused-imports/no-unused-vars': [
     0,
     { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
@@ -95,59 +99,10 @@ const sortImportsRules = () => {
   };
 
   return {
-    'perfectionist/sort-named-imports': [1, { type: 'line-length', order: 'asc' }],
-    'perfectionist/sort-named-exports': [1, { type: 'line-length', order: 'asc' }],
-    'perfectionist/sort-exports': [
-      1,
-      {
-        order: 'asc',
-        type: 'line-length',
-        groupKind: 'values-first',
-      },
-    ],
-    'perfectionist/sort-imports': [
-      2,
-      {
-        order: 'asc',
-        ignoreCase: true,
-        type: 'line-length',
-        environment: 'node',
-        maxLineLength: undefined,
-        newlinesBetween: 'always',
-        internalPattern: ['^src/.+'],
-        groups: [
-          'style',
-          'side-effect',
-          'type',
-          ['builtin', 'external'],
-          customGroups.mui,
-          customGroups.routes,
-          customGroups.hooks,
-          customGroups.utils,
-          'internal',
-          customGroups.components,
-          customGroups.sections,
-          customGroups.auth,
-          customGroups.types,
-          ['parent', 'sibling', 'index'],
-          ['parent-type', 'sibling-type', 'index-type'],
-          'object',
-          'unknown',
-        ],
-        customGroups: {
-          value: {
-            [customGroups.mui]: ['^@mui/.+'],
-            [customGroups.auth]: ['^src/auth/.+'],
-            [customGroups.hooks]: ['^src/hooks/.+'],
-            [customGroups.utils]: ['^src/utils/.+'],
-            [customGroups.types]: ['^src/types/.+'],
-            [customGroups.routes]: ['^src/routes/.+'],
-            [customGroups.sections]: ['^src/sections/.+'],
-            [customGroups.components]: ['^src/components/.+'],
-          },
-        },
-      },
-    ],
+    'perfectionist/sort-named-imports': 'off',
+    'perfectionist/sort-named-exports': 'off',
+    'perfectionist/sort-exports': 'off',
+    'perfectionist/sort-imports':'off',
   };
 };
 

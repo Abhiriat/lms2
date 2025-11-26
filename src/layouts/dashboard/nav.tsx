@@ -51,6 +51,7 @@ export function NavDesktop({
         display: 'none',
         position: 'fixed',
         flexDirection: 'column',
+        bgcolor:'#EAEDF9',
         zIndex: 'var(--layout-nav-zIndex)',
         width: 'var(--layout-nav-vertical-width)',
         borderRight: `1px solid ${varAlpha(theme.vars.palette.grey['500Channel'], 0.12)}`,

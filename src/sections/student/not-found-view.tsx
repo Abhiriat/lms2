@@ -23,6 +23,7 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Iconify } from 'src/components/iconify';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 // Sample student data
 const initialStudents = [
@@ -116,7 +117,7 @@ export function StudentListView() {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <Iconify icon='ic:sharp-search' />
+                  <Icon icon='ic:sharp-search' />
                 </InputAdornment>
               ),
             }}
@@ -152,7 +153,7 @@ export function StudentListView() {
 
           <Button
             variant="outlined"
-            startIcon={<Iconify icon='ic:baseline-clear' />}
+            startIcon={<Icon icon='ic:baseline-clear' />}
             onClick={handleClearFilters}
             disabled={!searchQuery && !courseFilter && !placeFilter}
           >

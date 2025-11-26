@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Box,
   Container,
-  Grid,
+ 
   Paper,
   Typography,
   List,
@@ -20,8 +20,20 @@ import {
   Radio,
   RadioGroup,
   FormControlLabel,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Dialog,
+  CircularProgress,
 } from '@mui/material';
 import { Icon } from '@iconify/react';
+import Grid from '@mui/material/GridLegacy';
+
+import Drawer from '@mui/material/Drawer';
+import Fab from '@mui/material/Fab';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
+
 
 type ContentItem = {
   id: string;
@@ -52,7 +64,8 @@ export function LMSView() {
   const [selectedContent, setSelectedContent] = useState<ContentItem | null>(null);
   const [openTopics, setOpenTopics] = useState<string[]>(['writing']);
   const [completedItems, setCompletedItems] = useState<string[]>([]);
-
+const [menuOpen, setMenuOpen] = useState(false);
+const isMobile = useMediaQuery('(max-width:960px)');
   // Load & Save Progress
   useEffect(() => {
     const saved = localStorage.getItem('lms-completed-items');
@@ -359,97 +372,440 @@ const VideoLesson = ({ title, onComplete }: { title: string; onComplete: () => v
   );
 };
 
-  // Assignment
-  const Assignment = ({ title, onComplete }: any) => {
-    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-    const [submitted, setSubmitted] = useState(false);
+const Assignment = ({ title, onComplete }: { title: string; onComplete: () => void }) => {
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const [analyzing, setAnalyzing] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
-    const handleSubmit = () => {
-      setSubmitted(true);
-      setTimeout(() => onComplete(), 1200);
+  // Simulated AI feedback (you can later connect to real API)
+  const generateFeedback = () => {
+    return {
+      score: Math.floor(Math.random() * 25) + 70, // 70–95
+      goodPoints: [
+        "Excellent use of topic vocabulary (coherence, bandwidth, digital divide)",
+        "Clear overall position in introduction and conclusion",
+        "Well-developed paragraphs with good supporting examples",
+        "Good range of complex structures",
+      ],
+      suggestions: [
+        "Try to use more linking words (e.g., 'Moreover', 'On the other hand')",
+        "Some sentences are a bit long – consider splitting for clarity",
+        "Include one more real-world example in body paragraph 2",
+        "Minor spelling: 'accomodate' → 'accommodate'",
+      ],
     };
+  };
 
-    return (
-      <Box sx={{ p: 5 }}>
-        <Typography variant="h5" fontWeight={700} gutterBottom>{title}</Typography>
-        <Typography color="text.secondary" paragraph>Upload your completed work below.</Typography>
+  const handleSubmit = () => {
+    if (!uploadedFile) return;
 
+    setSubmitted(true);
+    setAnalyzing(true);
+
+    // Simulate AI analysis delay
+    setTimeout(() => {
+      setAnalyzing(false);
+      setFeedbackOpen(true);
+    }, 4500);
+  };
+
+  const handleContinue = () => {
+    setFeedbackOpen(false);
+    setTimeout(() => onComplete(), 800);
+  };
+
+  return (
+    <>
+      <Box sx={{ p: { xs: 3, md: 5 }, maxWidth: 900, mx: 'auto' }}>
+        <Typography variant="h5" fontWeight={700} gutterBottom>
+          {title}
+        </Typography>
+        <Typography color="text.secondary" paragraph>
+          Upload your completed essay (PDF format recommended).
+        </Typography>
+
+        {/* Upload Area */}
         <Paper
-          sx={{ p: 6, textAlign: 'center', cursor: 'pointer', border: '2px dashed #cbd5e1', bgcolor: '#f8fafc', borderRadius: 3, mb: 4, '&:hover': { borderColor: '#3b82f6', bgcolor: '#eff6ff' } }}
-          onClick={() => document.getElementById('assign-file')?.click()}
+          sx={{
+            p: 8,
+            textAlign: 'center',
+            cursor: uploadedFile ? 'default' : 'pointer',
+            border: '2px dashed',
+            borderColor: uploadedFile ? '#10b981' : '#cbd5e1',
+            bgcolor: uploadedFile ? '#f0fdf4' : '#f8fafc',
+            borderRadius: 3,
+            mb: 4,
+            transition: 'all 0.3s',
+            position: 'relative',
+            '&:hover': uploadedFile ? {} : { borderColor: '#3b82f6', bgcolor: '#eff6ff' },
+          }}
+          onClick={() => !uploadedFile && document.getElementById('assign-file')?.click()}
         >
-          <input id="assign-file" type="file" style={{ display: 'none' }} onChange={e => e.target.files?.[0] && setUploadedFile(e.target.files[0])} />
-          {uploadedFile ? (
+          <input
+            id="assign-file"
+            type="file"
+            accept=".pdf,.doc,.docx"
+            style={{ display: 'none' }}
+            onChange={(e) => e.target.files?.[0] && setUploadedFile(e.target.files[0])}
+          />
+
+          {analyzing ? (
+            <Box sx={{ py: 4 }}>
+              <CircularProgress size={68} thickness={5} />
+              <Typography variant="h6" sx={{ mt: 3, fontWeight: 600 }}>
+                Analyzing your essay...
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                Our AI is checking vocabulary, grammar, coherence & task response
+              </Typography>
+            </Box>
+          ) : uploadedFile ? (
             <Box>
-              <Icon icon="mdi:file-check" width={64} color="#10b981" />
-              <Typography variant="h6" color="success.main" fontWeight={600} sx={{ mt: 2 }}>{uploadedFile.name}</Typography>
+              <Icon icon="mdi:file-document-check" width={80} color="#10b981" />
+              <Typography variant="h6" color="success.main" fontWeight={600} sx={{ mt: 2 }}>
+                {uploadedFile.name}
+              </Typography>
+              <Typography variant="body2" color="success.main">
+                Ready for submission
+              </Typography>
             </Box>
           ) : (
             <Box>
-              <Icon icon="mdi:cloud-upload-outline" width={64} color="#64748b" />
-              <Typography variant="h6" sx={{ mt: 2, color: '#475569' }}>Click to upload</Typography>
+              <Icon icon="mdi:cloud-upload-outline" width={80} color="#64748b" />
+              <Typography variant="h6" sx={{ mt: 2, color: '#475569' }}>
+                Click to upload your essay
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                PDF, Word • Max 10MB
+              </Typography>
             </Box>
           )}
         </Paper>
 
-        <Button fullWidth variant="contained" size="large" disabled={!uploadedFile || submitted} onClick={handleSubmit} sx={{ height: 56, fontSize: '1.1rem', textTransform: 'none' }}>
-          {submitted ? 'Submitted Successfully' : 'Submit Assignment'}
+        {/* Submit Button */}
+        <Button
+          fullWidth
+          variant="contained"
+          size="large"
+          disabled={!uploadedFile || submitted}
+          onClick={handleSubmit}
+          sx={{
+            height: 60,
+            fontSize: '1.2rem',
+            fontWeight: 600,
+            textTransform: 'none',
+            bgcolor: '#1e40af',
+            '&:hover': { bgcolor: '#1e3a8a' },
+          }}
+        >
+          {analyzing ? (
+            <>Analyzing... Please wait</>
+          ) : submitted ? (
+            'Submitted – Analyzing Your Work'
+          ) : (
+            'Submit Assignment for Review'
+          )}
         </Button>
       </Box>
-    );
+
+      {/* Feedback Dialog */}
+      <Dialog
+        open={feedbackOpen}
+        onClose={() => {}}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: { borderRadius: 3, p: { xs: 2, md: 4 }, maxHeight: '90vh' },
+        }}
+      >
+        <DialogTitle sx={{ pb: 1 }}>
+          <Box display="flex" alignItems="center" justifyContent="space-between">
+            <Typography variant="h5" fontWeight={700}>
+              AI Feedback Report
+            </Typography>
+            <IconButton onClick={handleContinue}>
+              <Icon icon="mdi:close" />
+            </IconButton>
+          </Box>
+        </DialogTitle>
+        <DialogContent dividers>
+          {(() => {
+            const feedback = generateFeedback();
+            return (
+              <Box>
+                {/* Score Badge */}
+                <Box textAlign="center" mb={4}>
+                  <Typography variant="h3" fontWeight={800} color="#1e40af">
+                    {feedback.score}/100
+                  </Typography>
+                  <Typography variant="h6" color="success.main" fontWeight={600}>
+                    {feedback.score >= 85 ? 'Outstanding!' : feedback.score >= 75 ? 'Very Good!' : 'Good Effort!'}
+                  </Typography>
+                </Box>
+
+                {/* Good Points */}
+                <Typography variant="h6" fontWeight={700} color="success.main" gutterBottom>
+                  Excellent Work
+                </Typography>
+                {feedback.goodPoints.map((point, i) => (
+                  <Box key={i} display="flex" alignItems="flex-start" gap={1} mb={1.5}>
+                    <Icon icon="mdi:check-circle" color="#10b981" width={22} style={{ marginTop: 2 }} />
+                    <Typography variant="body1">{point}</Typography>
+                  </Box>
+                ))}
+
+                <Box my={3} />
+
+                {/* Suggestions */}
+                <Typography variant="h6" fontWeight={700} color="warning.main" gutterBottom>
+                  Areas to Improve
+                </Typography>
+                {feedback.suggestions.map((suggestion, i) => (
+                  <Box key={i} display="flex" alignItems="flex-start" gap={1} mb={1.5}>
+                    <Icon icon="mdi:alert-circle" color="#f59e0b" width={22} style={{ marginTop: 2 }} />
+                    <Typography variant="body1">{suggestion}</Typography>
+                  </Box>
+                ))}
+              </Box>
+            );
+          })()}
+        </DialogContent>
+
+        <DialogActions sx={{ p: 3, pt: 4 }}>
+          <Button
+            fullWidth
+            variant="contained"
+            size="large"
+            onClick={handleContinue}
+            startIcon={<Icon icon="mdi:arrow-right" />}
+            sx={{
+              height: 56,
+              fontSize: '1.1rem',
+              bgcolor: '#10b981',
+              '&:hover': { bgcolor: '#059669' },
+            }}
+          >
+            Continue to Next Lesson
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+};
+  // Quiz
+ const Quiz = ({ title, onComplete }: { title: string; onComplete: () => void }) => {
+  const [answers, setAnswers] = useState<{ [key: number]: string }>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [resultOpen, setResultOpen] = useState(false);
+
+  const questions = [
+    { q: "What is the correct sentence structure?", options: ["Subject + Verb + Object", "Verb + Subject + Object", "Object + Subject + Verb"], correct: 0 },
+    { q: "Which is a complex sentence?", options: ["I ran fast.", "Although it rained, we played.", "She sings well."], correct: 1 },
+    { q: "Identify the correct punctuation:", options: ["Let's eat grandma", "Let's eat, grandma", "Lets eat grandma"], correct: 1 }
+  ];
+
+  const handleSubmit = () => {
+    setSubmitting(true);
+
+    // Simulate processing
+    setTimeout(() => {
+      setSubmitting(false);
+      setResultOpen(true);
+    }, 1800);
   };
 
-  // Quiz
-  const Quiz = ({ title, onComplete }: any) => {
-    const [answers, setAnswers] = useState<{[key: number]: string}>({});
-    const [showResult, setShowResult] = useState(false);
+  const correctCount = questions.filter((q, i) => answers[i] === String(q.correct)).length;
+  const totalQuestions = questions.length;
+  const passed = correctCount >= 2;
 
-    const questions = [
-      { q: "What is the correct sentence structure?", options: ["Subject + Verb + Object", "Verb + Subject + Object", "Object + Subject + Verb"], correct: 0 },
-      { q: "Which is a complex sentence?", options: ["I ran fast.", "Although it rained, we played.", "She sings well."], correct: 1 },
-      { q: "Identify the correct punctuation:", options: ["Let's eat grandma", "Let's eat, grandma", "Lets eat grandma"], correct: 1 }
-    ];
+  const handleContinue = () => {
+    setResultOpen(false);
+    if (passed) {
+      setTimeout(() => onComplete(), 600);
+    }
+  };
 
-    const handleSubmit = () => {
-      setShowResult(true);
-      const score = questions.filter((q, i) => answers[i] === String(q.correct)).length;
-      if (score >= 2) setTimeout(() => onComplete(), 2000);
-    };
+  const handleClose = () => {
+    setResultOpen(false);
+  };
 
-    return (
-      <Box sx={{ p: 5 }}>
-        <Typography variant="h5" fontWeight={700} gutterBottom>{title}</Typography>
-        <Typography color="text.secondary" paragraph>You need 2 out of 3 correct to pass.</Typography>
+  return (
+    <>
+      <Box sx={{ p: { xs: 3, md: 5 }, maxWidth: 900, mx: 'auto' }}>
+        <Typography variant="h5" fontWeight={700} gutterBottom>
+          {title}
+        </Typography>
+        <Typography color="text.secondary" paragraph mb={4}>
+          You need at least <strong>2 out of 3</strong> correct to pass and unlock the next lesson.
+        </Typography>
 
         {questions.map((q, i) => (
-          <Card key={i} sx={{ mb: 3, p: 3 }}>
-            <Typography fontWeight={600} gutterBottom>Q{i + 1}. {q.q}</Typography>
-            <RadioGroup value={answers[i] || ''} onChange={e => setAnswers({...answers, [i]: e.target.value})}>
+          <Card key={i} sx={{ mb: 3, p: 4, borderRadius: 3, boxShadow: 2 }}>
+            <Typography fontWeight={600} gutterBottom>
+              Q{i + 1}. {q.q}
+            </Typography>
+            <RadioGroup
+              value={answers[i] || ''}
+              onChange={(e) => setAnswers({ ...answers, [i]: e.target.value })}
+            >
               {q.options.map((opt, j) => (
-                <FormControlLabel key={j} value={String(j)} control={<Radio />} label={opt} disabled={showResult} />
+                <FormControlLabel
+                  key={j}
+                  value={String(j)}
+                  control={<Radio color="primary" />}
+                  label={opt}
+                  disabled={submitting || resultOpen}
+                  sx={{ mb: 1.5 }}
+                />
               ))}
             </RadioGroup>
-            {showResult && (
-              <Alert severity={answers[i] === String(q.correct) ? "success" : "error"} sx={{ mt: 2 }}>
-                {answers[i] === String(q.correct) ? "Correct!" : `Wrong. Answer: ${q.options[q.correct]}`}
+
+            {/* Show result feedback after submission */}
+            {resultOpen && (
+              <Alert
+                severity={answers[i] === String(q.correct) ? "success" : "error"}
+                icon={answers[i] === String(q.correct)
+                  ? <Icon icon="mdi:check-circle" width={20} />
+                  : <Icon icon="mdi:close-circle" width={20} />
+                }
+                sx={{ mt: 2, borderRadius: 2 }}
+              >
+                <strong>
+                  {answers[i] === String(q.correct)
+                    ? "Correct!"
+                    : `Incorrect – Correct answer: "${q.options[q.correct]}"`}
+                </strong>
               </Alert>
             )}
           </Card>
         ))}
 
-        {!showResult ? (
-          <Button fullWidth variant="contained" size="large" onClick={handleSubmit} disabled={Object.keys(answers).length < questions.length} sx={{ height: 56, fontSize: '1.1rem' }}>
-            Submit Quiz
-          </Button>
-        ) : (
-          <Alert severity={questions.filter((q, i) => answers[i] === String(q.correct)).length >= 2 ? "success" : "warning"}>
-            <strong>Score: {questions.filter((q, i) => answers[i] === String(q.correct)).length}/3</strong><br/>
-            {questions.filter((q, i) => answers[i] === String(q.correct)).length >= 2 ? "You passed! Well done." : "Try again to pass."}
-          </Alert>
-        )}
+        {/* Submit Button */}
+        <Button
+          fullWidth
+          variant="contained"
+          size="large"
+          disabled={Object.keys(answers).length < questions.length || submitting || resultOpen}
+          onClick={handleSubmit}
+          sx={{
+            height: 64,
+            fontSize: '1.25rem',
+            fontWeight: 700,
+            textTransform: 'none',
+            bgcolor: '#1e40af',
+            '&:hover': { bgcolor: '#1e3a8a' },
+            borderRadius: 3,
+            boxShadow: 4,
+          }}
+        >
+          {submitting ? (
+            <>
+              <CircularProgress size={28} color="inherit" sx={{ mr: 2 }} />
+              Checking Answers...
+            </>
+          ) : resultOpen ? (
+            'Quiz Completed'
+          ) : (
+            'Submit Quiz'
+          )}
+        </Button>
       </Box>
-    );
-  };
+
+      {/* Result Dialog */}
+      <Dialog
+        open={resultOpen}
+        onClose={handleClose}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: { borderRadius: 4, overflow: 'hidden', boxShadow: 10 },
+        }}
+      >
+        {/* Header - Green if passed, Orange if failed */}
+        <Box
+          sx={{
+            bgcolor: passed ? '#10b981' : '#f59e0b',
+            color: 'white',
+            p: 4,
+            textAlign: 'center',
+          }}
+        >
+          <Typography variant="h3" fontWeight={800}>
+            {correctCount}/{totalQuestions}
+          </Typography>
+          <Typography variant="h5" fontWeight={700} sx={{ mt: 1 }}>
+            {passed ? "Great Job! You Passed" : "Not Yet – Keep Practicing"}
+          </Typography>
+          <Box sx={{ mt: 2 }}>
+            <Icon
+              icon={passed ? "mdi:trophy-award" : "mdi:school"}
+              width={64}
+              style={{ opacity: 0.9 }}
+            />
+          </Box>
+        </Box>
+
+        <DialogContent sx={{ p: 4 }}>
+          <Typography variant="h6" fontWeight={700} gutterBottom>
+            Summary
+          </Typography>
+          <Typography variant="body1" color="text.secondary" paragraph>
+            {passed
+              ? "You've demonstrated solid understanding of the topic. Well done!"
+              : "You got some answers right, but review the mistakes above and try again to pass."}
+          </Typography>
+
+          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center', gap: 3 }}>
+            <Box textAlign="center">
+              <Typography variant="h4" fontWeight={800} color="success.main">
+                {correctCount}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">Correct</Typography>
+            </Box>
+            <Box textAlign="center">
+              <Typography variant="h4" fontWeight={800} color="error.main">
+                {totalQuestions - correctCount}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">Incorrect</Typography>
+            </Box>
+          </Box>
+        </DialogContent>
+
+        <DialogActions sx={{ p: 3, bgcolor: '#f8fafc' }}>
+          {!passed ? (
+            <Button
+              fullWidth
+              variant="outlined"
+              size="large"
+              onClick={handleClose}
+              sx={{ height: 52, fontSize: '1.1rem' }}
+            >
+              Close & Review Answers
+            </Button>
+          ) : (
+            <Button
+              fullWidth
+              variant="contained"
+              size="large"
+              onClick={handleContinue}
+              startIcon={<Icon icon="mdi:arrow-right-bold" />}
+              sx={{
+                height: 56,
+                fontSize: '1.1rem',
+                fontWeight: 700,
+                bgcolor: '#10b981',
+                '&:hover': { bgcolor: '#059669' },
+              }}
+            >
+              Continue to Next Lesson
+            </Button>
+          )}
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+};
 
   // Essay Structure PDF Lesson (NEW!)
   const EssayStructurePDF = ({ title, onComplete }: any) => {
@@ -546,123 +902,262 @@ const VideoLesson = ({ title, onComplete }: { title: string; onComplete: () => v
   const CurrentComponent = selectedContent?.component || null;
 
   return (
-    <Box sx={{ bgcolor: '#f1f5f9', minHeight: '100vh' }}>
-      <Container maxWidth="xl" sx={{ py: 4 }}>
-        <Grid container spacing={4}>
+  <Box sx={{ bgcolor: '#f1f5f9', minHeight: '100vh', position: 'relative' }}>
+    {/* Floating Menu Button - Always Visible */}
+    <Fab
+      color="primary"
+      aria-label="menu"
+      onClick={() => setMenuOpen(true)}
+      sx={{
+        position: 'fixed',
+        bottom: { xs: 16, md: 24 },
+        right: { xs: 16, md: 24 },
+        zIndex: 1301,
+        bgcolor: '#1e40af',
+        '&:hover': { bgcolor: '#1e3a8a' },
+        boxShadow: 6,
+      }}
+    >
+      <Icon icon="mdi:menu" width={28} />
+    </Fab>
 
+    {/* Backdrop Overlay
+    {menuOpen && (
+      <Box
+        sx={{
+          position: 'fixed',
+          inset: 0,
+          bgcolor: 'rgba(0,0,0,0.5)',
+          zIndex: 1299,
+          animation: 'fadeIn 0.3s',
+        }}
+        onClick={() => setMenuOpen(false)}
+      />
+    )} */}
 
+    {/* Collapsible Drawer Menu */}
+    <Drawer
+      anchor="right"
+      open={menuOpen}
+      onClose={() => setMenuOpen(false)}
+      sx={{
+        '& .MuiDrawer-paper': {
+          width: { xs: '85vw', sm: 380, md: 400 },
+          maxWidth: '95vw',
+          bgcolor: '#ffffff',
+          boxShadow: '0 0 30px rgba(0,0,0,0.3)',
+          zIndex: 2300,
+        },
+      }}
+      ModalProps={{ keepMounted: true }}
+    >
+      {/* Drawer Header */}
+      <Box
+        sx={{
+          p: 3,
+          bgcolor: '#1e293b',
+          color: 'white',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Icon icon="mdi:bookshelf" width={36} />
+          <Typography variant="h6" fontWeight={700}>
+            Learning Modules
+          </Typography>
+        </Box>
+        <IconButton onClick={() => setMenuOpen(false)} sx={{ color: 'white' }}>
+          <Icon icon="mdi:close" width={28} />
+        </IconButton>
+      </Box>
 
-             {/* Main Content */}
-          <Grid item xs={12} md={8} lg={9}  sx={{width:{xs:'100%',md:'60%'}}}>
-            <Paper sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: 3, minHeight: '80vh' }}>
-              {!selectedContent ? (
-                <Box sx={{ p: 8, textAlign: 'center', color: '#64748b' }}>
-                  <Icon icon="mdi:play-box-outline" width={100} />
-                  <Typography variant="h4" sx={{ mt: 4, fontWeight: 600 }}>Select a lesson to begin</Typography>
-                  <Typography variant="body1" sx={{ mt: 2 }}>Choose any topic from the left sidebar to start learning</Typography>
-                </Box>
-              ) : (
-                <Box>
-                  <Box sx={{ p: 4, bgcolor: '#f8fafc', borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <IconButton onClick={handleBack}><Icon icon="mdi:arrow-left" width={28} /></IconButton>
-                    <Box>
-                      <Typography variant="h5" fontWeight={700}>{selectedContent.title}</Typography>
-                      <Typography color="text.secondary">{selectedSubtopic?.title} • {selectedContent.duration}</Typography>
-                    </Box>
-                  </Box>
-                  <CurrentComponent title={selectedContent.title} onComplete={() => markAsComplete(selectedContent.id)} />
-                </Box>
-              )}
-            </Paper>
-          </Grid>
-          {/* Sidebar */}
-          <Grid item xs={12} md={4} lg={3}  sx={{width:{xs:'100%',md:'30%'}}}>
-            <Paper sx={{ borderRadius: 2, overflow: 'hidden', boxShadow: 3, position: 'sticky', top: 20 }}>
-              <Box sx={{ p: 3, color: 'black' }}>
-                <Typography variant="h6" fontWeight={700}>Learning Modules</Typography>
-              </Box>
-              <List sx={{ p: 2, bgcolor: '#ffffff' }}>
-                {topics.map(topic => (
-                  <Box key={topic.id}>
-                    <ListItemButton onClick={() => handleTopicClick(topic.id)} sx={{ borderRadius: 2, mb: 1 }}>
-                      <ListItemIcon sx={{ minWidth: 44 }}><Icon icon={topic.icon} width={26} color={topic.color} /></ListItemIcon>
-                      <ListItemText primary={topic.title} primaryTypographyProps={{ fontWeight: 600 }} />
-                      <Icon icon={openTopics.includes(topic.id) ? "mdi:chevron-up" : "mdi:chevron-down"} width={22} />
-                    </ListItemButton>
+      {/* Scrollable Content */}
+      <Box sx={{ flex: 1, overflow: 'auto' }}>
+        <List sx={{ p: 2 }}>
+          {topics.map(topic => (
+            <Box key={topic.id}>
+              <ListItemButton
+                onClick={() => {
+                  handleTopicClick(topic.id);
+                  // Optional: close menu on mobile after selection
+                  // if (isMobile) setMenuOpen(false);
+                }}
+                sx={{ borderRadius: 2, mb: 1 }}
+              >
+                <ListItemIcon sx={{ minWidth: 44 }}>
+                  <Icon icon={topic.icon} width={26} color={topic.color} />
+                </ListItemIcon>
+                <ListItemText
+                  primary={topic.title}
+                  primaryTypographyProps={{ fontWeight: 600 }}
+                />
+                <Icon
+                  icon={openTopics.includes(topic.id) ? "mdi:chevron-up" : "mdi:chevron-down"}
+                  width={22}
+                />
+              </ListItemButton>
 
-                    <Collapse in={openTopics.includes(topic.id)} timeout="auto" unmountOnExit>
-                      <List disablePadding>
-                        {topic.subtopics.map(subtopic => (
-                          <Box key={subtopic.id}>
-                            <ListItemButton
-                              sx={{ pr: 7, py: 1.5, borderRadius: 1, bgcolor: selectedSubtopic?.id === subtopic.id ? '#dbeafe' : 'transparent' }}
-                              onClick={() => handleSubtopicClick(subtopic)}
-                            >
-                              <ListItemIcon sx={{ minWidth: 36 }}>
-                                {subtopic.content.every(c => completedItems.includes(c.id))
-                                  ? <Icon icon="mdi:check-circle" width={22} color="#10b981" />
-                                  : <Icon icon="mdi:circle-outline" width={22} color="#cbd5e1" />
-                                }
-                              </ListItemIcon>
-                              <ListItemText primary={subtopic.title} primaryTypographyProps={{ fontWeight: 600, fontSize: '0.95rem' }} />
-                            </ListItemButton>
+              <Collapse in={openTopics.includes(topic.id)} timeout="auto" unmountOnExit>
+                <List disablePadding>
+                  {topic.subtopics.map(subtopic => (
+                    <Box key={subtopic.id}>
+                      <ListItemButton
+                        sx={{
+                          pl: 7,
+                          py: 1.5,
+                          borderRadius: 1,
+                          bgcolor: selectedSubtopic?.id === subtopic.id ? '#dbeafe' : 'transparent',
+                        }}
+                        onClick={() => {
+                          handleSubtopicClick(subtopic);
+                          // if (isMobile) setMenuOpen(false);
+                        }}
+                      >
+                        <ListItemIcon sx={{ minWidth: 36 }}>
+                          {subtopic.content.every(c => completedItems.includes(c.id)) ? (
+                            <Icon icon="mdi:check-circle" width={22} color="#10b981" />
+                          ) : (
+                            <Icon icon="mdi:circle-outline" width={22} color="#cbd5e1" />
+                          )}
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={subtopic.title}
+                          primaryTypographyProps={{ fontWeight: 600, fontSize: '0.95rem' }}
+                        />
+                      </ListItemButton>
 
-                            <Collapse in={selectedSubtopic?.id === subtopic.id}>
-                              <List disablePadding>
-                                {subtopic.content.map((item, idx) => {
-                                  const isCompleted = completedItems.includes(item.id);
-                                  const isLocked = idx > 0 && !completedItems.includes(subtopic.content[idx - 1].id);
+                      <Collapse in={selectedSubtopic?.id === subtopic.id}>
+                        <List disablePadding>
+                          {subtopic.content.map((item, idx) => {
+                            const isCompleted = completedItems.includes(item.id);
+                            const isLocked = idx > 0 && !completedItems.includes(subtopic.content[idx - 1].id);
 
-                                  return (
-                                    <ListItemButton
-                                      key={item.id}
-                                      disabled={isLocked}
-                                      onClick={() => !isLocked && handleContentClick(item)}
-                                      selected={selectedContent?.id === item.id}
-                                      sx={{
-                                        pr: 10, py: 1.8, borderRadius: 2,
-                                        bgcolor: selectedContent?.id === item.id ? '#fffbeb' : 'transparent',
-                                        borderLeft: selectedContent?.id === item.id ? '4px solid #f59e0b' : '4px solid transparent',
-                                        opacity: isLocked ? 0.5 : 1,
-                                      }}
-                                    >
-                                      <ListItemIcon sx={{ minWidth: 40 }}>
-                                        {isCompleted ? (
-                                          <Icon icon="mdi:check-circle" width={24} color="#10b981" />
-                                        ) : isLocked ? (
-                                          <Icon icon="mdi:lock" width={24} color="#94a3b8" />
-                                        ) : (
-                                          <Icon icon={getTypeIcon(item.type)} width={24} color={getTypeColor(item.type)} />
-                                        )}
-                                      </ListItemIcon>
-                                      <ListItemText
-                                        primary={item.title}
-                                        secondary={
-                                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5 }}>
-                                            <Chip label={item.type} size="small" sx={{ height: 20, fontSize: '0.7rem', bgcolor: getTypeColor(item.type)+'22' }} />
-                                            <Typography variant="caption">{item.duration}</Typography>
-                                          </Box>
-                                        }
-                                        primaryTypographyProps={{ fontWeight: 500 }}
+                            return (
+                              <ListItemButton
+                                key={item.id}
+                                disabled={isLocked}
+                                onClick={() => {
+                                  if (!isLocked) {
+                                    handleContentClick(item);
+                                    // if (isMobile) setMenuOpen(false);
+                                  }
+                                }}
+                                selected={selectedContent?.id === item.id}
+                                sx={{
+                                  pl: 10,
+                                  py: 1.8,
+                                  borderRadius: 2,
+                                  bgcolor: selectedContent?.id === item.id ? '#fffbeb' : 'transparent',
+                                  borderLeft: selectedContent?.id === item.id ? '4px solid #f59e0b' : 'none',
+                                  opacity: isLocked ? 0.5 : 1,
+                                }}
+                              >
+                                <ListItemIcon sx={{ minWidth: 40 }}>
+                                  {isCompleted ? (
+                                    <Icon icon="mdi:check-circle" width={24} color="#10b981" />
+                                  ) : isLocked ? (
+                                    <Icon icon="mdi:lock" width={24} color="#94a3b8" />
+                                  ) : (
+                                    <Icon icon={getTypeIcon(item.type)} width={24} color={getTypeColor(item.type)} />
+                                  )}
+                                </ListItemIcon>
+                                <ListItemText
+                                  primary={item.title}
+                                  secondary={
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5 }}>
+                                      <Chip
+                                        label={item.type}
+                                        size="small"
+                                        sx={{ height: 20, fontSize: '0.7rem', bgcolor: getTypeColor(item.type) + '22' }}
                                       />
-                                    </ListItemButton>
-                                  );
-                                })}
-                              </List>
-                            </Collapse>
-                          </Box>
-                        ))}
-                      </List>
-                    </Collapse>
-                  </Box>
-                ))}
-              </List>
-            </Paper>
-          </Grid>
+                                      <Typography variant="caption">{item.duration}</Typography>
+                                    </Box>
+                                  }
+                                  primaryTypographyProps={{ fontWeight: 500 }}
+                                />
+                              </ListItemButton>
+                            );
+                          })}
+                        </List>
+                      </Collapse>
+                    </Box>
+                  ))}
+                </List>
+              </Collapse>
+            </Box>
+          ))}
+        </List>
+      </Box>
 
-       
+      {/* Progress Summary Footer */}
+      <Box sx={{ p: 3, borderTop: '1px solid #e2e8f0', bgcolor: '#f8fafc' }}>
+        <Typography variant="body2" color="text.secondary">
+          Completed: <strong>{completedItems.length}</strong> /{' '}
+          {topics.reduce((a, t) => a + t.subtopics.reduce((b, s) => b + s.content.length, 0), 0)} items
+        </Typography>
+        <LinearProgress
+          variant="determinate"
+          value={
+            (completedItems.length /
+              topics.reduce((a, t) => a + t.subtopics.reduce((b, s) => b + s.content.length, 0), 0)) *
+            100
+          }
+          sx={{ mt: 1, height: 8, borderRadius: 4 }}
+        />
+      </Box>
+    </Drawer>
+
+    {/* Main Content - Full Width Always */}
+    <Container maxWidth="xl" sx={{ py: { xs: 3, md: 4 }, pt: { xs: 10, md: 6 } }}>
+      <Grid container>
+        <Grid item xs={12}>
+          <Paper sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: 3, minHeight: '80vh' }}>
+            {!selectedContent ? (
+              <Box sx={{ p: 8, textAlign: 'center', color: '#64748b' }}>
+                <Icon icon="mdi:play-box-outline" width={100} />
+                <Typography variant="h4" sx={{ mt: 4, fontWeight: 600 }}>
+                  Select a lesson to begin
+                </Typography>
+                <Typography variant="body1" sx={{ mt: 2 }}>
+                  Tap the menu button to explore modules
+                </Typography>
+              </Box>
+            ) : (
+              <Box>
+                <Box
+                  sx={{
+                    p: 4,
+                    bgcolor: '#f8fafc',
+                    borderBottom: '1px solid #e2e8f0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 2,
+                  }}
+                >
+                  <IconButton onClick={handleBack}>
+                    <Icon icon="mdi:arrow-left" width={28} />
+                  </IconButton>
+                  <Box>
+                    <Typography variant="h5" fontWeight={700}>
+                      {selectedContent.title}
+                    </Typography>
+                    <Typography color="text.secondary">
+                      {selectedSubtopic?.title} • {selectedContent.duration}
+                    </Typography>
+                  </Box>
+                </Box>
+                <CurrentComponent
+                  title={selectedContent.title}
+                  onComplete={() => markAsComplete(selectedContent.id)}
+                />
+              </Box>
+            )}
+          </Paper>
         </Grid>
-      </Container>
-    </Box>
-  );
+      </Grid>
+    </Container>
+  </Box>
+);
 }

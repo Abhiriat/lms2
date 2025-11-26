@@ -11,13 +11,13 @@ import {
   Paper,
   Alert,
   Chip,
-  Grid,
   IconButton,
   Tooltip,
   Divider,
 } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
+import Grid from '@mui/material/GridLegacy';
 
 interface Quiz {
   id: number;
@@ -107,15 +107,15 @@ const getQuestionsByQuizId = (quizId: number) => {
   }
 };
 
-interface Question {
-  id: number;
-  question: string;
-  options: string[];
-  correct: number;
-}
+// interface Question {
+//   id: number;
+//   question: string;
+//   options: string[];
+//   correct: number;
+// }
 
 interface QuizInterfaceProps {
-  quiz: Quiz;
+  quiz?: Quiz;
 }
 
 export function QuizInterface({ quiz }: QuizInterfaceProps) {

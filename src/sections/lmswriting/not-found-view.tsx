@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   Container,
-  Grid,
+ 
   Card,
   CardContent,
   CardHeader,
@@ -20,6 +20,8 @@ import {
   Backdrop
 } from '@mui/material';
 import { Icon } from '@iconify/react';
+import Grid from '@mui/material/GridLegacy';
+
 
 export function LMSWritingView() {
   const [uploadedFiles, setUploadedFiles] = useState<{ [key: number]: File | null }>({
@@ -323,7 +325,7 @@ export function LMSWritingView() {
                     {/* Tips */}
                     <Paper sx={{ p: 2, bgcolor: '#f0f9ff', border: '1px solid #bae6fd', mb: 3 }}>
                       <Typography variant="subtitle2" fontWeight="bold" color="#0369a1">
-                        <Icon icon="mdi:lightbulb-on-outline" width={20} style={{ verticalAlign: 'middle', mr: 1 }} />
+                        <Icon icon="mdi:lightbulb-on-outline" width={20} style={{ verticalAlign: 'middle' }} />
                         Writing Tips
                       </Typography>
                       <Box component="ul" sx={{ mt: 1, pl: 3, color: '#0c4a6e' }}>
