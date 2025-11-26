@@ -39,7 +39,7 @@ const coursesData = {
             completedLessons: 12,
             totalLessons: 30,
             level: 'Upper-Intermediate',
-            action: 'speaking'
+            action: 'listening'
         },
         {
             id: 3,
@@ -51,7 +51,7 @@ const coursesData = {
             completedLessons: 10,
             totalLessons: 36,
             level: 'Advanced',
-            action: 'writing'
+            action: 'listening'
         },
     ],
     completed: [
