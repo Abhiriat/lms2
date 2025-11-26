@@ -1,11 +1,12 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Container, Paper, Typography, List, ListItemButton, ListItemIcon, ListItemText, Collapse, Chip, IconButton, Button, Card, LinearProgress, Alert, Radio, RadioGroup, FormControlLabel, DialogActions, DialogContent, DialogTitle, Dialog, CircularProgress, } from '@mui/material';
 import { Icon } from '@iconify/react';
 import Grid from '@mui/material/GridLegacy';
 import Drawer from '@mui/material/Drawer';
 import Fab from '@mui/material/Fab';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import ReactPlayer from 'react-player';
 export function LMSView() {
     const [selectedTopic, setSelectedTopic] = useState(null);
     const [selectedSubtopic, setSelectedSubtopic] = useState(null);
@@ -120,139 +121,72 @@ export function LMSView() {
     // Video Lesson
     // Replace your current VideoLesson with this upgraded version
     const VideoLesson = ({ title, onComplete }) => {
-        const [isPlaying, setIsPlaying] = useState(false);
-        const [progress, setProgress] = useState(0);
-        const [currentTime, setCurrentTime] = useState(0);
-        const [duration, setDuration] = useState(300); // 5 minutes default (in seconds)
-        const [volume, setVolume] = useState(0.8);
-        const [isMuted, setIsMuted] = useState(false);
-        const [playbackRate, setPlaybackRate] = useState(1);
-        const [showControls, setShowControls] = useState(true);
-        const controlsTimeoutRef = React.useRef(null);
-        // Simulated video duration = 5 minutes (300 seconds)
-        const TOTAL_DURATION = 300;
-        // Format time helper
+        const [played, setPlayed] = useState(0);
+        const [playedSeconds, setPlayedSeconds] = useState(0);
+        const [duration, setDuration] = useState(0);
+        const [playing, setPlaying] = useState(false);
+        const [completed, setCompleted] = useState(false);
+        // Replace with any real video URL
+        const videoUrl = "https://youtu.be/VNA5UGZ5LOo?si=07O6oWxmkkrs2xKk"; // Example: Rick Astley
+        // Or use: "https://vimeo.com/76979871"
+        // Or local: "/videos/sample.mp4"
+        const handleProgress = (state) => {
+            setPlayed(state.played);
+            setPlayedSeconds(state.playedSeconds);
+            if (state.played >= 0.95 && !completed) {
+                setCompleted(true);
+                onComplete();
+            }
+        };
+        const handleDuration = (durations) => {
+            setDuration(durations);
+        };
         const formatTime = (seconds) => {
             const mins = Math.floor(seconds / 60);
             const secs = Math.floor(seconds % 60);
             return `${mins}:${secs.toString().padStart(2, '0')}`;
         };
-        // Simulate video progress
-        useEffect(() => {
-            let interval;
-            if (isPlaying && progress < 100) {
-                interval = setInterval(() => {
-                    setProgress((prev) => {
-                        const increment = (100 / TOTAL_DURATION) * (playbackRate * 1.8); // speed-adjusted
-                        const newProgress = Math.min(prev + increment, 100);
-                        setCurrentTime((newProgress / 100) * TOTAL_DURATION);
-                        if (newProgress >= 100) {
-                            setIsPlaying(false);
-                            onComplete();
-                        }
-                        return newProgress;
-                    });
-                }, 100);
-            }
-            return () => clearInterval(interval);
-        }, [isPlaying, playbackRate, onComplete]);
-        // Auto-hide controls after 3 seconds of inactivity
-        useEffect(() => {
-            if (isPlaying) {
-                controlsTimeoutRef.current = setTimeout(() => setShowControls(false), 3000);
-            }
-            else {
-                setShowControls(true);
-            }
-            return () => {
-                if (controlsTimeoutRef.current)
-                    clearTimeout(controlsTimeoutRef.current);
-            };
-        }, [isPlaying, progress]);
-        const handleMouseMove = () => {
-            setShowControls(true);
-            if (controlsTimeoutRef.current)
-                clearTimeout(controlsTimeoutRef.current);
-            if (isPlaying) {
-                controlsTimeoutRef.current = setTimeout(() => setShowControls(false), 3000);
-            }
-        };
-        const togglePlayPause = () => setIsPlaying(!isPlaying);
-        const toggleMute = () => {
-            setIsMuted(!isMuted);
-            setVolume(isMuted ? 0.8 : 0);
-        };
-        const handleSeek = (e) => {
-            const newProgress = Number(e.target.value);
-            setProgress(newProgress);
-            setCurrentTime((newProgress / 100) * TOTAL_DURATION);
-        };
-        const handleVolumeChange = (e) => {
-            const newVol = Number(e.target.value);
-            setVolume(newVol);
-            setIsMuted(newVol === 0);
-        };
-        return (_jsxs(Box, { sx: { p: { xs: 2, md: 5 }, maxWidth: '100%' }, onMouseMove: handleMouseMove, onMouseLeave: () => isPlaying && setShowControls(false), children: [_jsx(Typography, { variant: "h5", fontWeight: 700, gutterBottom: true, children: title }), _jsxs(Box, { sx: {
+        return (_jsxs(Box, { sx: { p: { xs: 2, md: 5 }, maxWidth: '100%' }, children: [_jsx(Typography, { variant: "h5", fontWeight: 700, gutterBottom: true, mb: 3, children: title }), _jsxs(Box, { sx: {
                         position: 'relative',
                         borderRadius: 3,
                         overflow: 'hidden',
-                        bgcolor: '#0f172a',
-                        color: 'white',
-                        boxShadow: 10,
-                        aspectRatio: '16/9',
-                        cursor: showControls ? 'default' : 'none',
-                        transition: 'all 0.3s ease',
-                    }, children: [_jsx(Box, { sx: {
-                                position: 'absolute',
-                                inset: 0,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                bgcolor: 'rgba(0,0,0,0.4)',
-                                zIndex: 1,
-                            }, children: _jsx(IconButton, { onClick: togglePlayPause, sx: {
-                                    bgcolor: 'rgba(255,255,255,0.2)',
-                                    '&:hover': { bgcolor: 'rgba(255,255,255,0.3)', transform: 'scale(1.1)' },
-                                    width: 100,
-                                    height: 100,
-                                    transition: 'all 0.3s',
-                                }, children: _jsx(Icon, { icon: isPlaying ? 'mdi:pause' : 'mdi:play', width: 60 }) }) }), _jsx(Box, { sx: {
-                                position: 'absolute',
-                                bottom: 70,
-                                left: 16,
-                                right: 16,
-                                zIndex: 3,
-                            }, children: _jsx("input", { type: "range", min: "0", max: "100", step: "0.1", value: progress, onChange: handleSeek, style: {
-                                    width: '100%',
-                                    height: '6px',
-                                    background: `linear-gradient(to right, #ef4444 ${progress}%, #475569 ${progress}%)`,
-                                    borderRadius: '3px',
-                                    outline: 'none',
-                                    appearance: 'none',
-                                } }) }), _jsxs(Box, { sx: {
+                        boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+                        bgcolor: '#000',
+                    }, children: [_jsx(ReactPlayer, { src: videoUrl, width: "100%", height: "100%", style: { aspectRatio: '16/9' }, controls: true, playing: false, pip: true, onProgress: (state) => handleProgress(state) }), _jsx(Box, { sx: {
                                 position: 'absolute',
                                 bottom: 0,
                                 left: 0,
                                 right: 0,
-                                bgcolor: 'linear-gradient(transparent, rgba(0,0,0,0.8))',
-                                p: 4,
-                                pt: 8,
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 2,
-                                opacity: showControls ? 1 : 0,
-                                transition: 'opacity 0.4s ease',
-                                pointerEvents: showControls ? 'all' : 'none',
-                            }, children: [_jsx(IconButton, { onClick: togglePlayPause, sx: { color: 'white' }, children: _jsx(Icon, { icon: isPlaying ? 'mdi:pause' : 'mdi:play', width: 32 }) }), _jsx(IconButton, { onClick: toggleMute, sx: { color: 'white' }, children: _jsx(Icon, { icon: isMuted || volume === 0
-                                            ? 'mdi:volume-off'
-                                            : volume < 0.5
-                                                ? 'mdi:volume-low'
-                                                : 'mdi:volume-high', width: 28 }) }), _jsx("input", { type: "range", min: "0", max: "1", step: "0.05", value: isMuted ? 0 : volume, onChange: handleVolumeChange, style: {
-                                        width: '80px',
-                                        height: '4px',
-                                        background: `linear-gradient(to right, #fff ${volume * 100}%, #475569 ${volume * 100}%)`,
-                                        borderRadius: '2px',
-                                    } }), _jsxs(Typography, { variant: "body2", sx: { minWidth: 100, fontFeatureSettings: '"tnum"' }, children: [formatTime(currentTime), " / ", formatTime(TOTAL_DURATION)] }), _jsxs(Button, { size: "small", onClick: () => setPlaybackRate((prev) => (prev === 2 ? 0.5 : prev + 0.25 > 2 ? 0.5 : prev + 0.25)), sx: { color: 'white', fontSize: '0.8rem', ml: 'auto' }, children: [playbackRate.toFixed(2), "x"] }), _jsx(IconButton, { sx: { color: 'white' }, children: _jsx(Icon, { icon: "mdi:fullscreen", width: 28 }) })] }), progress === 100 && (_jsxs(Alert, { severity: "success", icon: _jsx(Icon, { icon: "mdi:check-circle", width: 32 }), sx: { position: 'absolute', top: 20, left: 20, right: 20, zIndex: 10 }, children: [_jsx("strong", { children: "Video completed!" }), " You've earned full progress."] }))] }), _jsx(Box, { sx: { mt: 3, textAlign: 'center' }, children: _jsxs(Typography, { variant: "body2", color: "text.secondary", children: ["Tip: Click the video to show/hide controls \u2022 Current speed: ", _jsxs("strong", { children: [playbackRate, "x"] })] }) })] }));
+                                height: 6,
+                                bgcolor: 'rgba(0,0,0,0.5)',
+                                zIndex: 10,
+                            }, children: _jsx(Box, { sx: {
+                                    width: `${played * 100}%`,
+                                    height: '100%',
+                                    bgcolor: '#ef4444',
+                                    transition: 'width 0.2s',
+                                } }) }), completed && (_jsxs(Alert, { severity: "success", icon: _jsx(Icon, { icon: "mdi:check-circle", width: 32 }), sx: {
+                                position: 'absolute',
+                                top: 16,
+                                left: 16,
+                                right: 16,
+                                zIndex: 20,
+                                borderRadius: 2,
+                                bgcolor: 'rgba(16, 185, 129, 0.95)',
+                                color: 'white',
+                                '& .MuiAlert-icon': { color: 'white' },
+                            }, children: [_jsx("strong", { children: "Video Completed!" }), " Great job \u2014 lesson marked as complete."] })), _jsxs(Box, { sx: {
+                                position: 'absolute',
+                                bottom: 12,
+                                right: 16,
+                                bgcolor: 'rgba(0,0,0,0.7)',
+                                color: 'white',
+                                px: 2,
+                                py: 0.5,
+                                borderRadius: 2,
+                                fontSize: '0.875rem',
+                                zIndex: 11,
+                            }, children: [formatTime(playedSeconds), " / ", formatTime(duration)] })] }), _jsx(Box, { sx: { mt: 3, textAlign: 'center' }, children: _jsx(Typography, { variant: "body2", color: "text.secondary", children: "You can adjust speed, volume, and enable fullscreen in the player controls" }) })] }));
     };
     const Assignment = ({ title, onComplete }) => {
         const [uploadedFile, setUploadedFile] = useState(null);
