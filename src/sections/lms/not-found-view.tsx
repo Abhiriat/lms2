@@ -76,6 +76,8 @@ const isMobile = useMediaQuery('(max-width:960px)');
     localStorage.setItem('lms-completed-items', JSON.stringify(completedItems));
   }, [completedItems]);
 
+
+  
   const markAsComplete = (itemId: string) => {
     if (!completedItems.includes(itemId)) {
       setCompletedItems(prev => [...prev, itemId]);
@@ -118,6 +120,86 @@ const isMobile = useMediaQuery('(max-width:960px)');
       default: return '#3b82f6';
     }
   };
+
+const NextLessonButton = () => {
+  const currentItemCompleted = selectedContent && completedItems.includes(selectedContent.id);
+
+  // Find next available lesson (skip locked items)
+  const findNextLesson = () => {
+    if (!selectedSubtopic || !selectedContent) return null;
+
+    const currentTopic = topics.find(t => t.subtopics.some(st => st.id === selectedSubtopic.id));
+    if (!currentTopic) return null;
+
+    const currentSubtopic = currentTopic.subtopics.find(st => st.id === selectedSubtopic.id);
+    if (!currentSubtopic) return null;
+
+    const currentIdx = currentSubtopic.content.findIndex(c => c.id === selectedContent.id);
+
+    // 1. Next item in current subtopic
+    for (let i = currentIdx + 1; i < currentSubtopic.content.length; i++) {
+      const item = currentSubtopic.content[i];
+      const prevItem = currentSubtopic.content[i - 1];
+      const isLocked = i > 0 && !completedItems.includes(prevItem.id);
+      if (!isLocked) return { item, subtopic: currentSubtopic };
+    }
+
+    // 2. Next subtopic
+    const currentSubIdx = currentTopic.subtopics.findIndex(st => st.id === selectedSubtopic.id);
+    for (let i = currentSubIdx + 1; i < currentTopic.subtopics.length; i++) {
+      const nextSub = currentTopic.subtopics[i];
+      if (nextSub.content.length > 0) {
+        return { item: nextSub.content[0], subtopic: nextSub };
+      }
+    }
+
+    // 3. Next topic
+    const currentTopicIdx = topics.findIndex(t => t.id === currentTopic.id);
+    for (let i = currentTopicIdx + 1; i < topics.length; i++) {
+      const nextTopic = topics[i];
+      if (nextTopic.subtopics.length > 0 && nextTopic.subtopics[0].content.length > 0) {
+        return { item: nextTopic.subtopics[0].content[0], subtopic: nextTopic.subtopics[0] };
+      }
+    }
+
+    return null;
+  };
+
+  const nextLesson = findNextLesson();
+  const hasNext = !!nextLesson;
+
+  const handleNext = () => {
+    if (!nextLesson) return;
+    setSelectedSubtopic(nextLesson.subtopic);
+    setSelectedContent(nextLesson.item);
+  };
+
+  if (!currentItemCompleted || !hasNext) return null;
+
+  return (
+    <Box sx={{ p: 4, pt: 2, bgcolor: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
+      <Button
+        fullWidth
+        variant="contained"
+        size="large"
+        onClick={handleNext}
+        startIcon={<Icon icon="mdi:arrow-right-bold" width={24} />}
+        sx={{
+          height: 60,
+          fontSize: '1.2rem',
+          fontWeight: 700,
+          textTransform: 'none',
+          bgcolor: '#10b981',
+          '&:hover': { bgcolor: '#059669' },
+          borderRadius: 3,
+          boxShadow: 6,
+        }}
+      >
+        Next Lesson: {nextLesson.item.title}
+      </Button>
+    </Box>
+  );
+};
 
   // Video Lesson
  // Replace your current VideoLesson with this upgraded version
@@ -1152,6 +1234,7 @@ const Assignment = ({ title, onComplete }: { title: string; onComplete: () => vo
                   title={selectedContent.title}
                   onComplete={() => markAsComplete(selectedContent.id)}
                 />
+                <NextLessonButton />
               </Box>
             )}
           </Paper>
