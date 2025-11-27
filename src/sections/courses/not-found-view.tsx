@@ -21,7 +21,7 @@ const coursesData = {
     {
       id: 1,
       title: 'English Listening',
-      instructor: 'Sarah Johnson',
+      instructor: 'Aman',
       progress: 68,
       image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=250&fit=crop',
       duration: '8 weeks',
@@ -33,7 +33,7 @@ const coursesData = {
     {
       id: 2,
       title: 'English Speaking',
-      instructor: 'Richard Thompson',
+      instructor: 'Srishti',
       progress: 45,
       image: 'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=400&h=250&fit=crop',
       duration: '10 weeks',
@@ -46,7 +46,7 @@ const coursesData = {
     {
       id: 3,
       title: 'English Writing',
-      instructor: 'Emma Williams',
+      instructor: 'Akash',
       progress: 33,
       image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=250&fit=crop',
       duration: '12 weeks',
@@ -62,7 +62,7 @@ const coursesData = {
     {
       id: 4,
       title: 'English Grammar in Use (A1–B1)',
-      instructor: 'Michael Brown',
+      instructor: 'Mukul',
       completedDate: 'Nov 08, 2025',
       image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&h=250&fit=crop',
       rating: 4.9,
@@ -71,7 +71,7 @@ const coursesData = {
     {
       id: 5,
       title: 'English Pronunciation & Accent Training',
-      instructor: 'Olivia Davis',
+      instructor: 'Gaurav',
       completedDate: 'Oct 22, 2025',
       image: 'https://images.unsplash.com/photo-1513258496096-90b10c3826ed?w=400&h=250&fit=crop',
       rating: 5.0,
@@ -80,7 +80,7 @@ const coursesData = {
     {
       id: 6,
       title: 'Beginner English: Speak from Day 1',
-      instructor: 'Daniel Lee',
+      instructor: 'Sukhdeep',
       completedDate: 'Sep 30, 2025',
       image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=250&fit=crop',
       rating: 4.7,
@@ -92,7 +92,7 @@ const coursesData = {
     {
       id: 7,
       title: 'TOEFL iBT Complete Preparation',
-      instructor: 'Dr. Sophia Chen',
+      instructor: 'Mehak',
       startDate: 'Dec 10, 2025',
       image: 'https://images.unsplash.com/photo-1588075592446-4f1e91889b70?w=400&h=250&fit=crop',
       duration: '10 weeks',
@@ -102,7 +102,7 @@ const coursesData = {
     {
       id: 8,
       title: 'English for Academic Writing (EAP)',
-      instructor: 'Professor James Carter',
+      instructor: 'Gurleen',
       startDate: 'Jan 05, 2026',
       image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=250&fit=crop',
       duration: '14 weeks',
@@ -112,7 +112,7 @@ const coursesData = {
     {
       id: 9,
       title: 'English Vocabulary Builder: 1000+ Words',
-      instructor: 'Lucy Parker',
+      instructor: 'Naina',
       startDate: 'Dec 20, 2025',
       image: 'https://images.unsplash.com/photo-1491841573634-281cebcf72c7?w=400&h=250&fit=crop',
       duration: '6 weeks',
