@@ -51,10 +51,11 @@ export function NavDesktop({
         display: 'none',
         position: 'fixed',
         flexDirection: 'column',
-        bgcolor:'#EAEDF9',
+        bgcolor:'white',
         zIndex: 'var(--layout-nav-zIndex)',
         width: 'var(--layout-nav-vertical-width)',
-        borderRight: `1px solid ${varAlpha(theme.vars.palette.grey['500Channel'], 0.12)}`,
+                    borderRight: `2px dashed ${varAlpha(theme.vars.palette.grey['500Channel'], 0.3)}`,
+        
         [theme.breakpoints.up(layoutQuery)]: {
           display: 'flex',
         },

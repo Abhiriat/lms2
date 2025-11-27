@@ -4,12 +4,12 @@ import { Container, Tabs, Tab, Table, TableBody, TableCell, TableContainer, Tabl
 import { Icon } from '@iconify/react/dist/iconify.js';
 // Teacher's assigned English batches (realistic names)
 const teacherAssignedCourses = [
-    'IELTS Intensive - Batch A2025',
-    'General English - Level 6 (Morning)',
-    'Business English - B2 Advanced',
-    'Spoken English - Weekend Batch',
-    'IELTS Foundation - Batch B2025',
-    'TOEFL Preparation - Evening',
+    'Foundation English (Level 1–3)',
+    'Grammar Mastery (Beginner to Advanced)',
+    'Vocabulary Booster – 1000+ Words',
+    'Reading Skills & Comprehension Mastery',
+    'Creative Writing: Paragraph, Story, Letter, Notice',
+    'Essay Writing & Formal Writing'
 ];
 // Sample students with batch assignment
 const allStudents = [

@@ -26,23 +26,15 @@ export function QuizView() {
   const navigate = useNavigate();
 
   // Sample quiz data with marks for finished quizzes
-  const quizzes = [
-    { id: 1, title: 'JavaScript Basics', subject: 'Web Development', dueDate: '2025-12-15', status: 'upcoming', marks: null },
-    { id: 2, title: 'React Fundamentals', subject: 'Web Development', dueDate: '2025-11-20', status: 'ongoing', marks: null },
-    { id: 3, title: 'Python Basics', subject: 'Programming', dueDate: '2025-10-10', status: 'finished', marks: 85 },
-    { id: 4, title: 'CSS Advanced', subject: 'Web Development', dueDate: '2025-11-25', status: 'upcoming', marks: null },
-    { id: 5, title: 'Data Structures', subject: 'Computer Science', dueDate: '2025-11-15', status: 'ongoing', marks: null },
-    { id: 6, title: 'Database Design', subject: 'Databases', dueDate: '2025-09-30', status: 'finished', marks: 92 },
-    { id: 7, title: 'Node.js Mastery', subject: 'Web Development', dueDate: '2025-12-01', status: 'upcoming', marks: null },
-    { id: 8, title: 'Vue.js Essentials', subject: 'Web Development', dueDate: '2025-11-18', status: 'ongoing', marks: null },
-    { id: 9, title: 'SQL Queries', subject: 'Databases', dueDate: '2025-09-20', status: 'finished', marks: 78 },
-    { id: 10, title: 'TypeScript Advanced', subject: 'Programming', dueDate: '2025-12-05', status: 'upcoming', marks: null },
-    { id: 11, title: 'Angular Basics', subject: 'Web Development', dueDate: '2025-11-22', status: 'ongoing', marks: null },
-    { id: 12, title: 'Git & GitHub', subject: 'Version Control', dueDate: '2025-08-30', status: 'finished', marks: 88 },
-    { id: 13, title: 'REST APIs', subject: 'Web Development', dueDate: '2025-11-28', status: 'upcoming', marks: null },
-    { id: 14, title: 'Machine Learning 101', subject: 'AI', dueDate: '2025-11-25', status: 'ongoing', marks: null },
-    { id: 15, title: 'Cloud Computing', subject: 'Cloud', dueDate: '2025-07-15', status: 'finished', marks: 95 },
-  ];
+ const quizzes = [
+  { id: 1, title: 'Foundation English (Level 1–3)', subject: 'English', dueDate: '2025-12-15', status: 'upcoming', marks: null },
+  { id: 2, title: 'Grammar Mastery (Beginner to Advanced)', subject: 'English Grammar', dueDate: '2025-11-20', status: 'ongoing', marks: null },
+  { id: 3, title: 'Vocabulary Booster – 1000+ Words', subject: 'English Vocabulary', dueDate: '2025-10-10', status: 'finished', marks: 85 },
+  { id: 4, title: 'Reading Skills & Comprehension Mastery', subject: 'Reading & Comprehension', dueDate: '2025-11-25', status: 'upcoming', marks: null },
+  { id: 5, title: 'Creative Writing: Paragraph, Story, Letter, Notice', subject: 'Writing Skills', dueDate: '2025-11-15', status: 'ongoing', marks: null },
+  { id: 6, title: 'Essay Writing & Formal Writing', subject: 'Advanced Writing', dueDate: '2025-09-30', status: 'finished', marks: 92 },
+];
+
 
   // Filter quizzes based on search term and active tab
   const filteredQuizzes = useMemo(() => {

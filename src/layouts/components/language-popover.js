@@ -6,7 +6,9 @@ import Popover from '@mui/material/Popover';
 import MenuList from '@mui/material/MenuList';
 import IconButton from '@mui/material/IconButton';
 import MenuItem, { menuItemClasses } from '@mui/material/MenuItem';
-export function LanguagePopover({ data = [], sx, ...other }) {
+export function LanguagePopover({ data = [{ value: 'in',
+        label: 'Indian',
+        icon: '/assets/icons/flags/ic-flag-in.svg' },], sx, ...other }) {
     const { open, anchorEl, onClose, onOpen } = usePopover();
     const [locale, setLocale] = useState(data[0].value);
     const handleChangeLang = useCallback((newLang) => {

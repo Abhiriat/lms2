@@ -26,7 +26,10 @@ export const QuizPage = lazy(() => import('src/pages/quiz'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
 export const SignInPage = lazy(() => import('src/pages/sign-in'));
+export const ClassesViewPage = lazy(() => import('src/pages/classes'));
+export const ClassDetailViewPage = lazy(() => import('src/pages/classdetail'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
+export const IntroLmsPage = lazy(() => import('src/pages/introlms'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 const renderFallback = () => (_jsx(Box, { sx: {
         display: 'flex',
@@ -47,8 +50,11 @@ export const routesSection = [
             { path: 'studentdashboard', element: _jsx(StudentDashboardPage, {}) },
             { path: 'teacherdashboard', element: _jsx(TeacherPage, {}) },
             { path: 'teacherstudent', element: _jsx(TeacherStudentListPage, {}) },
+            { path: 'lmsintropage', element: _jsx(IntroLmsPage, {}) },
             { path: 'studentlist', element: _jsx(StudentListPage, {}) },
             { path: 'instructorlist', element: _jsx(InstructorListPage, {}) },
+            { path: 'classview', element: _jsx(ClassesViewPage, {}) },
+            { path: 'classdetail', element: _jsx(ClassDetailViewPage, {}) },
             { path: 'quizresult', element: _jsx(QuizResultPage, {}) },
             { path: 'quizdetailresultview/:id', element: _jsx(QuizDetailResultViewPage, {}) },
             { path: 'lmspage', element: _jsx(LMSPage, {}) },

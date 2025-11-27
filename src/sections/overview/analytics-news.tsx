@@ -134,12 +134,12 @@ function Item({ item, rank, sx, ...other }: ItemProps) {
         #{rank}
       </Box>
 
-      <Avatar
+      {/* <Avatar
         variant="rounded"
         alt={item.title}
         src={item.coverUrl}
         sx={{ width: 48, height: 48, flexShrink: 0 }}
-      />
+      /> */}
 
       <ListItemText
         primary={item.title}

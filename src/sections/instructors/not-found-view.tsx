@@ -24,19 +24,164 @@ import {
 import { Icon } from '@iconify/react';
 
 const initialInstructors = [
-  { id: 1, name: 'Dr. John Doe', email: 'john.doe@university.com', phone: '+1-555-0101', department: 'Computer Science', courses: ['Data Structures', 'Algorithms', 'Database Design'], studentCount: 120 },
-  { id: 2, name: 'Prof. Jane Smith', email: 'jane.smith@university.com', phone: '+1-555-0102', department: 'Business', courses: ['Marketing', 'Business Analytics'], studentCount: 85 },
-  { id: 3, name: 'Dr. Mike Johnson', email: 'mike.j@university.com', phone: '+1-555-0103', department: 'Engineering', courses: ['Circuit Design', 'Embedded Systems', 'Microprocessors'], studentCount: 145 },
-  { id: 4, name: 'Prof. Emily Davis', email: 'emily.d@university.com', phone: '+1-555-0104', department: 'Computer Science', courses: ['Web Development', 'Mobile Apps'], studentCount: 95 },
-  { id: 5, name: 'Dr. David Wilson', email: 'david.w@university.com', phone: '+1-555-0105', department: 'Medicine', courses: ['Anatomy', 'Physiology', 'Pathology'], studentCount: 110 },
-  { id: 6, name: 'Prof. Sarah Brown', email: 'sarah.b@university.com', phone: '+1-555-0106', department: 'Business', courses: ['Finance', 'Investment Management'], studentCount: 78 },
-  { id: 7, name: 'Dr. Chris Lee', email: 'chris.lee@university.com', phone: '+1-555-0107', department: 'Engineering', courses: ['Civil Engineering', 'Structural Analysis'], studentCount: 102 },
-  { id: 8, name: 'Prof. Anna Martinez', email: 'anna.m@university.com', phone: '+1-555-0108', department: 'Computer Science', courses: ['Machine Learning', 'AI', 'Neural Networks'], studentCount: 156 },
-  { id: 9, name: 'Dr. Tom Anderson', email: 'tom.a@university.com', phone: '+1-555-0109', department: 'Medicine', courses: ['Surgery', 'Clinical Practice'], studentCount: 65 },
-  { id: 10, name: 'Prof. Lisa Taylor', email: 'lisa.t@university.com', phone: '+1-555-0110', department: 'Business', courses: ['Economics', 'Microeconomics'], studentCount: 92 },
-  { id: 11, name: 'Dr. Robert Clark', email: 'robert.c@university.com', phone: '+1-555-0111', department: 'Engineering', courses: ['Robotics', 'Control Systems'], studentCount: 88 },
-  { id: 12, name: 'Prof. Maria Garcia', email: 'maria.g@university.com', phone: '+1-555-0112', department: 'Computer Science', courses: ['Cloud Computing', 'DevOps'], studentCount: 103 },
+  {
+    id: 1,
+    name: 'Dr. Harjit Singh',
+    email: 'harjit.singh@university.com',
+    phone: '+91-98765-0101',
+    department: 'English Department',
+    courses: [
+      'Foundation English (Level 1–3)',
+      'Grammar Mastery (Beginner to Advanced)',
+      'Vocabulary Booster – 1000+ Words'
+    ],
+    studentCount: 120
+  },
+  {
+    id: 2,
+    name: 'Prof. Jaspreet Kaur',
+    email: 'jaspreet.kaur@university.com',
+    phone: '+91-98765-0102',
+    department: 'English Department',
+    courses: [
+      'Reading Skills & Comprehension Mastery',
+      'Creative Writing: Paragraph, Story, Letter, Notice',
+      'Essay Writing & Formal Writing'
+    ],
+    studentCount: 85
+  },
+  {
+    id: 3,
+    name: 'Dr. Navjot Singh',
+    email: 'navjot.singh@university.com',
+    phone: '+91-98765-0103',
+    department: 'Communication Skills',
+    courses: [
+      'Spoken English & Confidence Building',
+      'Pronunciation + Accent Training',
+      'Public Speaking & Presentation Skills'
+    ],
+    studentCount: 145
+  },
+  {
+    id: 4,
+    name: 'Prof. Manpreet Kaur',
+    email: 'manpreet.kaur@university.com',
+    phone: '+91-98765-0104',
+    department: 'English & Exam Prep',
+    courses: [
+      'Exam English for Classes 6–12',
+      'Foundation English (Level 1–3)',
+      'Grammar Mastery (Beginner to Advanced)'
+    ],
+    studentCount: 95
+  },
+  {
+    id: 5,
+    name: 'Dr. Harman Singh',
+    email: 'harman.singh@university.com',
+    phone: '+91-98765-0105',
+    department: 'Skill Development',
+    courses: [
+      'Communication Skills for Students',
+      'Interview Skills + Resume Building',
+      'Critical Thinking & Problem Solving'
+    ],
+    studentCount: 110
+  },
+  {
+    id: 6,
+    name: 'Prof. Navneet Kaur',
+    email: 'navneet.kaur@university.com',
+    phone: '+91-98765-0106',
+    department: 'Skill Development',
+    courses: [
+      'Digital Literacy & Online Learning Skills',
+      'Soft Skills Development',
+      'Public Speaking & Presentation Skills'
+    ],
+    studentCount: 78
+  },
+  {
+    id: 7,
+    name: 'Dr. Gurmeet Singh',
+    email: 'gurmeet.singh@university.com',
+    phone: '+91-98765-0107',
+    department: 'English Department',
+    courses: [
+      'Vocabulary Booster – 1000+ Words',
+      'Creative Writing: Paragraph, Story, Letter, Notice',
+      'Essay Writing & Formal Writing'
+    ],
+    studentCount: 102
+  },
+  {
+    id: 8,
+    name: 'Prof. Amanpreet Kaur',
+    email: 'amanpreet.kaur@university.com',
+    phone: '+91-98765-0108',
+    department: 'Communication Skills',
+    courses: [
+      'Spoken English & Confidence Building',
+      'Pronunciation + Accent Training',
+      'Communication Skills for Students'
+    ],
+    studentCount: 156
+  },
+  {
+    id: 9,
+    name: 'Dr. Tejinder Singh',
+    email: 'tejinder.singh@university.com',
+    phone: '+91-98765-0109',
+    department: 'Exam Preparation',
+    courses: [
+      'Exam English for Classes 6–12',
+      'Reading Skills & Comprehension Mastery',
+      'Foundation English (Level 1–3)'
+    ],
+    studentCount: 65
+  },
+  {
+    id: 10,
+    name: 'Prof. Kirandeep Kaur',
+    email: 'kirandeep.kaur@university.com',
+    phone: '+91-98765-0110',
+    department: 'Skill Development',
+    courses: [
+      'Interview Skills + Resume Building',
+      'Soft Skills Development',
+      'Critical Thinking & Problem Solving'
+    ],
+    studentCount: 92
+  },
+  {
+    id: 11,
+    name: 'Dr. Ravinder Singh',
+    email: 'ravinder.singh@university.com',
+    phone: '+91-98765-0111',
+    department: 'English & Communication',
+    courses: [
+      'Public Speaking & Presentation Skills',
+      'Spoken English & Confidence Building',
+      'Grammar Mastery (Beginner to Advanced)'
+    ],
+    studentCount: 88
+  },
+  {
+    id: 12,
+    name: 'Prof. Baljeet Kaur',
+    email: 'baljeet.kaur@university.com',
+    phone: '+91-98765-0112',
+    department: 'English Department',
+    courses: [
+      'Creative Writing: Paragraph, Story, Letter, Notice',
+      'Essay Writing & Formal Writing',
+      'Reading Skills & Comprehension Mastery'
+    ],
+    studentCount: 103
+  }
 ];
+
 
 export function InstructorsListView() {
   const [instructors] = useState(initialInstructors);

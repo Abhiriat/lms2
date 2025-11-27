@@ -24,6 +24,17 @@ export function LMSView() {
     useEffect(() => {
         localStorage.setItem('lms-completed-items', JSON.stringify(completedItems));
     }, [completedItems]);
+    // Auto-select first lesson on initial load
+    useEffect(() => {
+        if (topics.length > 0 && !selectedSubtopic) {
+            const firstTopic = topics[0];
+            const firstSubtopic = firstTopic.subtopics[0];
+            const firstContent = firstSubtopic.content[0];
+            setOpenTopics([firstTopic.id]);
+            setSelectedSubtopic(firstSubtopic);
+            setSelectedContent(firstContent);
+        }
+    }, []);
     const markAsComplete = (itemId) => {
         if (!completedItems.includes(itemId)) {
             setCompletedItems(prev => [...prev, itemId]);
@@ -107,7 +118,7 @@ export function LMSView() {
         };
         if (!currentItemCompleted || !hasNext)
             return null;
-        return (_jsx(Box, { sx: { p: 4, pt: 2, bgcolor: '#f8fafc', borderTop: '1px solid #e2e8f0' }, children: _jsxs(Button, { fullWidth: true, variant: "contained", size: "large", onClick: handleNext, startIcon: _jsx(Icon, { icon: "mdi:arrow-right-bold", width: 24 }), sx: {
+        return (_jsx(Box, { sx: { p: 4, pt: 2, bgcolor: '#f8fafc', borderTop: '1px solid #e2e8f0', mx: 'auto' }, children: _jsxs(Button, { fullWidth: true, variant: "contained", size: "large", onClick: handleNext, startIcon: _jsx(Icon, { icon: "mdi:arrow-right-bold", width: 24 }), sx: {
                     height: 60,
                     fontSize: '1.2rem',
                     fontWeight: 700,
@@ -120,17 +131,17 @@ export function LMSView() {
     };
     // Video Lesson
     // Replace your current VideoLesson with this upgraded version
-    const VideoLesson = ({ title, onComplete }) => {
+    const VideoLesson = ({ title, onComplete, }) => {
         const [played, setPlayed] = useState(0);
         const [playedSeconds, setPlayedSeconds] = useState(0);
         const [duration, setDuration] = useState(0);
         const [playing, setPlaying] = useState(false);
         const [completed, setCompleted] = useState(false);
         // Replace with any real video URL
-        const videoUrl = "https://youtu.be/VNA5UGZ5LOo?si=07O6oWxmkkrs2xKk"; // Example: Rick Astley
-        // Or use: "https://vimeo.com/76979871"
-        // Or local: "/videos/sample.mp4"
+        const videoUrl = "https://youtu.be/VNA5UGZ5LOo?si=07O6oWxmkkrs2xKk";
+        // Fix: Properly type the progress handler
         const handleProgress = (state) => {
+            console.log('state', state.played);
             setPlayed(state.played);
             setPlayedSeconds(state.playedSeconds);
             if (state.played >= 0.95 && !completed) {
@@ -140,6 +151,11 @@ export function LMSView() {
         };
         const handleDuration = (durations) => {
             setDuration(durations);
+        };
+        const handleEnd = () => {
+            console.log('ended');
+            setCompleted(true);
+            onComplete();
         };
         const formatTime = (seconds) => {
             const mins = Math.floor(seconds / 60);
@@ -152,7 +168,9 @@ export function LMSView() {
                         overflow: 'hidden',
                         boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
                         bgcolor: '#000',
-                    }, children: [_jsx(ReactPlayer, { src: videoUrl, width: "100%", height: "100%", style: { aspectRatio: '16/9' }, controls: true, playing: false, pip: true, onProgress: (state) => handleProgress(state) }), _jsx(Box, { sx: {
+                    }, children: [_jsx(ReactPlayer, { src: videoUrl, width: "100%", height: "100%", style: { aspectRatio: '16/9' }, controls: true, playing: true, pip: true, onEnded: handleEnd, 
+                            // progressInterval={1000}
+                            onProgress: handleProgress }), _jsx(Box, { sx: {
                                 position: 'absolute',
                                 bottom: 0,
                                 left: 0,
@@ -377,7 +395,7 @@ export function LMSView() {
         },
     ];
     const CurrentComponent = selectedContent?.component || null;
-    return (_jsxs(Box, { sx: { bgcolor: '#f1f5f9', minHeight: '100vh', position: 'relative' }, children: [_jsx(Fab, { color: "primary", "aria-label": "menu", onClick: () => setMenuOpen(true), sx: {
+    return (_jsxs(Box, { sx: { bgcolor: 'white', minHeight: '100vh', position: 'relative' }, children: [_jsx(Fab, { color: "primary", "aria-label": "menu", onClick: () => setMenuOpen(true), sx: {
                     position: 'fixed',
                     bottom: { xs: 16, md: 24 },
                     right: { xs: 16, md: 24 },
@@ -430,12 +448,12 @@ export function LMSView() {
                                                                     }, children: [_jsx(ListItemIcon, { sx: { minWidth: 40 }, children: isCompleted ? (_jsx(Icon, { icon: "mdi:check-circle", width: 24, color: "#10b981" })) : isLocked ? (_jsx(Icon, { icon: "mdi:lock", width: 24, color: "#94a3b8" })) : (_jsx(Icon, { icon: getTypeIcon(item.type), width: 24, color: getTypeColor(item.type) })) }), _jsx(ListItemText, { primary: item.title, secondary: _jsxs(Box, { sx: { display: 'flex', alignItems: 'center', gap: 1, mt: 0.5 }, children: [_jsx(Chip, { label: item.type, size: "small", sx: { height: 20, fontSize: '0.7rem', bgcolor: getTypeColor(item.type) + '22' } }), _jsx(Typography, { variant: "caption", children: item.duration })] }), primaryTypographyProps: { fontWeight: 500 } })] }, item.id));
                                                             }) }) })] }, subtopic.id))) }) })] }, topic.id))) }) }), _jsxs(Box, { sx: { p: 3, borderTop: '1px solid #e2e8f0', bgcolor: '#f8fafc' }, children: [_jsxs(Typography, { variant: "body2", color: "text.secondary", children: ["Completed: ", _jsx("strong", { children: completedItems.length }), " /", ' ', topics.reduce((a, t) => a + t.subtopics.reduce((b, s) => b + s.content.length, 0), 0), " items"] }), _jsx(LinearProgress, { variant: "determinate", value: (completedItems.length /
                                     topics.reduce((a, t) => a + t.subtopics.reduce((b, s) => b + s.content.length, 0), 0)) *
-                                    100, sx: { mt: 1, height: 8, borderRadius: 4 } })] })] }), _jsx(Container, { maxWidth: "xl", sx: { py: { xs: 3, md: 4 }, pt: { xs: 10, md: 6 } }, children: _jsx(Grid, { container: true, children: _jsx(Grid, { item: true, xs: 12, children: _jsx(Paper, { sx: { borderRadius: 3, overflow: 'hidden', boxShadow: 3, minHeight: '80vh' }, children: !selectedContent ? (_jsxs(Box, { sx: { p: 8, textAlign: 'center', color: '#64748b' }, children: [_jsx(Icon, { icon: "mdi:play-box-outline", width: 100 }), _jsx(Typography, { variant: "h4", sx: { mt: 4, fontWeight: 600 }, children: "Select a lesson to begin" }), _jsx(Typography, { variant: "body1", sx: { mt: 2 }, children: "Tap the menu button to explore modules" })] })) : (_jsxs(Box, { children: [_jsxs(Box, { sx: {
+                                    100, sx: { mt: 1, height: 8, borderRadius: 4 } })] })] }), _jsx(Container, { maxWidth: "xl", sx: { py: { xs: 3, md: 4 }, pt: { xs: 10, md: 6 } }, children: _jsx(Grid, { container: true, children: _jsx(Grid, { item: true, xs: 12, children: _jsx(Paper, { sx: { borderRadius: 3, overflow: 'hidden', boxShadow: 3, minHeight: '80vh' }, children: !selectedContent ? (_jsxs(Box, { sx: { p: 8, textAlign: 'center', color: '#64748b' }, children: [_jsx(Icon, { icon: "mdi:play-box-outline", width: 100 }), _jsx(Typography, { variant: "h4", sx: { mt: 4, fontWeight: 600 }, children: "Select a lesson to begin" }), _jsx(Typography, { variant: "body1", sx: { mt: 2 }, children: "Tap the menu button to explore modules" })] })) : (_jsxs(Box, { children: [_jsx(Box, { sx: {
                                             p: 4,
                                             bgcolor: '#f8fafc',
                                             borderBottom: '1px solid #e2e8f0',
                                             display: 'flex',
                                             alignItems: 'center',
                                             gap: 2,
-                                        }, children: [_jsx(IconButton, { onClick: handleBack, children: _jsx(Icon, { icon: "mdi:arrow-left", width: 28 }) }), _jsxs(Box, { children: [_jsx(Typography, { variant: "h5", fontWeight: 700, children: selectedContent.title }), _jsxs(Typography, { color: "text.secondary", children: [selectedSubtopic?.title, " \u2022 ", selectedContent.duration] })] })] }), _jsx(CurrentComponent, { title: selectedContent.title, onComplete: () => markAsComplete(selectedContent.id) }), _jsx(NextLessonButton, {})] })) }) }) }) })] }));
+                                        }, children: _jsxs(Box, { children: [_jsx(Typography, { variant: "h5", fontWeight: 700, children: selectedContent.title }), _jsxs(Typography, { color: "text.secondary", children: [selectedSubtopic?.title, " \u2022 ", selectedContent.duration] })] }) }), _jsx(CurrentComponent, { title: selectedContent.title, onComplete: () => markAsComplete(selectedContent.id) }), _jsx(NextLessonButton, {})] })) }) }) }) })] }));
 }

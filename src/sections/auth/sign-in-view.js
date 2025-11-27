@@ -15,8 +15,8 @@ import { Iconify } from 'src/components/iconify';
 export function SignInView() {
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
-    const [email, setEmail] = useState('hello@gmail.com');
-    const [password, setPassword] = useState('@demo1234');
+    const [email, setEmail] = useState('student@123');
+    const [password, setPassword] = useState('student@123');
     const { role, setRole } = useUserRole();
     const handleSignIn = useCallback(() => {
         if (email === 'student@123' && password === 'student@123') {

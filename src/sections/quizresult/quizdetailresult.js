@@ -5,9 +5,66 @@ import Grid from '@mui/material/GridLegacy';
 // Iconify Icons
 import { Icon } from '@iconify/react';
 const initialQuizzes = [
-    { id: 1, name: 'Data Structures Midterm', courses: ['Data Structures', 'Algorithms'], startDate: '2024-10-01', endDate: '2024-10-08', totalQuestions: 50, attemptedQuestions: 48, correctAnswers: 42, score: 84, topics: ['Arrays', 'Linked Lists', 'Trees', 'Graphs'] },
-    { id: 2, name: 'Web Development Quiz 1', courses: ['Web Development'], startDate: '2024-10-05', endDate: '2024-10-12', totalQuestions: 30, attemptedQuestions: 30, correctAnswers: 27, score: 90, topics: ['HTML', 'CSS', 'JavaScript', 'React'] },
-    { id: 3, name: 'Database Design Final', courses: ['Database Design', 'Data Structures'], startDate: '2024-10-10', endDate: '2024-10-17', totalQuestions: 40, attemptedQuestions: 40, correctAnswers: 36, score: 90, topics: ['SQL', 'Normalization', 'Indexing', 'Transactions'] },
+    {
+        id: 1,
+        name: 'Foundation English Midterm',
+        courses: [
+            'Foundation English (Level 1–3)',
+            'Grammar Mastery (Beginner to Advanced)'
+        ],
+        startDate: '2024-10-01',
+        endDate: '2024-10-08',
+        totalQuestions: 50,
+        attemptedQuestions: 48,
+        correctAnswers: 42,
+        score: 84,
+        topics: [
+            'Basic Grammar',
+            'Sentence Structure',
+            'Reading Comprehension',
+            'Vocabulary Practice'
+        ]
+    },
+    {
+        id: 2,
+        name: 'Communication Skills Quiz 1',
+        courses: [
+            'Communication Skills for Students',
+            'Spoken English & Confidence Building'
+        ],
+        startDate: '2024-10-05',
+        endDate: '2024-10-12',
+        totalQuestions: 30,
+        attemptedQuestions: 30,
+        correctAnswers: 27,
+        score: 90,
+        topics: [
+            'Public Speaking',
+            'Pronunciation',
+            'Listening Skills',
+            'Conversation Practice'
+        ]
+    },
+    {
+        id: 3,
+        name: 'Digital Literacy Final Assessment',
+        courses: [
+            'Digital Literacy & Online Learning Skills',
+            'Soft Skills Development'
+        ],
+        startDate: '2024-10-10',
+        endDate: '2024-10-17',
+        totalQuestions: 40,
+        attemptedQuestions: 40,
+        correctAnswers: 36,
+        score: 90,
+        topics: [
+            'Online Tools',
+            'Critical Thinking',
+            'Problem Solving',
+            'Digital Communication'
+        ]
+    }
 ];
 const initialStudents = [
     { id: 101, name: 'Aditya Kumar', email: 'aditya@example.com', score: 42, marksObtained: 42, totalMarks: 50, attemptedQues: 48, correctAns: 42, accuracy: 87.5, timeSpent: 45, status: 'Completed' },

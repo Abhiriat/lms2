@@ -76,7 +76,18 @@ const isMobile = useMediaQuery('(max-width:960px)');
     localStorage.setItem('lms-completed-items', JSON.stringify(completedItems));
   }, [completedItems]);
 
+// Auto-select first lesson on initial load
+useEffect(() => {
+  if (topics.length > 0 && !selectedSubtopic) {
+    const firstTopic = topics[0];
+    const firstSubtopic = firstTopic.subtopics[0];
+    const firstContent = firstSubtopic.content[0];
 
+    setOpenTopics([firstTopic.id]);
+    setSelectedSubtopic(firstSubtopic);
+    setSelectedContent(firstContent);
+  }
+}, []);
   
   const markAsComplete = (itemId: string) => {
     if (!completedItems.includes(itemId)) {
@@ -177,7 +188,7 @@ const NextLessonButton = () => {
   if (!currentItemCompleted || !hasNext) return null;
 
   return (
-    <Box sx={{ p: 4, pt: 2, bgcolor: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
+    <Box sx={{ p: 4, pt: 2, bgcolor: '#f8fafc', borderTop: '1px solid #e2e8f0',mx:'auto' }}>
       <Button
         fullWidth
         variant="contained"
@@ -206,7 +217,7 @@ const NextLessonButton = () => {
 
 const VideoLesson = ({ 
   title, 
-  onComplete 
+  onComplete ,
 }: { 
   title: string; 
   onComplete: () => void;
@@ -218,24 +229,34 @@ const VideoLesson = ({
   const [completed, setCompleted] = useState(false);
 
   // Replace with any real video URL
-  const videoUrl = "https://youtu.be/VNA5UGZ5LOo?si=07O6oWxmkkrs2xKk"; // Example: Rick Astley
-  // Or use: "https://vimeo.com/76979871"
-  // Or local: "/videos/sample.mp4"
+  const videoUrl = "https://youtu.be/VNA5UGZ5LOo?si=07O6oWxmkkrs2xKk";
 
-const handleProgress = (state: { played: number; playedSeconds: number; loaded: number; loadedSeconds?: number }) => {
-      setPlayed(state.played);
-      setPlayedSeconds(state.playedSeconds);
+  // Fix: Properly type the progress handler
+  const handleProgress = (state: { 
+    played: number; 
+    playedSeconds: number; 
+    loaded: number; 
+    loadedSeconds?: number;
+  }) => {
+    console.log('state',state.played)
+    setPlayed(state.played);
+    setPlayedSeconds(state.playedSeconds);
 
-      if (state.played >= 0.95 && !completed) {
-        setCompleted(true);
-        onComplete();
-      }
-    };
+    if (state.played >= 0.95 && !completed) {
+      setCompleted(true);
+      onComplete();
+    }
+  };
 
   const handleDuration = (durations: number) => {
     setDuration(durations);
   };
 
+  const handleEnd=()=>{
+    console.log('ended')
+    setCompleted(true);
+     onComplete();
+  }
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
@@ -257,23 +278,22 @@ const handleProgress = (state: { played: number; playedSeconds: number; loaded: 
           bgcolor: '#000',
         }}
       >
-       <ReactPlayer
+        <ReactPlayer
           src={videoUrl}
           width="100%"
           height="100%"
           style={{ aspectRatio: '16/9' }}
           controls
-          playing={false}
+          playing
           pip
-          onProgress={(state: any) => handleProgress(state)}
-
-          // onDuration={handleDuration}
+          onEnded={handleEnd}
           // progressInterval={1000}
-          // Fix 2: Correct config structure for YouTube
-        
+          onProgress={handleProgress as any} // Fix: Type assertion to bypass type checking
+          // onDuration={handleDuration}
+         
         />
 
-        {/* Custom Progress Bar Overlay (Optional - ReactPlayer already has one) */}
+        {/* Custom Progress Bar Overlay */}
         <Box
           sx={{
             position: 'absolute',
@@ -875,7 +895,7 @@ const Assignment = ({ title, onComplete }: { title: string; onComplete: () => vo
   const CurrentComponent = selectedContent?.component || null;
 
   return (
-  <Box sx={{ bgcolor: '#f1f5f9', minHeight: '100vh', position: 'relative' }}>
+  <Box sx={{ bgcolor: 'white', minHeight: '100vh', position: 'relative' }}>
     {/* Floating Menu Button - Always Visible */}
     <Fab
       color="primary"
@@ -1109,9 +1129,7 @@ const Assignment = ({ title, onComplete }: { title: string; onComplete: () => vo
                     gap: 2,
                   }}
                 >
-                  <IconButton onClick={handleBack}>
-                    <Icon icon="mdi:arrow-left" width={28} />
-                  </IconButton>
+                
                   <Box>
                     <Typography variant="h5" fontWeight={700}>
                       {selectedContent.title}

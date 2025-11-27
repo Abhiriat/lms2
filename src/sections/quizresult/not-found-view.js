@@ -4,14 +4,94 @@ import { Container, Table, TableBody, TableCell, TableContainer, TableHead, Tabl
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 const initialQuizzes = [
-    { id: 1, name: 'Data Structures Midterm', courses: ['Data Structures', 'Algorithms'], startDate: '2024-10-01', endDate: '2024-10-08', totalQuestions: 50, attemptedQuestions: 48, correctAnswers: 42, score: 84 },
-    { id: 2, name: 'Web Development Quiz 1', courses: ['Web Development'], startDate: '2024-10-05', endDate: '2024-10-12', totalQuestions: 30, attemptedQuestions: 30, correctAnswers: 27, score: 90 },
-    { id: 3, name: 'Database Design Final', courses: ['Database Design', 'Data Structures'], startDate: '2024-10-10', endDate: '2024-10-17', totalQuestions: 40, attemptedQuestions: 40, correctAnswers: 36, score: 90 },
-    { id: 4, name: 'Marketing Fundamentals', courses: ['Marketing'], startDate: '2024-09-20', endDate: '2024-09-27', totalQuestions: 35, attemptedQuestions: 35, correctAnswers: 31, score: 88 },
-    { id: 5, name: 'Machine Learning Basics', courses: ['Machine Learning', 'AI'], startDate: '2024-10-15', endDate: '2024-10-22', totalQuestions: 45, attemptedQuestions: 43, correctAnswers: 38, score: 84 },
-    { id: 6, name: 'Finance Quiz 2', courses: ['Finance', 'Investment Management'], startDate: '2024-09-15', endDate: '2024-09-22', totalQuestions: 25, attemptedQuestions: 25, correctAnswers: 23, score: 92 },
-    { id: 7, name: 'Circuit Design Exam', courses: ['Circuit Design', 'Embedded Systems'], startDate: '2024-10-08', endDate: '2024-10-15', totalQuestions: 38, attemptedQuestions: 37, correctAnswers: 33, score: 86 },
-    { id: 8, name: 'Economics Mid-Semester', courses: ['Economics', 'Microeconomics'], startDate: '2024-10-01', endDate: '2024-10-08', totalQuestions: 32, attemptedQuestions: 32, correctAnswers: 28, score: 87 },
+    {
+        id: 1,
+        name: 'Foundation English Level Test',
+        courses: ['Foundation English (Level 1–3)'],
+        startDate: '2024-10-01',
+        endDate: '2024-10-08',
+        totalQuestions: 40,
+        attemptedQuestions: 38,
+        correctAnswers: 32,
+        score: 80
+    },
+    {
+        id: 2,
+        name: 'Grammar Mastery Quiz 1',
+        courses: ['Grammar Mastery (Beginner to Advanced)'],
+        startDate: '2024-10-05',
+        endDate: '2024-10-12',
+        totalQuestions: 30,
+        attemptedQuestions: 30,
+        correctAnswers: 27,
+        score: 90
+    },
+    {
+        id: 3,
+        name: 'Vocabulary Booster Test – 1000 Words',
+        courses: ['Vocabulary Booster – 1000+ Words'],
+        startDate: '2024-10-10',
+        endDate: '2024-10-17',
+        totalQuestions: 50,
+        attemptedQuestions: 48,
+        correctAnswers: 41,
+        score: 82
+    },
+    {
+        id: 4,
+        name: 'Reading & Comprehension Quiz',
+        courses: ['Reading Skills & Comprehension Mastery'],
+        startDate: '2024-09-20',
+        endDate: '2024-09-27',
+        totalQuestions: 35,
+        attemptedQuestions: 35,
+        correctAnswers: 30,
+        score: 86
+    },
+    {
+        id: 5,
+        name: 'Creative Writing Assessment',
+        courses: ['Creative Writing: Paragraph, Story, Letter, Notice'],
+        startDate: '2024-10-15',
+        endDate: '2024-10-22',
+        totalQuestions: 20,
+        attemptedQuestions: 20,
+        correctAnswers: 18,
+        score: 90
+    },
+    {
+        id: 6,
+        name: 'Essay & Formal Writing Exam',
+        courses: ['Essay Writing & Formal Writing'],
+        startDate: '2024-09-15',
+        endDate: '2024-09-22',
+        totalQuestions: 25,
+        attemptedQuestions: 25,
+        correctAnswers: 22,
+        score: 88
+    },
+    {
+        id: 7,
+        name: 'Spoken English & Confidence Test',
+        courses: ['Spoken English & Confidence Building'],
+        startDate: '2024-10-08',
+        endDate: '2024-10-15',
+        totalQuestions: 30,
+        attemptedQuestions: 29,
+        correctAnswers: 25,
+        score: 83
+    },
+    {
+        id: 8,
+        name: 'Public Speaking & Presentation Quiz',
+        courses: ['Public Speaking & Presentation Skills'],
+        startDate: '2024-10-01',
+        endDate: '2024-10-08',
+        totalQuestions: 32,
+        attemptedQuestions: 32,
+        correctAnswers: 28,
+        score: 87
+    }
 ];
 export function QuizResultView() {
     const [quizzes] = useState(initialQuizzes);

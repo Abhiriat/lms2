@@ -4,18 +4,102 @@ import { Container, Table, TableBody, TableCell, TableContainer, TableHead, Tabl
 import { Icon } from '@iconify/react/dist/iconify.js';
 // Sample student data
 const initialStudents = [
-    { id: 1, name: 'John Doe', email: 'john.doe@email.com', phone: '+1-555-0101', course: 'Computer Science', place: 'New York' },
-    { id: 2, name: 'Jane Smith', email: 'jane.smith@email.com', phone: '+1-555-0102', course: 'Business Administration', place: 'Los Angeles' },
-    { id: 3, name: 'Mike Johnson', email: 'mike.j@email.com', phone: '+1-555-0103', course: 'Engineering', place: 'Chicago' },
-    { id: 4, name: 'Emily Davis', email: 'emily.d@email.com', phone: '+1-555-0104', course: 'Computer Science', place: 'New York' },
-    { id: 5, name: 'David Wilson', email: 'david.w@email.com', phone: '+1-555-0105', course: 'Medicine', place: 'Boston' },
-    { id: 6, name: 'Sarah Brown', email: 'sarah.b@email.com', phone: '+1-555-0106', course: 'Business Administration', place: 'Seattle' },
-    { id: 7, name: 'Chris Lee', email: 'chris.lee@email.com', phone: '+1-555-0107', course: 'Engineering', place: 'San Francisco' },
-    { id: 8, name: 'Anna Martinez', email: 'anna.m@email.com', phone: '+1-555-0108', course: 'Computer Science', place: 'Austin' },
-    { id: 9, name: 'Tom Anderson', email: 'tom.a@email.com', phone: '+1-555-0109', course: 'Medicine', place: 'Boston' },
-    { id: 10, name: 'Lisa Taylor', email: 'lisa.t@email.com', phone: '+1-555-0110', course: 'Business Administration', place: 'Miami' },
-    { id: 11, name: 'Robert Clark', email: 'robert.c@email.com', phone: '+1-555-0111', course: 'Engineering', place: 'Chicago' },
-    { id: 12, name: 'Maria Garcia', email: 'maria.g@email.com', phone: '+1-555-0112', course: 'Computer Science', place: 'Denver' },
+    {
+        id: 1,
+        name: 'Gurpreet Singh',
+        email: 'gurpreet.singh@email.com',
+        phone: '+91-98765-0101',
+        course: 'Foundation English (Level 1–3)',
+        place: 'Amritsar'
+    },
+    {
+        id: 2,
+        name: 'Harsimran Kaur',
+        email: 'harsimran.kaur@email.com',
+        phone: '+91-98765-0102',
+        course: 'Grammar Mastery (Beginner to Advanced)',
+        place: 'Ludhiana'
+    },
+    {
+        id: 3,
+        name: 'Jagdeep Singh',
+        email: 'jagdeep.s@email.com',
+        phone: '+91-98765-0103',
+        course: 'Vocabulary Booster – 1000+ Words',
+        place: 'Jalandhar'
+    },
+    {
+        id: 4,
+        name: 'Simranjeet Kaur',
+        email: 'simranjeet.k@email.com',
+        phone: '+91-98765-0104',
+        course: 'Reading Skills & Comprehension Mastery',
+        place: 'Patiala'
+    },
+    {
+        id: 5,
+        name: 'Harjot Singh',
+        email: 'harjot.s@email.com',
+        phone: '+91-98765-0105',
+        course: 'Creative Writing: Paragraph, Story, Letter, Notice',
+        place: 'Mohali'
+    },
+    {
+        id: 6,
+        name: 'Navdeep Kaur',
+        email: 'navdeep.k@email.com',
+        phone: '+91-98765-0106',
+        course: 'Essay Writing & Formal Writing',
+        place: 'Bathinda'
+    },
+    {
+        id: 7,
+        name: 'Manpreet Singh',
+        email: 'manpreet.s@email.com',
+        phone: '+91-98765-0107',
+        course: 'Spoken English & Confidence Building',
+        place: 'Hoshiarpur'
+    },
+    {
+        id: 8,
+        name: 'Amandeep Kaur',
+        email: 'amandeep.k@email.com',
+        phone: '+91-98765-0108',
+        course: 'Pronunciation + Accent Training',
+        place: 'Ferozepur'
+    },
+    {
+        id: 9,
+        name: 'Sukhwinder Singh',
+        email: 'sukhwinder.s@email.com',
+        phone: '+91-98765-0109',
+        course: 'Public Speaking & Presentation Skills',
+        place: 'Moga'
+    },
+    {
+        id: 10,
+        name: 'Jasleen Kaur',
+        email: 'jasleen.k@email.com',
+        phone: '+91-98765-0110',
+        course: 'Exam English for Classes 6–12',
+        place: 'Ropar'
+    },
+    {
+        id: 11,
+        name: 'Amritpal Singh',
+        email: 'amritpal.s@email.com',
+        phone: '+91-98765-0111',
+        course: 'Communication Skills for Students',
+        place: 'Sangrur'
+    },
+    {
+        id: 12,
+        name: 'Kirandeep Kaur',
+        email: 'kirandeep.k@email.com',
+        phone: '+91-98765-0112',
+        course: 'Interview Skills + Resume Building',
+        place: 'Barnala'
+    },
 ];
 export function StudentListView() {
     const [students] = useState(initialStudents);

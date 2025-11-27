@@ -31,7 +31,10 @@ export const QuizPage = lazy(() => import('src/pages/quiz'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
 export const SignInPage = lazy(() => import('src/pages/sign-in'));
+export const ClassesViewPage = lazy(() => import('src/pages/classes'));
+export const ClassDetailViewPage = lazy(() => import('src/pages/classdetail'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
+export const IntroLmsPage = lazy(() => import('src/pages/introlms'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
 const renderFallback = () => (
@@ -68,8 +71,11 @@ export const routesSection: RouteObject[] = [
       { path: 'studentdashboard', element: <StudentDashboardPage/> },
       { path: 'teacherdashboard', element: <TeacherPage/> },
       { path: 'teacherstudent', element: <TeacherStudentListPage/> },
+      { path: 'lmsintropage', element: <IntroLmsPage/> },
       { path: 'studentlist', element: <StudentListPage/> },
       { path: 'instructorlist', element: <InstructorListPage/> },
+      { path: 'classview', element: <ClassesViewPage/> },
+      { path: 'classdetail', element: <ClassDetailViewPage/> },
       { path: 'quizresult', element: <QuizResultPage/> },
       { path: 'quizdetailresultview/:id', element: <QuizDetailResultViewPage /> },
       { path: 'lmspage', element: <LMSPage/> },

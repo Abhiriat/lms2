@@ -61,6 +61,11 @@ export const useNavData = () => {
                 path: '/courses',
                 icon: icon('ic-course'),
             },
+            {
+                title: 'Classes',
+                path: '/classview',
+                icon: icon('ic-class'),
+            },
         ];
     }
     else if (role === 'teacher') {

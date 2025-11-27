@@ -19,50 +19,51 @@ const classes = ['Class 10A', 'Class 10B', 'Class 11A', 'Class 11B'];
 const studentRankings = [
   {
     id: '1',
-    title: 'John Doe',
+    title: 'Gurpreet Singh',
     coverUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=48&h=48&fit=crop&crop=face',
-    description: 'Outstanding performance in Math and Science. GPA: 4.2',
+    description: 'Excellent progress in Grammar & Writing. CEFR Level: B2',
     postedAt: '2025-11-18T10:30:00Z',
-    studentClass: 'Class 10A',
+    studentClass: 'Grammar Mastery',
     rank: 1,
   },
   {
     id: '2',
-    title: 'Jane Smith',
+    title: 'Harsimran Kaur',
     coverUrl: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=48&h=48&fit=crop&crop=face',
-    description: 'Excellent in English and History. GPA: 4.0',
+    description: 'Great performance in Reading & Vocabulary. CEFR Level: B1',
     postedAt: '2025-11-18T10:30:00Z',
-    studentClass: 'Class 10A',
+    studentClass: 'Reading & Comprehension',
     rank: 2,
   },
   {
     id: '3',
-    title: 'Mike Johnson',
+    title: 'Jagdeep Singh',
     coverUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=48&h=48&fit=crop&crop=face',
-    description: 'Strong in Physics and Chemistry. GPA: 3.9',
+    description: 'Strong in Speaking & Pronunciation. CEFR Level: C1',
     postedAt: '2025-11-18T10:30:00Z',
-    studentClass: 'Class 10B',
+    studentClass: 'Spoken English',
     rank: 1,
   },
   {
     id: '4',
-    title: 'Emily Davis',
+    title: 'Simranjeet Kaur',
     coverUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=48&h=48&fit=crop&crop=face',
-    description: 'Top in Arts and Social Studies. GPA: 3.8',
+    description: 'Excellent creativity in Writing tasks. CEFR Level: B2',
     postedAt: '2025-11-18T10:30:00Z',
-    studentClass: 'Class 10B',
+    studentClass: 'Creative Writing',
     rank: 2,
   },
   {
     id: '5',
-    title: 'Alex Wilson',
+    title: 'Harjot Singh',
     coverUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=48&h=48&fit=crop&crop=face',
-    description: 'Balanced performance across subjects. GPA: 3.7',
+    description: 'Great improvement in Foundation English. CEFR Level: A2',
     postedAt: '2025-11-18T10:30:00Z',
-    studentClass: 'Class 11A',
+    studentClass: 'Foundation English (Level 1–3)',
     rank: 1,
   },
 ];
+
 export function OverviewAnalyticsView() {
   return (
     <DashboardContent maxWidth="xl">
@@ -155,34 +156,47 @@ export function OverviewAnalyticsView() {
         </Grid>
 
         <Grid size={{ xs: 12, md: 6, lg: 8 }}>
-          <AnalyticsConversionRates
-            title="Course completion rates"
-            subheader="(+43%) than last year"
+         <AnalyticsConversionRates
+            title="Course Completion Rates"
+            subheader="(+32%) than last year"
             chart={{
-              categories: ['Math', 'Science', 'History', 'English', 'Art'],
+              categories: [
+                'Foundation English',
+                'Grammar Mastery',
+                'Vocabulary Booster',
+                'Reading Skills',
+                'Creative Writing',
+              ],
               series: [
-                { name: '2024', data: [44, 55, 41, 64, 22] },
-                { name: '2025', data: [53, 32, 33, 52, 13] },
+                { name: '2024', data: [44, 52, 36, 68, 30] },
+                { name: '2025', data: [52, 60, 48, 72, 45] },
               ],
             }}
           />
         </Grid>
 
         <Grid size={{ xs: 12, md: 6, lg: 4 }}>
-          <AnalyticsCurrentSubject
-            title="Top subjects"
+           <AnalyticsCurrentSubject
+            title="Top English Courses"
             chart={{
-              categories: ['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math'],
+              categories: [
+                'Grammar Mastery',
+                'Vocabulary Booster',
+                'Creative Writing',
+                'Spoken English',
+                'Pronunciation Training',
+                'Soft Skills Development',
+              ],
               series: [
-                { name: 'Enrollments', data: [80, 50, 30, 40, 100, 20] },
-                { name: 'Completions', data: [20, 30, 40, 80, 20, 80] },
-                { name: 'Ratings', data: [44, 76, 78, 13, 43, 10] },
+                { name: 'Enrollments', data: [90, 70, 65, 75, 50, 80] },
+                { name: 'Completions', data: [75, 50, 55, 60, 40, 70] },
+                { name: 'Ratings', data: [92, 88, 85, 90, 87, 89] },
               ],
             }}
           />
         </Grid>
 
-       <Grid size={{ xs: 12, md: 6, lg: 6 }}>
+       <Grid size={{ xs: 12, md: 12, lg: 12 }}>
   <AnalyticsNews 
     title="Student Rankings" 
     subheader="Top performers by class" 
@@ -199,9 +213,9 @@ export function OverviewAnalyticsView() {
           <AnalyticsTrafficBySite title="Referrals by source" list={_traffic} />
         </Grid> */}
 
-        <Grid size={{ xs: 12, md: 6, lg: 6}}>
+        {/* <Grid size={{ xs: 12, md: 6, lg: 6}}>
           <AnalyticsTasks title="Admin tasks" list={_tasks} />
-        </Grid>
+        </Grid> */}
       </Grid>
     </DashboardContent>
   );

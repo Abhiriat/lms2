@@ -3,7 +3,6 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
 import CardHeader from '@mui/material/CardHeader';
 import ListItemText from '@mui/material/ListItemText';
 import FormControl from '@mui/material/FormControl';
@@ -46,7 +45,7 @@ function Item({ item, rank, sx, ...other }) {
                     fontWeight: 'bold',
                     fontSize: '1.1rem',
                     flexShrink: 0
-                }, children: ["#", rank] }), _jsx(Avatar, { variant: "rounded", alt: item.title, src: item.coverUrl, sx: { width: 48, height: 48, flexShrink: 0 } }), _jsx(ListItemText, { primary: item.title, secondary: item.description, slotProps: {
+                }, children: ["#", rank] }), _jsx(ListItemText, { primary: item.title, secondary: item.description, slotProps: {
                     primary: { noWrap: true },
                     secondary: {
                         noWrap: true,

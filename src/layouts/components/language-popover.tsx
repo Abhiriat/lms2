@@ -19,7 +19,9 @@ export type LanguagePopoverProps = IconButtonProps & {
   }[];
 };
 
-export function LanguagePopover({ data = [], sx, ...other }: LanguagePopoverProps) {
+export function LanguagePopover({ data = [{value: 'in',
+    label: 'Indian',
+    icon: '/assets/icons/flags/ic-flag-in.svg'},], sx, ...other }: LanguagePopoverProps) {
   const { open, anchorEl, onClose, onOpen } = usePopover();
 
   const [locale, setLocale] = useState(data[0].value);

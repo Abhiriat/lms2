@@ -1,9 +1,9 @@
 import { _id, _price, _times, _company, _boolean, _fullName, _taskNames, _postTitles, _description, _productNames, } from './_mock';
 // ----------------------------------------------------------------------
 export const _myAccount = {
-    displayName: 'Jaydon Frankie',
-    email: 'demo@minimals.cc',
-    photoURL: '/assets/images/avatar/avatar-25.webp',
+    displayName: 'Parvinder Singh',
+    email: 'demoemail.com',
+    photoURL: '',
 };
 // ----------------------------------------------------------------------
 export const _users = [...Array(24)].map((_, index) => ({
