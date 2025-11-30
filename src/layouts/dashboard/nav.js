@@ -21,7 +21,7 @@ export function NavDesktop({ sx, data, slots, workspaces, layoutQuery, }) {
             display: 'none',
             position: 'fixed',
             flexDirection: 'column',
-            bgcolor: 'white',
+            bgcolor: '#173345',
             zIndex: 'var(--layout-nav-zIndex)',
             width: 'var(--layout-nav-vertical-width)',
             borderRight: `2px dashed ${varAlpha(theme.vars.palette.grey['500Channel'], 0.3)}`,
@@ -53,7 +53,11 @@ export function NavMobile({ sx, data, open, slots, onClose, workspaces, }) {
 // ----------------------------------------------------------------------
 export function NavContent({ data, slots, workspaces, sx }) {
     const pathname = usePathname();
-    return (_jsxs(_Fragment, { children: [_jsx(Logo, {}), slots?.topArea, _jsx(Scrollbar, { fillContent: true, children: _jsx(Box, { component: "nav", sx: [
+    return (_jsxs(_Fragment, { children: [_jsx(Box, { sx: {
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }, children: _jsx(Logo, {}) }), slots?.topArea, _jsx(Scrollbar, { fillContent: true, children: _jsx(Box, { component: "nav", sx: [
                         {
                             display: 'flex',
                             flex: '1 1 auto',
@@ -75,17 +79,24 @@ export function NavContent({ data, slots, workspaces, sx }) {
                                             borderRadius: 0.75,
                                             typography: 'body2',
                                             fontWeight: 'fontWeightMedium',
-                                            color: theme.vars.palette.text.secondary,
+                                            color: 'white',
                                             minHeight: 44,
                                             ...(isActived && {
                                                 fontWeight: 'fontWeightSemiBold',
-                                                color: theme.vars.palette.primary.main,
-                                                bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.08),
+                                                color: 'white',
+                                                bgcolor: varAlpha('white', 0.08),
                                                 '&:hover': {
-                                                    bgcolor: varAlpha(theme.vars.palette.primary.mainChannel, 0.16),
+                                                    bgcolor: varAlpha('white', 0.16),
                                                 },
                                             }),
                                         }),
                                     ], children: [_jsx(Box, { component: "span", sx: { width: 24, height: 24 }, children: item.icon }), _jsx(Box, { component: "span", sx: { flexGrow: 1 }, children: item.title }), item.info && item.info] }) }, item.title));
-                        }) }) }) }), slots?.bottomArea] }));
+                        }) }) }) }), _jsxs(Box, { sx: {
+                    mt: 'auto', // pushes it to the very bottom even when content is short
+                    py: 2.5,
+                    textAlign: 'center',
+                    borderTop: (theme) => `1px solid ${varAlpha(theme.vars.palette.grey['500Channel'], 0.08)}`,
+                    color: 'grey.500',
+                    fontSize: '0.75rem',
+                }, children: ["Developed by ", _jsx(Box, { component: "span", sx: { fontWeight: 600, color: 'white' }, children: "Team Mera Pind" })] }), slots?.bottomArea] }));
 }

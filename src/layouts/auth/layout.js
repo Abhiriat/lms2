@@ -4,17 +4,30 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Alert from '@mui/material/Alert';
 import { RouterLink } from 'src/routes/components';
-import { Logo } from 'src/components/logo';
 import { AuthContent } from './content';
 import { MainSection } from '../core/main-section';
 import { LayoutSection } from '../core/layout-section';
 import { HeaderSection } from '../core/header-section';
+import mylogo from '../../../public/assets/logo3.png';
 export function AuthLayout({ sx, cssVars, children, slotProps, layoutQuery = 'md', }) {
     const renderHeader = () => {
         const headerSlotProps = { container: { maxWidth: false } };
         const headerSlots = {
             topArea: (_jsx(Alert, { severity: "info", sx: { display: 'none', borderRadius: 0 }, children: "This is an info Alert." })),
-            leftArea: (_jsx(_Fragment, { children: _jsx(Logo, {}) })),
+            leftArea: (_jsx(_Fragment, { children: _jsx(Box, { sx: {
+                        width: 100,
+                        height: 100,
+                        // mt:2,
+                        mb: 2,
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        mt: 8
+                    }, children: _jsx("img", { src: mylogo, alt: "My Logo", style: {
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'contain',
+                        } }) }) })),
             rightArea: (_jsx(Box, { sx: { display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 1.5 } }, children: _jsx(Link, { href: "#", component: RouterLink, color: "inherit", sx: { typography: 'subtitle2' }, children: "Need help?" }) })),
         };
         return (_jsx(HeaderSection, { disableElevation: true, layoutQuery: layoutQuery, ...slotProps?.header, slots: { ...headerSlots, ...slotProps?.header?.slots }, slotProps: merge(headerSlotProps, slotProps?.header?.slotProps ?? {}), sx: [
@@ -57,7 +70,7 @@ export function AuthLayout({ sx, cssVars, children, slotProps, layoutQuery = 'md
         cssVars: { '--layout-auth-content-width': '420px', ...cssVars }, sx: [
             (theme) => ({
                 position: 'relative',
-                '&::before': backgroundStyles(),
+                // '&::before': backgroundStyles(),
             }),
             ...(Array.isArray(sx) ? sx : [sx]),
         ], children: renderMain() }));

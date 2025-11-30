@@ -184,7 +184,7 @@ export function ClassDetailView() {
         {/* Hero Banner */}
         <Card
           sx={{
-            background: 'linear-gradient(135deg, #ff9a76 0%, #ff8a65 100%)',
+            background: '#ed5f07',
             color: 'white',
             borderRadius: 2,
             mb: 3,

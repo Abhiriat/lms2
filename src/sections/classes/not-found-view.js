@@ -41,7 +41,7 @@ export function ClassesView() {
                                 },
                                 transition: 'box-shadow 0.3s'
                             }, children: [_jsxs(Box, { sx: {
-                                        background: 'linear-gradient(135deg, #fb8c00 0%, #f57c00 100%)',
+                                        background: '#ed5f07',
                                         height: 130,
                                         p: 2,
                                         color: 'white',

@@ -1,221 +1,332 @@
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import LinearProgress from '@mui/material/LinearProgress';
+import Chip from '@mui/material/Chip';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import { DashboardContent } from 'src/layouts/dashboard';
-import { _posts, _tasks, _traffic, _timeline } from 'src/_mock';
 
-import { AnalyticsNews } from '../analytics-news';
-import { AnalyticsTasks } from '../analytics-tasks';
-import { AnalyticsCurrentVisits } from '../analytics-current-visits';
-import { AnalyticsOrderTimeline } from '../analytics-order-timeline';
-import { AnalyticsWebsiteVisits } from '../analytics-website-visits';
-import { AnalyticsWidgetSummary } from '../analytics-widget-summary';
-import { AnalyticsTrafficBySite } from '../analytics-traffic-by-site';
-import { AnalyticsCurrentSubject } from '../analytics-current-subject';
-import { AnalyticsConversionRates } from '../analytics-conversion-rates';
+const assignments = [
+  {
+    title: 'Chapter 3 - Grammar Quiz (Tenses)',
+    subtitle: 'Auto synced on revised',
+    skill: 'Grammar MCQ',
+    due: '21 Nov',
+    status: 'Start',
+    statusColor: '#FFF4E6',
+    textColor: '#FF9800'
+  },
+  {
+    title: 'Listening Task - Flood Story',
+    subtitle: 'New redeue',
+    skill: 'Listening',
+    due: '25 Nov',
+    status: 'Listen',
+    statusColor: '#E3F2FD',
+    textColor: '#2196F3'
+  },
+  {
+    title: 'Pronunciation Practice – Modals',
+    subtitle: 'New',
+    skill: 'Speaking',
+    due: '25 Nov',
+    status: 'Now',
+    statusColor: '#E3F2FD',
+    textColor: '#2196F3'
+  },
+  {
+    title: 'Paragraph Writing – My Village',
+    subtitle: 'Submitted',
+    skill: 'Writing',
+    due: '18 Nov',
+    status: 'Upload',
+    statusColor: '#E8F5E9',
+    textColor: '#4CAF50'
+  }
+];
 
-// ----------------------------------------------------------------------
-const classes = ['Class 10A', 'Class 10B', 'Class 11A', 'Class 11B'];
-const studentRankings = [
+const aiLabs = [
   {
-    id: '1',
-    title: 'Gurpreet Singh',
-    coverUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=48&h=48&fit=crop&crop=face',
-    description: 'Excellent progress in Grammar & Writing. CEFR Level: B2',
-    postedAt: '2025-11-18T10:30:00Z',
-    studentClass: 'Grammar Mastery',
-    rank: 1,
+    title: 'Listening Lab',
+    subtitle: 'states announcements dialogues',
+    progress: '12/20 Task completed',
+    icon: '🎧',
+    color: '#FF9800'
   },
   {
-    id: '2',
-    title: 'Harsimran Kaur',
-    coverUrl: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=48&h=48&fit=crop&crop=face',
-    description: 'Great performance in Reading & Vocabulary. CEFR Level: B1',
-    postedAt: '2025-11-18T10:30:00Z',
-    studentClass: 'Reading & Comprehension',
-    rank: 2,
+    title: 'Reading Lab',
+    subtitle: 'Unseen passages & lessons',
+    progress: 'Average score: 62%',
+    icon: '📚',
+    color: '#2196F3'
   },
   {
-    id: '3',
-    title: 'Jagdeep Singh',
-    coverUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=48&h=48&fit=crop&crop=face',
-    description: 'Strong in Speaking & Pronunciation. CEFR Level: C1',
-    postedAt: '2025-11-18T10:30:00Z',
-    studentClass: 'Spoken English',
-    rank: 1,
+    title: 'Speaking & Pronunciation',
+    subtitle: 'Record and get AI feedback',
+    badge: 'Level 2 - Fluency Badge',
+    badgeColor: '#2196F3',
+    icon: '🗣️',
+    color: '#2196F3'
   },
   {
-    id: '4',
-    title: 'Simranjeet Kaur',
-    coverUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=48&h=48&fit=crop&crop=face',
-    description: 'Excellent creativity in Writing tasks. CEFR Level: B2',
-    postedAt: '2025-11-18T10:30:00Z',
-    studentClass: 'Creative Writing',
-    rank: 2,
-  },
-  {
-    id: '5',
-    title: 'Harjot Singh',
-    coverUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=48&h=48&fit=crop&crop=face',
-    description: 'Great improvement in Foundation English. CEFR Level: A2',
-    postedAt: '2025-11-18T10:30:00Z',
-    studentClass: 'Foundation English (Level 1–3)',
-    rank: 1,
-  },
+    title: 'Writing & Handwriting',
+    subtitle: 'Upload notebook p...',
+    badge: 'Next Writer - Level 1',
+    badgeColor: '#4CAF50',
+    icon: '✍️',
+    color: '#FF5722'
+  }
+];
+
+const summaryItems = [
+  'WhatsApp reminder set for "Paragraph Writing – In Village."',
+  'New AI Listening Task added by your teacher.',
+  'Speaking Lab suggests revising "modals pronunciation".'
 ];
 
 export function OverviewAnalyticsView() {
   return (
     <DashboardContent maxWidth="xl">
-      <Typography variant="h4" sx={{ mb: { xs: 3, md: 5 } }}>
-        Hi, Welcome back Admin 👋
-      </Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+        <Box>
+          <Typography variant="h3" sx={{ fontWeight: 600, mb: 0.5 }}>
+            Welcome, Parvinder!
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Class 9 · English Learning Dashboard
+          </Typography>
+        </Box>
+       
+      </Box>
 
       <Grid container spacing={3}>
+        {/* Summary Cards */}
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <AnalyticsWidgetSummary
-            title="Weekly enrollment"
-            percent={2.6}
-            total={714}
-            icon={<img alt="Weekly enrollments" src="/assets/icons/glass/ic-glass-bag.svg" />}
-            chart={{
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-              series: [22, 8, 35, 50, 82, 84, 77, 12],
-            }}
-          />
-        </Grid>
-
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <AnalyticsWidgetSummary
-            title="New students"
-            percent={-0.1}
-            total={1352}
-            color="secondary"
-            icon={<img alt="New students" src="/assets/icons/glass/ic-glass-users.svg" />}
-            chart={{
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-              series: [56, 47, 40, 62, 73, 30, 23, 54],
-            }}
-          />
+          <Card sx={{ height: '100%',borderRadius:5 }}>
+            <CardContent>
+              <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                New Assignments
+              </Typography>
+              <Typography variant="h3" sx={{ fontWeight: 600, mb: 1 }}>
+                3
+              </Typography>
+              <Typography variant="body2" color="primary">
+                7 from English · 1 from Science
+              </Typography>
+            </CardContent>
+          </Card>
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <AnalyticsWidgetSummary
-            title="Active teachers"
-            percent={2.8}
-            total={172}
-            color="warning"
-            icon={<img alt="Active teachers" src="/assets/icons/glass/ic-glass-buy.svg" />}
-            chart={{
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-              series: [40, 70, 50, 28, 70, 75, 7, 64],
-            }}
-          />
+          <Card sx={{ height: '100%',borderRadius:5 }}>
+            <CardContent>
+              <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                Due This Week
+              </Typography>
+              <Typography variant="h3" sx={{ fontWeight: 600, mb: 1 }}>
+                5
+              </Typography>
+              <Typography variant="body2" color="error.main">
+                Next due:- Grammar Quiz · Tomorrow
+              </Typography>
+            </CardContent>
+          </Card>
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <AnalyticsWidgetSummary
-            title="Completed Course"
-            percent={3.6}
-            total={234}
-            color="error"
-            icon={<img alt="Support tickets" src="/assets/icons/glass/ic-glass-message.svg" />}
-            chart={{
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-              series: [56, 30, 23, 54, 47, 40, 62, 73],
-            }}
-          />
+          <Card sx={{ height: '100%',borderRadius:5 }}>
+            <CardContent>
+              <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                Overdue
+              </Typography>
+              <Typography variant="h3" sx={{ fontWeight: 600, mb: 1 }}>
+                1
+              </Typography>
+              <Typography variant="body2" color="primary">
+                Due Tomorrow
+              </Typography>
+            </CardContent>
+          </Card>
         </Grid>
 
-        <Grid size={{ xs: 12, md: 6, lg: 4 }}>
-          <AnalyticsCurrentVisits
-            title="Active sessions"
-            chart={{
-              series: [
-                { label: 'Students', value: 3500 },
-                { label: 'Teachers', value: 2500 },
-                { label: 'Admins', value: 1500 },
-                { label: 'Guests', value: 500 },
-              ],
-            }}
-          />
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <Card sx={{ height: '100%',borderRadius:5 }}>
+            <CardContent>
+              <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                Overall Progress
+              </Typography>
+              <Typography variant="h3" sx={{ fontWeight: 600, mb: 1 }}>
+                78%
+              </Typography>
+              <Typography variant="body2" color="success.main">
+                Keep it up - target 88%
+              </Typography>
+            </CardContent>
+          </Card>
         </Grid>
 
-        <Grid size={{ xs: 12, md: 6, lg: 8 }}>
-          <AnalyticsWebsiteVisits
-            title="Platform logins"
-            subheader="(+43%) than last year"
-            chart={{
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-              series: [
-                { name: 'Students', data: [43, 33, 22, 37, 67, 68, 37, 24, 55] },
-                { name: 'Teachers', data: [51, 70, 47, 67, 40, 37, 24, 70, 24] },
-              ],
-            }}
-          />
+        {/* My English Assignments */}
+        <Grid size={{ xs: 12, lg: 7 }}>
+          <Card sx={{borderRadius:5}}>
+            <CardContent>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                My English Assignments
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 2, mb: 2, pb: 1, borderBottom: '1px solid', borderColor: 'divider' }}>
+                <Typography variant="subtitle2" sx={{ flex: 2, color: 'text.secondary' }}>Title</Typography>
+                <Typography variant="subtitle2" sx={{ flex: 1, color: 'text.secondary' }}>Skill</Typography>
+                <Typography variant="subtitle2" sx={{ flex: 1, color: 'text.secondary' }}>Due</Typography>
+                <Typography variant="subtitle2" sx={{ flex: 1, color: 'text.secondary' }}>Status</Typography>
+              </Box>
+              {assignments.map((assignment, index) => (
+                <Box key={index} sx={{ display: 'flex', gap: 2, py: 2, borderBottom: index < assignments.length - 1 ? '1px solid' : 'none', borderColor: 'divider' }}>
+                  <Box sx={{ flex: 2 }}>
+                    <Typography variant="body2" sx={{ fontWeight: 500, mb: 0.5 }}>
+                      {assignment.title}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {assignment.subtitle}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+                    <Typography variant="body2">{assignment.skill}</Typography>
+                  </Box>
+                  <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+                    <Typography variant="body2">{assignment.due}</Typography>
+                  </Box>
+                  <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+                    <Chip 
+                      label={assignment.status} 
+                      size="small"
+                      sx={{ 
+                        bgcolor: assignment.statusColor, 
+                        color: assignment.textColor,
+                        fontWeight: 500,
+                        fontSize: '0.75rem'
+                      }} 
+                    />
+                  </Box>
+                </Box>
+              ))}
+            </CardContent>
+          </Card>
         </Grid>
 
-        <Grid size={{ xs: 12, md: 6, lg: 8 }}>
-         <AnalyticsConversionRates
-            title="Course Completion Rates"
-            subheader="(+32%) than last year"
-            chart={{
-              categories: [
-                'Foundation English',
-                'Grammar Mastery',
-                'Vocabulary Booster',
-                'Reading Skills',
-                'Creative Writing',
-              ],
-              series: [
-                { name: '2024', data: [44, 52, 36, 68, 30] },
-                { name: '2025', data: [52, 60, 48, 72, 45] },
-              ],
-            }}
-          />
+        {/* AI Skill Labs */}
+        <Grid size={{ xs: 12, lg: 5 }}>
+          <Card sx={{borderRadius:5}}>
+            <CardContent>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                AI Skill Labs
+              </Typography>
+              <Grid container spacing={2}>
+                {aiLabs.map((lab, index) => (
+                  <Grid size={{ xs: 12, sm: 6 }} key={index}>
+                    <Card variant="outlined" sx={{ height: '100%',borderRadius:5 }}>
+                      <CardContent sx={{ p: 2 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5, mb: 1 }}>
+                          <Avatar sx={{ bgcolor: `${lab.color}20`, color: lab.color, width: 40, height: 40 }}>
+                            {lab.icon}
+                          </Avatar>
+                          <Box sx={{ flex: 1 }}>
+                            <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5 }}>
+                              {lab.title}
+                            </Typography>
+                            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1 }}>
+                              {lab.subtitle}
+                            </Typography>
+                            {lab.progress && (
+                              <Typography variant="caption" sx={{ display: 'block' }}>
+                                {lab.progress}
+                              </Typography>
+                            )}
+                            {lab.badge && (
+                              <Chip 
+                                label={lab.badge} 
+                                size="small"
+                                sx={{ 
+                                  mt: 1,
+                                  bgcolor: `${lab.badgeColor}20`, 
+                                  color: lab.badgeColor,
+                                  fontSize: '0.7rem',
+                                  height: 20
+                                }} 
+                              />
+                            )}
+                          </Box>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </CardContent>
+          </Card>
         </Grid>
 
-        <Grid size={{ xs: 12, md: 6, lg: 4 }}>
-           <AnalyticsCurrentSubject
-            title="Top English Courses"
-            chart={{
-              categories: [
-                'Grammar Mastery',
-                'Vocabulary Booster',
-                'Creative Writing',
-                'Spoken English',
-                'Pronunciation Training',
-                'Soft Skills Development',
-              ],
-              series: [
-                { name: 'Enrollments', data: [90, 70, 65, 75, 50, 80] },
-                { name: 'Completions', data: [75, 50, 55, 60, 40, 70] },
-                { name: 'Ratings', data: [92, 88, 85, 90, 87, 89] },
-              ],
-            }}
-          />
+        {/* Today's Summary - Progress */}
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Card sx={{borderRadius:5}}>
+            <CardContent>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                Today's Summary
+              </Typography>
+              <Box>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                  <Typography variant="body2">
+                    Completion towards weekly English Engih target
+                  </Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                    68%
+                  </Typography>
+                </Box>
+                <LinearProgress 
+                  variant="determinate" 
+                  value={68} 
+                  sx={{ 
+                    height: 8, 
+                    borderRadius: 1,
+                    bgcolor: '#E0E0E0',
+                    '& .MuiLinearProgress-bar': {
+                      bgcolor: '#FF9800'
+                    }
+                  }} 
+                />
+              </Box>
+            </CardContent>
+          </Card>
         </Grid>
 
-       <Grid size={{ xs: 12, md: 12, lg: 12 }}>
-  <AnalyticsNews 
-    title="Student Rankings" 
-    subheader="Top performers by class" 
-    classes={classes} 
-    list={studentRankings} 
-  />
-</Grid>
-
-        {/* <Grid size={{ xs: 12, md: 6, lg: 4 }}>
-          <AnalyticsOrderTimeline title="User onboarding timeline" list={_timeline} />
-        </Grid> */}
-
-        {/* <Grid size={{ xs: 12, md: 6, lg: 4 }}>
-          <AnalyticsTrafficBySite title="Referrals by source" list={_traffic} />
-        </Grid> */}
-
-        {/* <Grid size={{ xs: 12, md: 6, lg: 6}}>
-          <AnalyticsTasks title="Admin tasks" list={_tasks} />
-        </Grid> */}
+        {/* Today's Summary - Updates */}
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Card sx={{borderRadius:5}}>
+            <CardContent>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                Today's Summary
+              </Typography>
+              <List sx={{ p: 0 }}>
+                {summaryItems.map((item, index) => (
+                  <ListItem key={index} sx={{ px: 0, py: 0.5 }}>
+                    <ListItemIcon sx={{ minWidth: 28 }}>
+                      <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: 'text.primary' }} />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary={item} 
+                      primaryTypographyProps={{ variant: 'body2' }}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
     </DashboardContent>
   );

@@ -32,11 +32,12 @@ export function Logo({
       className={mergeClasses([logoClasses.root, className])}
       sx={[
         {
-           width: 50,
-                height: 50,
+           width: 100,
+                height: 100,
                 // mt:2,
                 mb:2,
           display: 'inline-flex',
+       
           alignItems: 'center',
           justifyContent: 'center',
           ...(disabled && { pointerEvents: 'none', opacity: 0.48 }),

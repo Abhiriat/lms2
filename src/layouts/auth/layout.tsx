@@ -19,7 +19,7 @@ import type { AuthContentProps } from './content';
 import type { MainSectionProps } from '../core/main-section';
 import type { HeaderSectionProps } from '../core/header-section';
 import type { LayoutSectionProps } from '../core/layout-section';
-
+import mylogo from '../../../public/assets/logo3.png'
 // ----------------------------------------------------------------------
 
 type LayoutBaseProps = Pick<LayoutSectionProps, 'sx' | 'children' | 'cssVars'>;
@@ -52,7 +52,29 @@ export function AuthLayout({
       leftArea: (
         <>
           {/** @slot Logo */}
-          <Logo />
+         <Box
+        sx={{
+          width: 100,
+                height: 100,
+                // mt:2,
+                mb:2,
+          display: 'inline-flex',
+       
+          alignItems: 'center',
+          justifyContent: 'center',
+         mt:8
+        }}
+      >
+         <img
+        src={mylogo}
+        alt="My Logo"
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+        }}
+      />
+      </Box>
         </>
       ),
       rightArea: (
@@ -122,7 +144,7 @@ export function AuthLayout({
       sx={[
         (theme) => ({
           position: 'relative',
-          '&::before': backgroundStyles(),
+          // '&::before': backgroundStyles(),
         }),
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}

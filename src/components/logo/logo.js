@@ -9,8 +9,8 @@ import MyLogo from '../../../public/assets/Logo.png'; // ← YOUR LOGO HERE
 export function Logo({ sx, disabled, className, href = '/', ...other }) {
     return (_jsx(LogoRoot, { component: RouterLink, href: href, "aria-label": "Home", underline: "none", className: mergeClasses([logoClasses.root, className]), sx: [
             {
-                width: 50,
-                height: 50,
+                width: 100,
+                height: 100,
                 // mt:2,
                 mb: 2,
                 display: 'inline-flex',

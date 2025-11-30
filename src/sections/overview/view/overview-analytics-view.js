@@ -1,113 +1,110 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Avatar from '@mui/material/Avatar';
+import LinearProgress from '@mui/material/LinearProgress';
+import Chip from '@mui/material/Chip';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import { DashboardContent } from 'src/layouts/dashboard';
-import { AnalyticsNews } from '../analytics-news';
-import { AnalyticsCurrentVisits } from '../analytics-current-visits';
-import { AnalyticsWebsiteVisits } from '../analytics-website-visits';
-import { AnalyticsWidgetSummary } from '../analytics-widget-summary';
-import { AnalyticsCurrentSubject } from '../analytics-current-subject';
-import { AnalyticsConversionRates } from '../analytics-conversion-rates';
-// ----------------------------------------------------------------------
-const classes = ['Class 10A', 'Class 10B', 'Class 11A', 'Class 11B'];
-const studentRankings = [
+const assignments = [
     {
-        id: '1',
-        title: 'Gurpreet Singh',
-        coverUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=48&h=48&fit=crop&crop=face',
-        description: 'Excellent progress in Grammar & Writing. CEFR Level: B2',
-        postedAt: '2025-11-18T10:30:00Z',
-        studentClass: 'Grammar Mastery',
-        rank: 1,
+        title: 'Chapter 3 - Grammar Quiz (Tenses)',
+        subtitle: 'Auto synced on revised',
+        skill: 'Grammar MCQ',
+        due: '21 Nov',
+        status: 'Start',
+        statusColor: '#FFF4E6',
+        textColor: '#FF9800'
     },
     {
-        id: '2',
-        title: 'Harsimran Kaur',
-        coverUrl: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=48&h=48&fit=crop&crop=face',
-        description: 'Great performance in Reading & Vocabulary. CEFR Level: B1',
-        postedAt: '2025-11-18T10:30:00Z',
-        studentClass: 'Reading & Comprehension',
-        rank: 2,
+        title: 'Listening Task - Flood Story',
+        subtitle: 'New redeue',
+        skill: 'Listening',
+        due: '25 Nov',
+        status: 'Listen',
+        statusColor: '#E3F2FD',
+        textColor: '#2196F3'
     },
     {
-        id: '3',
-        title: 'Jagdeep Singh',
-        coverUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=48&h=48&fit=crop&crop=face',
-        description: 'Strong in Speaking & Pronunciation. CEFR Level: C1',
-        postedAt: '2025-11-18T10:30:00Z',
-        studentClass: 'Spoken English',
-        rank: 1,
+        title: 'Pronunciation Practice – Modals',
+        subtitle: 'New',
+        skill: 'Speaking',
+        due: '25 Nov',
+        status: 'Now',
+        statusColor: '#E3F2FD',
+        textColor: '#2196F3'
     },
     {
-        id: '4',
-        title: 'Simranjeet Kaur',
-        coverUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=48&h=48&fit=crop&crop=face',
-        description: 'Excellent creativity in Writing tasks. CEFR Level: B2',
-        postedAt: '2025-11-18T10:30:00Z',
-        studentClass: 'Creative Writing',
-        rank: 2,
+        title: 'Paragraph Writing – My Village',
+        subtitle: 'Submitted',
+        skill: 'Writing',
+        due: '18 Nov',
+        status: 'Upload',
+        statusColor: '#E8F5E9',
+        textColor: '#4CAF50'
+    }
+];
+const aiLabs = [
+    {
+        title: 'Listening Lab',
+        subtitle: 'states announcements dialogues',
+        progress: '12/20 Task completed',
+        icon: '🎧',
+        color: '#FF9800'
     },
     {
-        id: '5',
-        title: 'Harjot Singh',
-        coverUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=48&h=48&fit=crop&crop=face',
-        description: 'Great improvement in Foundation English. CEFR Level: A2',
-        postedAt: '2025-11-18T10:30:00Z',
-        studentClass: 'Foundation English (Level 1–3)',
-        rank: 1,
+        title: 'Reading Lab',
+        subtitle: 'Unseen passages & lessons',
+        progress: 'Average score: 62%',
+        icon: '📚',
+        color: '#2196F3'
     },
+    {
+        title: 'Speaking & Pronunciation',
+        subtitle: 'Record and get AI feedback',
+        badge: 'Level 2 - Fluency Badge',
+        badgeColor: '#2196F3',
+        icon: '🗣️',
+        color: '#2196F3'
+    },
+    {
+        title: 'Writing & Handwriting',
+        subtitle: 'Upload notebook p...',
+        badge: 'Next Writer - Level 1',
+        badgeColor: '#4CAF50',
+        icon: '✍️',
+        color: '#FF5722'
+    }
+];
+const summaryItems = [
+    'WhatsApp reminder set for "Paragraph Writing – In Village."',
+    'New AI Listening Task added by your teacher.',
+    'Speaking Lab suggests revising "modals pronunciation".'
 ];
 export function OverviewAnalyticsView() {
-    return (_jsxs(DashboardContent, { maxWidth: "xl", children: [_jsx(Typography, { variant: "h4", sx: { mb: { xs: 3, md: 5 } }, children: "Hi, Welcome back Admin \uD83D\uDC4B" }), _jsxs(Grid, { container: true, spacing: 3, children: [_jsx(Grid, { size: { xs: 12, sm: 6, md: 3 }, children: _jsx(AnalyticsWidgetSummary, { title: "Weekly enrollment", percent: 2.6, total: 714, icon: _jsx("img", { alt: "Weekly enrollments", src: "/assets/icons/glass/ic-glass-bag.svg" }), chart: {
-                                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-                                series: [22, 8, 35, 50, 82, 84, 77, 12],
-                            } }) }), _jsx(Grid, { size: { xs: 12, sm: 6, md: 3 }, children: _jsx(AnalyticsWidgetSummary, { title: "New students", percent: -0.1, total: 1352, color: "secondary", icon: _jsx("img", { alt: "New students", src: "/assets/icons/glass/ic-glass-users.svg" }), chart: {
-                                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-                                series: [56, 47, 40, 62, 73, 30, 23, 54],
-                            } }) }), _jsx(Grid, { size: { xs: 12, sm: 6, md: 3 }, children: _jsx(AnalyticsWidgetSummary, { title: "Active teachers", percent: 2.8, total: 172, color: "warning", icon: _jsx("img", { alt: "Active teachers", src: "/assets/icons/glass/ic-glass-buy.svg" }), chart: {
-                                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-                                series: [40, 70, 50, 28, 70, 75, 7, 64],
-                            } }) }), _jsx(Grid, { size: { xs: 12, sm: 6, md: 3 }, children: _jsx(AnalyticsWidgetSummary, { title: "Completed Course", percent: 3.6, total: 234, color: "error", icon: _jsx("img", { alt: "Support tickets", src: "/assets/icons/glass/ic-glass-message.svg" }), chart: {
-                                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-                                series: [56, 30, 23, 54, 47, 40, 62, 73],
-                            } }) }), _jsx(Grid, { size: { xs: 12, md: 6, lg: 4 }, children: _jsx(AnalyticsCurrentVisits, { title: "Active sessions", chart: {
-                                series: [
-                                    { label: 'Students', value: 3500 },
-                                    { label: 'Teachers', value: 2500 },
-                                    { label: 'Admins', value: 1500 },
-                                    { label: 'Guests', value: 500 },
-                                ],
-                            } }) }), _jsx(Grid, { size: { xs: 12, md: 6, lg: 8 }, children: _jsx(AnalyticsWebsiteVisits, { title: "Platform logins", subheader: "(+43%) than last year", chart: {
-                                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-                                series: [
-                                    { name: 'Students', data: [43, 33, 22, 37, 67, 68, 37, 24, 55] },
-                                    { name: 'Teachers', data: [51, 70, 47, 67, 40, 37, 24, 70, 24] },
-                                ],
-                            } }) }), _jsx(Grid, { size: { xs: 12, md: 6, lg: 8 }, children: _jsx(AnalyticsConversionRates, { title: "Course Completion Rates", subheader: "(+32%) than last year", chart: {
-                                categories: [
-                                    'Foundation English',
-                                    'Grammar Mastery',
-                                    'Vocabulary Booster',
-                                    'Reading Skills',
-                                    'Creative Writing',
-                                ],
-                                series: [
-                                    { name: '2024', data: [44, 52, 36, 68, 30] },
-                                    { name: '2025', data: [52, 60, 48, 72, 45] },
-                                ],
-                            } }) }), _jsx(Grid, { size: { xs: 12, md: 6, lg: 4 }, children: _jsx(AnalyticsCurrentSubject, { title: "Top English Courses", chart: {
-                                categories: [
-                                    'Grammar Mastery',
-                                    'Vocabulary Booster',
-                                    'Creative Writing',
-                                    'Spoken English',
-                                    'Pronunciation Training',
-                                    'Soft Skills Development',
-                                ],
-                                series: [
-                                    { name: 'Enrollments', data: [90, 70, 65, 75, 50, 80] },
-                                    { name: 'Completions', data: [75, 50, 55, 60, 40, 70] },
-                                    { name: 'Ratings', data: [92, 88, 85, 90, 87, 89] },
-                                ],
-                            } }) }), _jsx(Grid, { size: { xs: 12, md: 12, lg: 12 }, children: _jsx(AnalyticsNews, { title: "Student Rankings", subheader: "Top performers by class", classes: classes, list: studentRankings }) })] })] }));
+    return (_jsxs(DashboardContent, { maxWidth: "xl", children: [_jsx(Box, { sx: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }, children: _jsxs(Box, { children: [_jsx(Typography, { variant: "h3", sx: { fontWeight: 600, mb: 0.5 }, children: "Welcome, Parvinder!" }), _jsx(Typography, { variant: "body2", color: "text.secondary", children: "Class 9 \u00B7 English Learning Dashboard" })] }) }), _jsxs(Grid, { container: true, spacing: 3, children: [_jsx(Grid, { size: { xs: 12, sm: 6, md: 3 }, children: _jsx(Card, { sx: { height: '100%', borderRadius: 5 }, children: _jsxs(CardContent, { children: [_jsx(Typography, { variant: "subtitle2", color: "text.secondary", gutterBottom: true, children: "New Assignments" }), _jsx(Typography, { variant: "h3", sx: { fontWeight: 600, mb: 1 }, children: "3" }), _jsx(Typography, { variant: "body2", color: "primary", children: "7 from English \u00B7 1 from Science" })] }) }) }), _jsx(Grid, { size: { xs: 12, sm: 6, md: 3 }, children: _jsx(Card, { sx: { height: '100%', borderRadius: 5 }, children: _jsxs(CardContent, { children: [_jsx(Typography, { variant: "subtitle2", color: "text.secondary", gutterBottom: true, children: "Due This Week" }), _jsx(Typography, { variant: "h3", sx: { fontWeight: 600, mb: 1 }, children: "5" }), _jsx(Typography, { variant: "body2", color: "error.main", children: "Next due:- Grammar Quiz \u00B7 Tomorrow" })] }) }) }), _jsx(Grid, { size: { xs: 12, sm: 6, md: 3 }, children: _jsx(Card, { sx: { height: '100%', borderRadius: 5 }, children: _jsxs(CardContent, { children: [_jsx(Typography, { variant: "subtitle2", color: "text.secondary", gutterBottom: true, children: "Overdue" }), _jsx(Typography, { variant: "h3", sx: { fontWeight: 600, mb: 1 }, children: "1" }), _jsx(Typography, { variant: "body2", color: "primary", children: "Due Tomorrow" })] }) }) }), _jsx(Grid, { size: { xs: 12, sm: 6, md: 3 }, children: _jsx(Card, { sx: { height: '100%', borderRadius: 5 }, children: _jsxs(CardContent, { children: [_jsx(Typography, { variant: "subtitle2", color: "text.secondary", gutterBottom: true, children: "Overall Progress" }), _jsx(Typography, { variant: "h3", sx: { fontWeight: 600, mb: 1 }, children: "78%" }), _jsx(Typography, { variant: "body2", color: "success.main", children: "Keep it up - target 88%" })] }) }) }), _jsx(Grid, { size: { xs: 12, lg: 7 }, children: _jsx(Card, { sx: { borderRadius: 5 }, children: _jsxs(CardContent, { children: [_jsx(Typography, { variant: "h6", sx: { fontWeight: 600, mb: 3 }, children: "My English Assignments" }), _jsxs(Box, { sx: { display: 'flex', gap: 2, mb: 2, pb: 1, borderBottom: '1px solid', borderColor: 'divider' }, children: [_jsx(Typography, { variant: "subtitle2", sx: { flex: 2, color: 'text.secondary' }, children: "Title" }), _jsx(Typography, { variant: "subtitle2", sx: { flex: 1, color: 'text.secondary' }, children: "Skill" }), _jsx(Typography, { variant: "subtitle2", sx: { flex: 1, color: 'text.secondary' }, children: "Due" }), _jsx(Typography, { variant: "subtitle2", sx: { flex: 1, color: 'text.secondary' }, children: "Status" })] }), assignments.map((assignment, index) => (_jsxs(Box, { sx: { display: 'flex', gap: 2, py: 2, borderBottom: index < assignments.length - 1 ? '1px solid' : 'none', borderColor: 'divider' }, children: [_jsxs(Box, { sx: { flex: 2 }, children: [_jsx(Typography, { variant: "body2", sx: { fontWeight: 500, mb: 0.5 }, children: assignment.title }), _jsx(Typography, { variant: "caption", color: "text.secondary", children: assignment.subtitle })] }), _jsx(Box, { sx: { flex: 1, display: 'flex', alignItems: 'center' }, children: _jsx(Typography, { variant: "body2", children: assignment.skill }) }), _jsx(Box, { sx: { flex: 1, display: 'flex', alignItems: 'center' }, children: _jsx(Typography, { variant: "body2", children: assignment.due }) }), _jsx(Box, { sx: { flex: 1, display: 'flex', alignItems: 'center' }, children: _jsx(Chip, { label: assignment.status, size: "small", sx: {
+                                                        bgcolor: assignment.statusColor,
+                                                        color: assignment.textColor,
+                                                        fontWeight: 500,
+                                                        fontSize: '0.75rem'
+                                                    } }) })] }, index)))] }) }) }), _jsx(Grid, { size: { xs: 12, lg: 5 }, children: _jsx(Card, { sx: { borderRadius: 5 }, children: _jsxs(CardContent, { children: [_jsx(Typography, { variant: "h6", sx: { fontWeight: 600, mb: 3 }, children: "AI Skill Labs" }), _jsx(Grid, { container: true, spacing: 2, children: aiLabs.map((lab, index) => (_jsx(Grid, { size: { xs: 12, sm: 6 }, children: _jsx(Card, { variant: "outlined", sx: { height: '100%', borderRadius: 5 }, children: _jsx(CardContent, { sx: { p: 2 }, children: _jsxs(Box, { sx: { display: 'flex', alignItems: 'flex-start', gap: 1.5, mb: 1 }, children: [_jsx(Avatar, { sx: { bgcolor: `${lab.color}20`, color: lab.color, width: 40, height: 40 }, children: lab.icon }), _jsxs(Box, { sx: { flex: 1 }, children: [_jsx(Typography, { variant: "subtitle2", sx: { fontWeight: 600, mb: 0.5 }, children: lab.title }), _jsx(Typography, { variant: "caption", color: "text.secondary", sx: { display: 'block', mb: 1 }, children: lab.subtitle }), lab.progress && (_jsx(Typography, { variant: "caption", sx: { display: 'block' }, children: lab.progress })), lab.badge && (_jsx(Chip, { label: lab.badge, size: "small", sx: {
+                                                                            mt: 1,
+                                                                            bgcolor: `${lab.badgeColor}20`,
+                                                                            color: lab.badgeColor,
+                                                                            fontSize: '0.7rem',
+                                                                            height: 20
+                                                                        } }))] })] }) }) }) }, index))) })] }) }) }), _jsx(Grid, { size: { xs: 12, md: 6 }, children: _jsx(Card, { sx: { borderRadius: 5 }, children: _jsxs(CardContent, { children: [_jsx(Typography, { variant: "h6", sx: { fontWeight: 600, mb: 3 }, children: "Today's Summary" }), _jsxs(Box, { children: [_jsxs(Box, { sx: { display: 'flex', justifyContent: 'space-between', mb: 1 }, children: [_jsx(Typography, { variant: "body2", children: "Completion towards weekly English Engih target" }), _jsx(Typography, { variant: "body2", sx: { fontWeight: 600 }, children: "68%" })] }), _jsx(LinearProgress, { variant: "determinate", value: 68, sx: {
+                                                    height: 8,
+                                                    borderRadius: 1,
+                                                    bgcolor: '#E0E0E0',
+                                                    '& .MuiLinearProgress-bar': {
+                                                        bgcolor: '#FF9800'
+                                                    }
+                                                } })] })] }) }) }), _jsx(Grid, { size: { xs: 12, md: 6 }, children: _jsx(Card, { sx: { borderRadius: 5 }, children: _jsxs(CardContent, { children: [_jsx(Typography, { variant: "h6", sx: { fontWeight: 600, mb: 3 }, children: "Today's Summary" }), _jsx(List, { sx: { p: 0 }, children: summaryItems.map((item, index) => (_jsxs(ListItem, { sx: { px: 0, py: 0.5 }, children: [_jsx(ListItemIcon, { sx: { minWidth: 28 }, children: _jsx(Box, { sx: { width: 6, height: 6, borderRadius: '50%', bgcolor: 'text.primary' } }) }), _jsx(ListItemText, { primary: item, primaryTypographyProps: { variant: 'body2' } })] }, index))) })] }) }) })] })] }));
 }
