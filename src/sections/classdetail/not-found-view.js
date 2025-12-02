@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from 'react';
 import { Box, Container, Tabs, Tab, Card, CardContent, Typography, Button, IconButton, Avatar, AppBar, Divider, Dialog, DialogTitle, DialogContent, List, ListItem, ListItemAvatar, ListItemText, Accordion, AccordionSummary, AccordionDetails, Chip, Link, } from '@mui/material';
-import { CalendarToday, Edit, MoreVert, Book, Assignment, Description, ExpandMore, YouTube, PictureAsPdf, Link as LinkIcon, } from '@mui/icons-material';
+import { Edit, MoreVert, Book, Assignment, Description, ExpandMore, YouTube, PictureAsPdf, Link as LinkIcon, } from '@mui/icons-material';
 export function ClassDetailView() {
     const [currentTab, setCurrentTab] = useState(0);
     const [openWorkDialog, setOpenWorkDialog] = useState(false);
@@ -103,18 +103,33 @@ export function ClassDetailView() {
         { title: 'P T exercise', date: 'Jul 18, 2020', status: 'Missing', icon: _jsx(Assignment, {}) },
         { title: 'Exercise 2', date: 'Jul 5, 2020', status: 'Turned in late', icon: _jsx(Description, {}) },
     ];
-    return (_jsxs(Box, { sx: { minHeight: '100vh', bgcolor: 'white' }, children: [_jsx(AppBar, { position: "sticky", sx: { bgcolor: 'white', boxShadow: 1 }, children: _jsx(Container, { maxWidth: "lg", children: _jsxs(Box, { sx: { display: 'flex', alignItems: 'center', justifyContent: 'space-between' }, children: [_jsxs(Tabs, { value: currentTab, onChange: handleTabChange, sx: {
-                                    '& .MuiTab-root': {
-                                        color: '#666',
-                                        textTransform: 'none',
-                                        fontSize: '16px',
-                                        fontWeight: 500,
-                                        minWidth: 100,
-                                    },
-                                    '& .Mui-selected': {
-                                        color: '#1976d2',
-                                    },
-                                }, children: [_jsx(Tab, { label: "Stream" }), _jsx(Tab, { label: "Classwork" }), _jsx(Tab, { label: "People" })] }), _jsx(IconButton, { children: _jsx(CalendarToday, {}) })] }) }) }), currentTab === 0 && (_jsxs(Container, { maxWidth: "lg", sx: { mt: 3, pb: 4 }, children: [_jsxs(Card, { sx: {
+    return (_jsxs(Box, { sx: { minHeight: '100vh', bgcolor: 'white' }, children: [_jsx(AppBar, { position: "sticky", sx: { bgcolor: 'white', boxShadow: 1 }, children: _jsx(Container, { maxWidth: "lg", children: _jsx(Box, { sx: { display: 'flex', alignItems: 'center', justifyContent: 'space-between' }, children: _jsxs(Tabs, { value: currentTab, onChange: handleTabChange, 
+                            // textColor='success'
+                            // indicatorColor='secondary'
+                            sx: {
+                                '& .MuiTabs-indicator': {
+                                    backgroundColor: '#173345', // Your desired color for the underline
+                                    height: 3,
+                                },
+                                '& .MuiTab-root': {
+                                    color: '#666',
+                                    textTransform: 'none',
+                                    fontSize: '16px',
+                                    fontWeight: 500,
+                                    minWidth: 100,
+                                    opacity: 0.8,
+                                    transition: 'all 0.2s ease',
+                                },
+                                '& .Mui-selected': {
+                                    color: '#173345 !important', // Selected tab text color
+                                    fontWeight: 600,
+                                    opacity: 1,
+                                },
+                                '& .MuiTab-root:hover': {
+                                    color: '#173345',
+                                    opacity: 1,
+                                },
+                            }, children: [_jsx(Tab, { label: "Stream" }), _jsx(Tab, { label: "Classwork" }), _jsx(Tab, { label: "People" })] }) }) }) }), currentTab === 0 && (_jsxs(Container, { maxWidth: "lg", sx: { mt: 3, pb: 4 }, children: [_jsxs(Card, { sx: {
                             background: '#ed5f07',
                             color: 'white',
                             borderRadius: 2,
@@ -133,18 +148,18 @@ export function ClassDetailView() {
                                     backgroundPosition: 'center',
                                 } })] }), _jsxs(Box, { sx: { display: 'flex', gap: 3 }, children: [_jsx(Box, { sx: { width: 300 }, children: _jsx(Card, { sx: { borderRadius: 2 }, children: _jsxs(CardContent, { children: [_jsx(Typography, { variant: "h6", sx: { mb: 2, fontWeight: 500 }, children: "Upcoming" }), _jsx(Typography, { variant: "body2", color: "text.secondary", sx: { mb: 2 }, children: "Woohoo, no work due in soon!" }), _jsx(Button, { fullWidth: true, sx: {
                                                     textTransform: 'none',
-                                                    color: '#1976d2',
+                                                    color: '#32d219',
                                                     justifyContent: 'flex-end',
                                                 }, children: "View all" })] }) }) }), _jsxs(Box, { sx: { flex: 1 }, children: [_jsx(Button, { variant: "contained", startIcon: _jsx(Edit, {}), sx: {
                                             textTransform: 'none',
-                                            bgcolor: '#e3f2fd',
-                                            color: '#1976d2',
+                                            bgcolor: '#e4fde3',
+                                            color: '#32d219',
                                             boxShadow: 'none',
                                             borderRadius: 8,
                                             mb: 3,
                                             px: 3,
                                             '&:hover': {
-                                                bgcolor: '#bbdefb',
+                                                bgcolor: '#e4fde3',
                                                 boxShadow: 'none',
                                             },
                                         }, children: "New announcement" }), _jsx(Box, { sx: { display: 'flex', flexDirection: 'column', gap: 2 }, children: posts.map((post) => (_jsx(Card, { sx: { borderRadius: 2 }, children: _jsxs(CardContent, { sx: {
@@ -153,12 +168,12 @@ export function ClassDetailView() {
                                                     gap: 2,
                                                     p: 2,
                                                     '&:last-child': { pb: 2 },
-                                                }, children: [_jsx(Avatar, { sx: { bgcolor: '#ff6f00', width: 48, height: 48 }, children: _jsx(Book, {}) }), _jsxs(Box, { sx: { flex: 1 }, children: [_jsxs(Typography, { variant: "body1", sx: { fontWeight: 500 }, children: [post.author, " posted a new material: ", post.title] }), _jsx(Typography, { variant: "caption", color: "text.secondary", children: post.date })] }), _jsx(IconButton, { size: "small", children: _jsx(MoreVert, {}) })] }) }, post.id))) })] })] })] })), currentTab === 1 && (_jsxs(Container, { maxWidth: "lg", sx: { mt: 4, pb: 6 }, children: [_jsx(Box, { sx: { display: 'flex', justifyContent: 'flex-end', mb: 4 }, children: _jsx(Button, { variant: "outlined", startIcon: _jsx(Assignment, {}), onClick: handleOpenWorkDialog, sx: { textTransform: 'none', borderRadius: 3 }, children: "View your work" }) }), _jsx(Box, { sx: { maxWidth: 900, mx: 'auto' }, children: classworkItems.map((item) => (_jsxs(Accordion, { expanded: expanded === item.id, onChange: handleAccordionChange(item.id), sx: {
+                                                }, children: [_jsx(Avatar, { sx: { bgcolor: '#ff6f00', width: 48, height: 48 }, children: _jsx(Book, {}) }), _jsxs(Box, { sx: { flex: 1 }, children: [_jsxs(Typography, { variant: "body1", sx: { fontWeight: 500 }, children: [post.author, " posted a new material: ", post.title] }), _jsx(Typography, { variant: "caption", color: "text.secondary", children: post.date })] }), _jsx(IconButton, { size: "small", children: _jsx(MoreVert, {}) })] }) }, post.id))) })] })] })] })), currentTab === 1 && (_jsxs(Container, { maxWidth: "lg", sx: { mt: 4, pb: 6 }, children: [_jsx(Box, { sx: { display: 'flex', justifyContent: 'flex-end', mb: 4 }, children: _jsx(Button, { variant: "outlined", startIcon: _jsx(Assignment, {}), onClick: handleOpenWorkDialog, color: 'warning', sx: { textTransform: 'none', borderRadius: 3 }, children: "View your work" }) }), _jsx(Box, { sx: { maxWidth: 900, mx: 'auto' }, children: classworkItems.map((item) => (_jsxs(Accordion, { expanded: expanded === item.id, onChange: handleAccordionChange(item.id), sx: {
                                 boxShadow: 1,
                                 borderRadius: 2,
                                 '&:before': { display: 'none' },
                                 mb: 2,
-                            }, children: [_jsx(AccordionSummary, { expandIcon: _jsx(ExpandMore, {}), children: _jsxs(Box, { sx: { display: 'flex', alignItems: 'center', gap: 3, width: '100%' }, children: [_jsx(Avatar, { sx: { bgcolor: '#e3f2fd', color: '#1976d2' }, children: _jsx(Book, {}) }), _jsxs(Box, { sx: { flex: 1 }, children: [_jsx(Typography, { variant: "body1", fontWeight: 500, children: item.title }), _jsx(Typography, { variant: "caption", color: "text.secondary", children: item.postedDate })] }), item.points && (_jsx(Chip, { label: `${item.points} points`, size: "small", color: "primary" })), item.dueDate !== 'No due date' && (_jsx(Chip, { label: item.dueDate, size: "small", variant: "outlined" }))] }) }), _jsx(AccordionDetails, { sx: { bgcolor: '#fafafa', pt: 2 }, children: _jsxs(Box, { sx: { pl: 7 }, children: [item.content.map((content, idx) => (_jsx(Box, { sx: { mb: 3 }, children: content.type === 'instructions' ? (_jsx(Typography, { variant: "body1", sx: { mb: 2, lineHeight: 1.6 }, children: content.text })) : (_jsxs(ListItem, { sx: {
+                            }, children: [_jsx(AccordionSummary, { expandIcon: _jsx(ExpandMore, {}), children: _jsxs(Box, { sx: { display: 'flex', alignItems: 'center', gap: 3, width: '100%' }, children: [_jsx(Avatar, { sx: { bgcolor: '#e3fde7', color: '#19d22c' }, children: _jsx(Book, {}) }), _jsxs(Box, { sx: { flex: 1 }, children: [_jsx(Typography, { variant: "body1", fontWeight: 500, children: item.title }), _jsx(Typography, { variant: "caption", color: "text.secondary", children: item.postedDate })] }), item.points && (_jsx(Chip, { label: `${item.points} points`, size: "small", color: "success" })), item.dueDate !== 'No due date' && (_jsx(Chip, { label: item.dueDate, size: "small", variant: "outlined" }))] }) }), _jsx(AccordionDetails, { sx: { bgcolor: '#fafafa', pt: 2 }, children: _jsxs(Box, { sx: { pl: 7 }, children: [item.content.map((content, idx) => (_jsx(Box, { sx: { mb: 3 }, children: content.type === 'instructions' ? (_jsx(Typography, { variant: "body1", sx: { mb: 2, lineHeight: 1.6 }, children: content.text })) : (_jsxs(ListItem, { sx: {
                                                         display: 'flex',
                                                         alignItems: 'center',
                                                         gap: 2,
@@ -167,7 +182,9 @@ export function ClassDetailView() {
                                                         bgcolor: 'white',
                                                         boxShadow: 1,
                                                         '&:hover': { bgcolor: '#f0f7ff' },
-                                                    }, children: [content.icon, _jsx(Link, { href: content.url || '#', target: "_blank", underline: "hover", color: "primary", sx: { fontWeight: 500 }, children: content.title })] })) }, idx))), _jsxs(Box, { sx: { mt: 3, display: 'flex', gap: 2 }, children: [_jsx(Button, { variant: "outlined", startIcon: _jsx(Assignment, {}), children: "View assignment" }), _jsx(Button, { variant: "contained", color: "primary", children: "Add class comment..." })] })] }) })] }, item.id))) })] })), currentTab === 2 && (_jsxs(Box, { sx: { maxWidth: 800, mx: 'auto', py: 5 }, children: [_jsx(Typography, { variant: "h5", sx: { mb: 3, fontWeight: 600, color: '#202124' }, children: "Teachers" }), _jsx(Box, { sx: { mb: 6 }, children: teachers.map((teacher) => (_jsxs(Box, { children: [_jsxs(ListItem, { sx: { px: 0, py: 2 }, children: [_jsx(ListItemAvatar, { children: _jsx(Avatar, { sx: { bgcolor: teacher.color, color: 'white', fontWeight: 600 }, children: teacher.initials }) }), _jsx(ListItemText, { primary: teacher.name, primaryTypographyProps: { fontSize: '1.1rem', fontWeight: 500 } })] }), _jsx(Divider, {})] }, teacher.name))) }), _jsxs(Box, { sx: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }, children: [_jsx(Typography, { variant: "h5", sx: { fontWeight: 600, color: '#202124' }, children: "Classmates" }), _jsxs(Typography, { variant: "body1", color: "text.secondary", children: [classmates.length, " students"] })] }), _jsx(Box, { children: classmates.map((student) => (_jsxs(Box, { children: [_jsxs(ListItem, { sx: { px: 0, py: 2 }, children: [_jsx(ListItemAvatar, { children: _jsx(Avatar, { sx: { bgcolor: student.color || '#5f6368', color: 'white' }, children: student.initials || student.name[0] }) }), _jsx(ListItemText, { primary: student.name, primaryTypographyProps: { fontSize: '1.1rem', fontWeight: 500 } })] }), _jsx(Divider, {})] }, student.name))) })] })), _jsxs(Dialog, { open: openWorkDialog, onClose: handleCloseWorkDialog, maxWidth: "sm", fullWidth: true, children: [_jsx(DialogTitle, { sx: { fontWeight: 600 }, children: "Your work" }), _jsx(DialogContent, { dividers: true, children: _jsx(List, { children: studentWork.map((work, index) => (_jsxs(ListItem, { sx: { borderRadius: 2, '&:hover': { bgcolor: '#f5f5f5' } }, children: [_jsx(ListItemAvatar, { children: _jsx(Avatar, { sx: { bgcolor: '#e3f2fd', color: '#1976d2' }, children: work.icon }) }), _jsx(ListItemText, { primary: work.title, secondary: work.date }), _jsx(Typography, { variant: "body2", sx: {
+                                                    }, children: [content.icon, _jsx(Link, { href: content.url || '#', target: "_blank", underline: "hover", 
+                                                            // color="primary"
+                                                            sx: { fontWeight: 500, color: 'black' }, children: content.title })] })) }, idx))), _jsxs(Box, { sx: { mt: 3, display: 'flex', gap: 2 }, children: [_jsx(Button, { variant: "outlined", color: 'warning', startIcon: _jsx(Assignment, {}), children: "View assignment" }), _jsx(Button, { variant: "contained", color: 'warning', children: "Add class comment..." })] })] }) })] }, item.id))) })] })), currentTab === 2 && (_jsxs(Box, { sx: { maxWidth: 800, mx: 'auto', py: 5 }, children: [_jsx(Typography, { variant: "h5", sx: { mb: 3, fontWeight: 600, color: '#202124' }, children: "Teachers" }), _jsx(Box, { sx: { mb: 6 }, children: teachers.map((teacher) => (_jsxs(Box, { children: [_jsxs(ListItem, { sx: { px: 0, py: 2 }, children: [_jsx(ListItemAvatar, { children: _jsx(Avatar, { sx: { bgcolor: teacher.color, color: 'white', fontWeight: 600 }, children: teacher.initials }) }), _jsx(ListItemText, { primary: teacher.name, primaryTypographyProps: { fontSize: '1.1rem', fontWeight: 500 } })] }), _jsx(Divider, {})] }, teacher.name))) }), _jsxs(Box, { sx: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }, children: [_jsx(Typography, { variant: "h5", sx: { fontWeight: 600, color: '#202124' }, children: "Classmates" }), _jsxs(Typography, { variant: "body1", color: "text.secondary", children: [classmates.length, " students"] })] }), _jsx(Box, { children: classmates.map((student) => (_jsxs(Box, { children: [_jsxs(ListItem, { sx: { px: 0, py: 2 }, children: [_jsx(ListItemAvatar, { children: _jsx(Avatar, { sx: { bgcolor: student.color || '#5f6368', color: 'white' }, children: student.initials || student.name[0] }) }), _jsx(ListItemText, { primary: student.name, primaryTypographyProps: { fontSize: '1.1rem', fontWeight: 500 } })] }), _jsx(Divider, {})] }, student.name))) })] })), _jsxs(Dialog, { open: openWorkDialog, onClose: handleCloseWorkDialog, maxWidth: "sm", fullWidth: true, children: [_jsx(DialogTitle, { sx: { fontWeight: 600 }, children: "Your work" }), _jsx(DialogContent, { dividers: true, children: _jsx(List, { children: studentWork.map((work, index) => (_jsxs(ListItem, { sx: { borderRadius: 2, '&:hover': { bgcolor: '#f5f5f5' } }, children: [_jsx(ListItemAvatar, { children: _jsx(Avatar, { sx: { bgcolor: '#e3fde7', color: '#19d22c' }, children: work.icon }) }), _jsx(ListItemText, { primary: work.title, secondary: work.date }), _jsx(Typography, { variant: "body2", sx: {
                                             color: work.status === 'Missing' ? 'error.main' : 'success.main',
                                             fontWeight: 500,
                                         }, children: work.status })] }, index))) }) })] })] }));

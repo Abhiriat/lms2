@@ -155,26 +155,38 @@ export function ClassDetailView() {
             <Tabs
               value={currentTab}
               onChange={handleTabChange}
-              sx={{
-                '& .MuiTab-root': {
-                  color: '#666',
-                  textTransform: 'none',
-                  fontSize: '16px',
-                  fontWeight: 500,
-                  minWidth: 100,
-                },
-                '& .Mui-selected': {
-                  color: '#1976d2',
-                },
-              }}
+              // textColor='success'
+              // indicatorColor='secondary'
+            sx={{
+    '& .MuiTabs-indicator': {
+      backgroundColor: '#173345',   // Your desired color for the underline
+      height: 3,
+    },
+    '& .MuiTab-root': {
+      color: '#666',
+      textTransform: 'none',
+      fontSize: '16px',
+      fontWeight: 500,
+      minWidth: 100,
+      opacity: 0.8,
+      transition: 'all 0.2s ease',
+    },
+    '& .Mui-selected': {
+      color: '#173345 !important',   // Selected tab text color
+      fontWeight: 600,
+      opacity: 1,
+    },
+    '& .MuiTab-root:hover': {
+      color: '#173345',
+      opacity: 1,
+    },
+  }}
             >
               <Tab label="Stream" />
               <Tab label="Classwork" />
               <Tab label="People" />
             </Tabs>
-            <IconButton>
-              <CalendarToday />
-            </IconButton>
+         
           </Box>
         </Container>
       </AppBar>
@@ -230,7 +242,7 @@ export function ClassDetailView() {
                   fullWidth
                   sx={{
                     textTransform: 'none',
-                    color: '#1976d2',
+                    color: '#32d219',
                     justifyContent: 'flex-end',
                   }}
                 >
@@ -247,14 +259,14 @@ export function ClassDetailView() {
               startIcon={<Edit />}
               sx={{
                 textTransform: 'none',
-                bgcolor: '#e3f2fd',
-                color: '#1976d2',
+                bgcolor: '#e4fde3',
+                color: '#32d219',
                 boxShadow: 'none',
                 borderRadius: 8,
                 mb: 3,
                 px: 3,
                 '&:hover': {
-                  bgcolor: '#bbdefb',
+                  bgcolor: '#e4fde3',
                   boxShadow: 'none',
                 },
               }}
@@ -304,6 +316,7 @@ export function ClassDetailView() {
                   variant="outlined"
                   startIcon={<Assignment />}
                   onClick={handleOpenWorkDialog}
+                  color='warning'
                   sx={{ textTransform: 'none', borderRadius: 3 }}
                 >
                   View your work
@@ -325,7 +338,7 @@ export function ClassDetailView() {
                   >
                     <AccordionSummary expandIcon={<ExpandMore />}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, width: '100%' }}>
-                        <Avatar sx={{ bgcolor: '#e3f2fd', color: '#1976d2' }}>
+                        <Avatar sx={{ bgcolor: '#e3fde7', color: '#19d22c' }}>
                           <Book />
                         </Avatar>
                         <Box sx={{ flex: 1 }}>
@@ -337,7 +350,7 @@ export function ClassDetailView() {
                           </Typography>
                         </Box>
                         {item.points && (
-                          <Chip label={`${item.points} points`} size="small" color="primary" />
+                          <Chip label={`${item.points} points`} size="small" color="success" />
                         )}
                         {item.dueDate !== 'No due date' && (
                           <Chip label={item.dueDate} size="small" variant="outlined" />
@@ -371,8 +384,8 @@ export function ClassDetailView() {
                                   href={content.url || '#'}
                                   target="_blank"
                                   underline="hover"
-                                  color="primary"
-                                  sx={{ fontWeight: 500 }}
+                                  // color="primary"
+                                  sx={{ fontWeight: 500,color:'black' }}
                                 >
                                   {content.title}
                                 </Link>
@@ -382,10 +395,10 @@ export function ClassDetailView() {
                         ))}
     
                         <Box sx={{ mt: 3, display: 'flex', gap: 2 }}>
-                          <Button variant="outlined" startIcon={<Assignment />}>
+                          <Button variant="outlined" color='warning' startIcon={<Assignment />}>
                             View assignment
                           </Button>
-                          <Button variant="contained" color="primary">
+                          <Button variant="contained" color='warning'>
                             Add class comment...
                           </Button>
                         </Box>
@@ -463,7 +476,8 @@ export function ClassDetailView() {
                         {studentWork.map((work, index) => (
                           <ListItem key={index} sx={{ borderRadius: 2, '&:hover': { bgcolor: '#f5f5f5' } }}>
                             <ListItemAvatar>
-                              <Avatar sx={{ bgcolor: '#e3f2fd', color: '#1976d2' }}>
+                                                     <Avatar sx={{ bgcolor: '#e3fde7', color: '#19d22c' }}>
+
                                 {work.icon}
                               </Avatar>
                             </ListItemAvatar>

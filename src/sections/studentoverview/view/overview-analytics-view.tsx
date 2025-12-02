@@ -1,684 +1,333 @@
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { DashboardContent } from 'src/layouts/dashboard';
-import { _posts, _tasks, _traffic, _timeline } from 'src/_mock';
-import { AnalyticsNews } from '../analytics-news';
-import { AnalyticsTasks } from '../analytics-tasks';
-import { AnalyticsCurrentVisits } from '../analytics-current-visits';
-import { AnalyticsOrderTimeline } from '../analytics-order-timeline';
-import { AnalyticsWebsiteVisits } from '../analytics-website-visits';
-import { AnalyticsWidgetSummary } from '../analytics-widget-summary';
-import { AnalyticsTrafficBySite } from '../analytics-traffic-by-site';
-import { AnalyticsCurrentSubject } from '../analytics-current-subject';
-import { AnalyticsConversionRates } from '../analytics-conversion-rates';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
 import LinearProgress from '@mui/material/LinearProgress';
 import Chip from '@mui/material/Chip';
-import Button from '@mui/material/Button';
-import { Icon } from '@iconify/react';
-import { useNavigate } from 'react-router-dom';
-import SearchIcon from '@mui/icons-material/Search';
-import Grid from '@mui/material/GridLegacy';
-import { Box, Container, FormControl, InputAdornment, InputLabel, MenuItem, Select, TextField, IconButton, Stack, Avatar } from '@mui/material';
-import { useState } from 'react';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import PeopleIcon from '@mui/icons-material/People';
-import StarIcon from '@mui/icons-material/Star';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import { useRouter } from 'src/routes/hooks';
-import learning from './learning.png'
-import img1 from '../../../../public/assets/1.jpg'
-import img2 from '../../../../public/assets/2.jpg'
-import img3 from '../../../../public/assets/3.jpg'
-import img4 from '../../../../public/assets/4.jpg'
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import { DashboardContent } from 'src/layouts/dashboard';
 
-
-// ----------------------------------------------------------------------
-const allCourses = [
-  // -----------------------------
-  // A. Core English Courses
-  // -----------------------------
-  { 
-    id: 1,
-    title: "Foundation English (Level 1–3)",
-    category: "Core English",
-    institute: "English Learning Academy",
-    badge: "Certified Course",
-    duration: "6 weeks",
-    enrolled: "1.2k",
-    rating: 4.7,
-    image: img1,
-    instructor: "Ms. Riya Sharma",
-    difficulty: "Beginner"
+const assignments = [
+  {
+    title: 'Chapter 3 - Grammar Quiz (Tenses)',
+    subtitle: 'Auto synced on revised',
+    skill: 'Grammar MCQ',
+    due: '21 Nov',
+    status: 'Start',
+    statusColor: '#FFF4E6',
+    textColor: '#FF9800'
   },
-  { 
-    id: 2,
-    title: "Grammar Mastery (Beginner to Advanced)",
-    category: "Core English",
-    institute: "English Learning Academy",
-    badge: "Certified Course",
-    duration: "8 weeks",
-    enrolled: "2.1k",
-    rating: 4.8,
-    image: img2,
-    instructor: "Mr. Arjun Patel",
-    difficulty: "Intermediate"
+  {
+    title: 'Listening Task - Flood Story',
+    subtitle: 'New redeue',
+    skill: 'Listening',
+    due: '25 Nov',
+    status: 'Listen',
+    statusColor: '#E3F2FD',
+    textColor: '#2196F3'
   },
-  { 
-    id: 3,
-    title: "Vocabulary Booster – 1000+ Words",
-    category: "Core English",
-    institute: "English Learning Academy",
-    badge: "Certified Course",
-    duration: "4 weeks",
-    enrolled: "2.9k",
-    rating: 4.6,
-    image: img4,
-    instructor: "Dr. Swati Mehta",
-    difficulty: "Beginner"
+  {
+    title: 'Pronunciation Practice – Modals',
+    subtitle: 'New',
+    skill: 'Speaking',
+    due: '25 Nov',
+    status: 'Now',
+    statusColor: '#E3F2FD',
+    textColor: '#2196F3'
   },
-  { 
-    id: 4,
-    title: "Reading Skills & Comprehension Mastery",
-    category: "Core English",
-    institute: "English Learning Academy",
-    badge: "Certified Course",
-    duration: "5 weeks",
-    enrolled: "3.1k",
-    rating: 4.7,
-    image: img3,
-    instructor: "Prof. Kavita Rao",
-    difficulty: "Intermediate"
-  },
-  { 
-    id: 5,
-    title: "Creative Writing: Paragraph, Story, Letter, Notice",
-    category: "Core English",
-    institute: "English Learning Academy",
-    badge: "Certified Course",
-    duration: "6 weeks",
-    enrolled: "2.5k",
-    rating: 4.8,
-    image: img4,
-    instructor: "Ms. Nidhi Sharma",
-    difficulty: "Beginner"
-  },
-  { 
-    id: 6,
-    title: "Essay Writing & Formal Writing",
-    category: "Core English",
-    institute: "English Learning Academy",
-    badge: "Certified Course",
-    duration: "5 weeks",
-    enrolled: "2.3k",
-    rating: 4.7,
-       image: img2,
-
-    instructor: "Mr. Rohan Malhotra",
-    difficulty: "Intermediate"
-  },
-  { 
-    id: 7,
-    title: "Spoken English & Confidence Building",
-    category: "Core English",
-    institute: "English Learning Academy",
-    badge: "Certified Course",
-    duration: "8 weeks",
-    enrolled: "4.8k",
-    rating: 4.9,
-        image: img1,
-    instructor: "Ms. Shruti Verma",
-    difficulty: "Beginner"
-  },
-  { 
-    id: 8,
-    title: "Pronunciation + Accent Training",
-    category: "Core English",
-    institute: "English Learning Academy",
-    badge: "Certified Course",
-    duration: "6 weeks",
-    enrolled: "3.6k",
-    rating: 4.8,
-    image: img2,
-    instructor: "Dr. Mahesh Sharma",
-    difficulty: "Intermediate"
-  },
-  { 
-    id: 9,
-    title: "Public Speaking & Presentation Skills",
-    category: "Core English",
-    institute: "English Learning Academy",
-    badge: "Certified Course",
-    duration: "6 weeks",
-    enrolled: "4.2k",
-    rating: 4.9,
-        image: img4,
-    instructor: "Prof. Aisha Khan",
-    difficulty: "Advanced"
-  },
-  { 
-    id: 10,
-    title: "Exam English for Classes 6–12",
-    category: "Core English",
-    institute: "English Learning Academy",
-    badge: "Certified Course",
-    duration: "10 weeks",
-    enrolled: "3.9k",
-    rating: 4.7,
-    image: img2,
-    instructor: "Mr. Vivek Gupta",
-    difficulty: "Intermediate"
-  },
-
-  // -----------------------------
-  // B. Skill Development Courses
-  // -----------------------------
-  { 
-    id: 11,
-    title: "Communication Skills for Students",
-    category: "Skill Development",
-    institute: "Skill Development Academy",
-    badge: "Professional Course",
-    duration: "5 weeks",
-    enrolled: "2.2k",
-    rating: 4.6,
-    image: img3,
-    instructor: "Ms. Preeti Rao",
-    difficulty: "Beginner"
-  },
-  { 
-    id: 12,
-    title: "Interview Skills + Resume Building",
-    category: "Skill Development",
-    institute: "Skill Development Academy",
-    badge: "Professional Course",
-    duration: "4 weeks",
-    enrolled: "2.8k",
-    rating: 4.8,
-    image: img3,
-    instructor: "Mr. Karan Meena",
-    difficulty: "Intermediate"
-  },
-  { 
-    id: 13,
-    title: "Critical Thinking & Problem Solving",
-    category: "Skill Development",
-    institute: "Skill Development Academy",
-    badge: "Professional Course",
-    duration: "6 weeks",
-    enrolled: "3.1k",
-    rating: 4.7,
-    image: img4,
-    instructor: "Prof. Seema Nair",
-    difficulty: "Intermediate"
-  },
-  { 
-    id: 14,
-    title: "Digital Literacy & Online Learning Skills",
-    category: "Skill Development",
-    institute: "Skill Development Academy",
-    badge: "Professional Course",
-    duration: "4 weeks",
-    enrolled: "1.9k",
-    rating: 4.5,
-    image: img1,
-
-    instructor: "Dr. Niraj Tyagi",
-    difficulty: "Beginner"
-  },
-  { 
-    id: 15,
-    title: "Soft Skills Development",
-    category: "Skill Development",
-    institute: "Skill Development Academy",
-    badge: "Professional Course",
-    duration: "5 weeks",
-    enrolled: "2.6k",
-    rating: 4.7,
-    image: img2,
-    instructor: "Mrs. Pooja Sethi",
-    difficulty: "Intermediate"
-  },
-
-  // -----------------------------
-  // C. Special Courses
-  // -----------------------------
-  { 
-    id: 16,
-    title: "Listening Lab",
-    category: "Special Courses",
-    institute: "Learning Labs",
-    badge: "Practical Module",
-    duration: "4 weeks",
-    enrolled: "1.5k",
-    rating: 4.6,
-       image: img3,
-    instructor: "Mr. Deepak Rana",
-    difficulty: "Beginner"
-  },
-  { 
-    id: 17,
-    title: "Writing Lab",
-    category: "Special Courses",
-    institute: "Learning Labs",
-    badge: "Practical Module",
-    duration: "4 weeks",
-    enrolled: "1.7k",
-    rating: 4.7,
-       image: img4,
-    instructor: "Ms. Aparna Joshi",
-    difficulty: "Intermediate"
-  },
-  { 
-    id: 18,
-    title: "Speaking Lab",
-    category: "Special Courses",
-    institute: "Learning Labs",
-    badge: "Practical Module",
-    duration: "4 weeks",
-    enrolled: "2.0k",
-    rating: 4.8,
-        image: img2,
-    instructor: "Prof. Sanjay Rao",
-    difficulty: "Intermediate"
-  },
-  { 
-    id: 19,
-    title: "Daily Practice Lab (Assignments + Tests)",
-    category: "Special Courses",
-    institute: "Learning Labs",
-    badge: "Practical Module",
-    duration: "12 weeks",
-    enrolled: "3.4k",
-    rating: 4.9,
-    image: img1,
-    instructor: "Ms. Radhika Kapoor",
-    difficulty: "Advanced"
-  },
-  { 
-    id: 20,
-    title: "Teacher Training Module (for Educators)",
-    category: "Special Courses",
-    institute: "Learning Labs",
-    badge: "Professional Certification",
-    duration: "8 weeks",
-    enrolled: "1.3k",
-    rating: 4.8,
-    image: img4,
-
-    instructor: "Dr. Hemant Mishra",
-    difficulty: "Advanced"
-  },
+  {
+    title: 'Paragraph Writing – My Village',
+    subtitle: 'Submitted',
+    skill: 'Writing',
+    due: '18 Nov',
+    status: 'Upload',
+    statusColor: '#E8F5E9',
+    textColor: '#4CAF50'
+  }
 ];
 
-
-const getDifficultyColor = (difficulty) => {
-  switch(difficulty) {
-    case 'Beginner': return '#4CAF50';
-    case 'Intermediate': return '#FF9800';
-    case 'Advanced': return '#F44336';
-    default: return '#757575';
+const aiLabs = [
+  {
+    title: 'Listening Lab',
+    subtitle: 'states announcements dialogues',
+    progress: '12/20 Task completed',
+    icon: '🎧',
+    color: '#FF9800'
+  },
+  {
+    title: 'Reading Lab',
+    subtitle: 'Unseen passages & lessons',
+    progress: 'Average score: 62%',
+    icon: '📚',
+    color: '#2196F3'
+  },
+  {
+    title: 'Speaking & Pronunciation',
+    subtitle: 'Record and get AI feedback',
+    badge: 'Level 2 - Fluency Badge',
+    badgeColor: '#2196F3',
+    icon: '🗣️',
+    color: '#2196F3'
+  },
+  {
+    title: 'Writing & Handwriting',
+    subtitle: 'Upload notebook p...',
+    badge: 'Next Writer - Level 1',
+    badgeColor: '#4CAF50',
+    icon: '✍️',
+    color: '#FF5722'
   }
-};
+];
 
+const summaryItems = [
+  'WhatsApp reminder set for "Paragraph Writing – In Village."',
+  'New AI Listening Task added by your teacher.',
+  'Speaking Lab suggests revising "modals pronunciation".'
+];
 
-
-const WelcomeCard = () => {
-  return (
-    <Card
-      sx={{
-        background: 'white',
-        border:'1px solid #8dbbf7',
-        color: 'black',
-        borderRadius: 3,
-        overflow: 'hidden',
-        position: 'relative',
-        mb: 4,
-        // boxShadow: '0 8px 32px rgba(102, 126, 234, 0.3)',
-      }}
-    >
-      {/* Decorative Background Elements */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: -50,
-          right: -50,
-          width: 200,
-          height: 200,
-          borderRadius: '50%',
-          background: 'rgba(255,255,255,0.1)',
-          backdropFilter: 'blur(10px)',
-        }}
-      />
-      <Box
-        sx={{
-          position: 'absolute',
-          bottom: -30,
-          left: -30,
-          width: 150,
-          height: 100,
-          borderRadius: '50%',
-          background: 'rgba(255,255,255,0.08)',
-          backdropFilter: 'blur(10px)',
-        }}
-      />
-
-      <Box sx={{ p: 4, position: 'relative', zIndex: 1 }}>
-        <Stack direction={{ xs: 'column', md: 'row' }} spacing={4} alignItems="center">
-          {/* Left Section - Welcome Message */}
-          <Box sx={{ flex: 1 }}>
-            <Stack spacing={2}>
-              <Box>
-                <Typography variant="h2" sx={{ fontWeight: 700, mb: 1 }}>
-                  Welcome Back, Parvinder! 🎉
-                </Typography>
-                <Typography variant="body1" sx={{ opacity: 0.95, mb: 3 }}>
-                  Continue your learning journey and achieve your goals
-                </Typography>
-              </Box>
-            </Stack>
-          </Box>
-
-          {/* Right Section - Image */}
-          <Box 
-            sx={{ 
-              width: { xs: '100%', md: 'auto' },
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
-          >
-            <Box 
-              component='img' 
-              src={learning}
-              alt="Learning illustration"
-              sx={{
-                width: { xs: '200px', md: '250px', lg: '300px' },
-                height: 'auto',
-                maxWidth: '100%',
-                objectFit: 'contain'
-              }}
-            />
-          </Box>
-        </Stack>
-      </Box>
-    </Card>
-  );
-};
-export default WelcomeCard;
 export function OverviewAnalyticsView() {
-  const [tabValue, setTabValue] = useState(0);
-  const [hoveredCard, setHoveredCard] = useState(null);
-const route=useRouter()
-const handleRoute=()=>{
-  route.push('/lmsintropage')
-}
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
-  };
-
   return (
     <DashboardContent maxWidth="xl">
-      <WelcomeCard/>
-
-      <Container maxWidth="xl" sx={{ py: 8 }}>
-      
-            <Typography variant="h2" sx={{ fontWeight: 700, mb: 1,textAlign:'center' }}>
-              Explore Courses
-            </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{textAlign:'center'}}>
-              Discover and enroll in top-rated courses from premier institutions
-            </Typography>
-       
-       
-       
-        <Box
-          sx={{
-            background: 'transparent',
-            borderRadius: 3,
-            p: 4,
-            mb: 4,
-            mt:4,
-            color: 'black',
-            // boxShadow: '0 8px 32px rgba(102, 126, 234, 0.3)',
-          }}
-        >
-          <Grid container spacing={2} sx={{gap:1}} alignItems="center">
-            <Grid xs={12} md={3}>
-              <TextField
-                fullWidth
-                placeholder="Search courses, instructors..."
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon sx={{ color: 'black' }} />
-                    </InputAdornment>
-                  ),
-                  sx: {
-                    bgcolor: 'rgba(255,255,255,0.2)',
-                    borderRadius: 2,
-                    color: 'black',
-                    '& input': { color: 'black' },
-                    '& input::placeholder': { color: 'rgba(255,255,255,0.7)' },
-                    '& .MuiOutlinedInput-notchedOutline': { border: '1px solid black' },
-                    backdropFilter: 'blur(10px)',
-                  },
-                }}
-                variant="outlined"
-              />
-            </Grid>
-
-            <Grid xs={12} sm={6} md={2.5}>
-              <FormControl fullWidth>
-                <Select
-                  defaultValue="all"
-                  displayEmpty
-                  sx={{
-                    bgcolor: 'rgba(255,255,255,0.2)',
-                    color: 'black',
-                    borderRadius: 2,
-                    '.MuiOutlinedInput-notchedOutline': { border: '1px solid black' },
-                    '.MuiSelect-icon': { color: 'black' },
-                    backdropFilter: 'blur(10px)',
-                  }}
-                >
-                  <MenuItem value="all">All Categories</MenuItem>
-                  <MenuItem value="engineering">Engineering</MenuItem>
-                  <MenuItem value="management">Management</MenuItem>
-                  <MenuItem value="science">Science</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid xs={12} sm={6} md={2.5}>
-              <FormControl fullWidth>
-                <Select
-                  defaultValue="all"
-                  displayEmpty
-                  sx={{
-                    bgcolor: 'rgba(255,255,255,0.2)',
-                    color: 'black',
-                    borderRadius: 2,
-                    '.MuiOutlinedInput-notchedOutline': { border: '1px solid black' },
-                    '.MuiSelect-icon': { color: 'black' },
-                    backdropFilter: 'blur(10px)',
-                  }}
-                >
-                  <MenuItem value="all">All Durations</MenuItem>
-                  <MenuItem value="4weeks">≤ 4 weeks</MenuItem>
-                  <MenuItem value="8weeks">4–8 weeks</MenuItem>
-                  <MenuItem value="12weeks">≥ 12 weeks</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid xs={12} md={3}>
-              <FormControl fullWidth>
-                <Select
-                  defaultValue="upcoming"
-                  sx={{
-                    bgcolor: 'rgba(255,255,255,0.2)',
-                    color: 'black',
-                    borderRadius: 2,
-                    '.MuiOutlinedInput-notchedOutline': { border: '1px solid black' },
-                    '.MuiSelect-icon': { color: 'black' },
-                    backdropFilter: 'blur(10px)',
-                  }}
-                >
-                  <MenuItem value="upcoming">Enrollment Open</MenuItem>
-                  <MenuItem value="ongoing">Ongoing</MenuItem>
-                  <MenuItem value="completed">Completed</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-          </Grid>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+        <Box>
+          <Typography variant="h3" sx={{ fontWeight: 600, mb: 0.5 }}>
+            Welcome, Parvinder!
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Class 9 · English Learning Dashboard
+          </Typography>
         </Box>
+       
+      </Box>
 
-        <Grid container spacing={2} sx={{gap:1,py:2}}>
-          {allCourses.map((course) => (
-            <Grid xs={12} sm={6} md={2.8} key={course.id}>
-              <Card
-                onMouseEnter={() => setHoveredCard(course.id)}
-                onMouseLeave={() => setHoveredCard(null)}
-                sx={{
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  cursor: 'pointer',
-                  borderRadius: 2,
-                  overflow: 'hidden',
-                  boxShadow: hoveredCard === course.id ? '0 12px 40px rgba(0,0,0,0.15)' : '0 2px 8px rgba(0,0,0,0.08)',
-                  transform: hoveredCard === course.id ? 'translateY(-8px)' : 'translateY(0)',
-                  '&:hover .course-image': {
-                    transform: 'scale(1.1)',
-                  },
-                }}
-              >
-                <Box sx={{ position: 'relative', overflow: 'hidden', height: 180 }}>
-                  <Box
-                    className="course-image"
-                    component='img'
-                    src={course.image}
-                    sx={{
-                      width: '100%',
-                      height: '100%',
-                      background: `linear-gradient(135deg, ${getDifficultyColor(course.difficulty)}22 0%, ${getDifficultyColor(course.difficulty)}44 100%)`,
-                      transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                    }}
-                  />
-                  <IconButton
-                    sx={{
-                      position: 'absolute',
-                      top: 12,
-                      right: 12,
-                      bgcolor: 'rgba(255,255,255,0.95)',
-                      backdropFilter: 'blur(10px)',
-                      '&:hover': { bgcolor: 'white' },
-                    }}
-                  >
-                    <BookmarkBorderIcon fontSize="small" />
-                  </IconButton>
-                  <Chip
-                    label={course.difficulty}
-                    size="small"
-                    sx={{
-                      position: 'absolute',
-                      bottom: 12,
-                      left: 12,
-                      bgcolor: 'rgba(255,255,255,0.95)',
-                      color: getDifficultyColor(course.difficulty),
-                      fontWeight: 700,
-                      backdropFilter: 'blur(10px)',
-                    }}
-                  />
-                </Box>
-
-                <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                  <Stack spacing={2}>
-                    <Box>
-                      <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, lineHeight: 1.3 }}>
-                        {course.title}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        <Icon icon="mdi:school" width={16} />
-                        {course.institute}
-                      </Typography>
-                    </Box>
-
-                    <Chip
-                      label={course.badge}
-                      size="small"
-                      sx={{
-                        bgcolor: '#E8F5E9',
-                        color: '#2E7D32',
-                        fontWeight: 600,
-                        height: 28,
-                        fontSize: '0.75rem',
-                      }}
-                    />
-
-                    <Stack direction="row" spacing={2} sx={{ pt: 1 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        <AccessTimeIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-                        <Typography variant="caption" color="text.secondary">
-                          {course.duration}
-                        </Typography>
-                      </Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        <PeopleIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-                        <Typography variant="caption" color="text.secondary">
-                          {course.enrolled}
-                        </Typography>
-                      </Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        <StarIcon sx={{ fontSize: 16, color: '#FFA726' }} />
-                        <Typography variant="caption" fontWeight={600}>
-                          {course.rating}
-                        </Typography>
-                      </Box>
-                    </Stack>
-
-                    <Box sx={{ pt: 1, borderTop: '1px solid', borderColor: 'divider' }}>
-                      <Typography variant="caption" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        <Avatar sx={{ width: 20, height: 20, fontSize: '0.7rem', bgcolor: 'primary.main' }}>
-                          {course.instructor.split(' ')[0][0]}
-                        </Avatar>
-                        {course.instructor}
-                      </Typography>
-                    </Box>
-
-                    <Button
-                      variant="contained"
-                      fullWidth
-                      sx={{
-                        mt: 2,
-                        textTransform: 'none',
-                        fontWeight: 600,
-                        py: 1.2,
-                        borderRadius: 1.5,
-                        background: '#055cad',
-                        '&:hover': {
-                          background: '#265785',
-                        },
-                      }}
-                      endIcon={<Icon icon="mdi:arrow-right" />}
-                      onClick={handleRoute}
-                    >
-                      View Details
-                    </Button>
-                  </Stack>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
+      <Grid container spacing={3}>
+        {/* Summary Cards */}
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <Card sx={{ height: '100%',borderRadius:5 }}>
+            <CardContent>
+              <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                New Assignments
+              </Typography>
+              <Typography variant="h3" sx={{ fontWeight: 600, mb: 1 }}>
+                3
+              </Typography>
+              <Typography variant="body2" color="primary">
+                7 from English · 1 from Science
+              </Typography>
+            </CardContent>
+          </Card>
         </Grid>
 
-       
-      </Container>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <Card sx={{ height: '100%',borderRadius:5 }}>
+            <CardContent>
+              <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                Due This Week
+              </Typography>
+              <Typography variant="h3" sx={{ fontWeight: 600, mb: 1 }}>
+                5
+              </Typography>
+              <Typography variant="body2" color="error.main">
+                Next due:- Grammar Quiz · Tomorrow
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <Card sx={{ height: '100%',borderRadius:5 }}>
+            <CardContent>
+              <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                Overdue
+              </Typography>
+              <Typography variant="h3" sx={{ fontWeight: 600, mb: 1 }}>
+                1
+              </Typography>
+              <Typography variant="body2" color="primary">
+                Due Tomorrow
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <Card sx={{ height: '100%',borderRadius:5 }}>
+            <CardContent>
+              <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                Overall Progress
+              </Typography>
+              <Typography variant="h3" sx={{ fontWeight: 600, mb: 1 }}>
+                78%
+              </Typography>
+              <Typography variant="body2" color="success.main">
+                Keep it up - target 88%
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* My English Assignments */}
+        <Grid size={{ xs: 12, lg: 7 }}>
+          <Card sx={{borderRadius:5}}>
+            <CardContent>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                My English Assignments
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 2, mb: 2, pb: 1, borderBottom: '1px solid', borderColor: 'divider' }}>
+                <Typography variant="subtitle2" sx={{ flex: 2, color: 'text.secondary' }}>Title</Typography>
+                <Typography variant="subtitle2" sx={{ flex: 1, color: 'text.secondary' }}>Skill</Typography>
+                <Typography variant="subtitle2" sx={{ flex: 1, color: 'text.secondary' }}>Due</Typography>
+                <Typography variant="subtitle2" sx={{ flex: 1, color: 'text.secondary' }}>Status</Typography>
+              </Box>
+              {assignments.map((assignment, index) => (
+                <Box key={index} sx={{ display: 'flex', gap: 2, py: 2, borderBottom: index < assignments.length - 1 ? '1px solid' : 'none', borderColor: 'divider' }}>
+                  <Box sx={{ flex: 2 }}>
+                    <Typography variant="body2" sx={{ fontWeight: 500, mb: 0.5 }}>
+                      {assignment.title}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {assignment.subtitle}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+                    <Typography variant="body2">{assignment.skill}</Typography>
+                  </Box>
+                  <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+                    <Typography variant="body2">{assignment.due}</Typography>
+                  </Box>
+                  <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+                    <Chip 
+                      label={assignment.status} 
+                      size="small"
+                      sx={{ 
+                        bgcolor: assignment.statusColor, 
+                        color: assignment.textColor,
+                        fontWeight: 500,
+                        fontSize: '0.75rem'
+                      }} 
+                    />
+                  </Box>
+                </Box>
+              ))}
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* AI Skill Labs */}
+        <Grid size={{ xs: 12, lg: 5 }}>
+          <Card sx={{borderRadius:5}}>
+            <CardContent>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                AI Skill Labs
+              </Typography>
+              <Grid container spacing={2}>
+                {aiLabs.map((lab, index) => (
+                  <Grid size={{ xs: 12, sm: 6 }} key={index}>
+                    <Card variant="outlined" sx={{ height: '100%',borderRadius:5 }}>
+                      <CardContent sx={{ p: 2 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5, mb: 1 }}>
+                          <Avatar sx={{ bgcolor: `${lab.color}20`, color: lab.color, width: 40, height: 40 }}>
+                            {lab.icon}
+                          </Avatar>
+                          <Box sx={{ flex: 1 }}>
+                            <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5 }}>
+                              {lab.title}
+                            </Typography>
+                            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1 }}>
+                              {lab.subtitle}
+                            </Typography>
+                            {lab.progress && (
+                              <Typography variant="caption" sx={{ display: 'block' }}>
+                                {lab.progress}
+                              </Typography>
+                            )}
+                            {lab.badge && (
+                              <Chip 
+                                label={lab.badge} 
+                                size="small"
+                                sx={{ 
+                                  mt: 1,
+                                  bgcolor: `${lab.badgeColor}20`, 
+                                  color: lab.badgeColor,
+                                  fontSize: '0.7rem',
+                                  height: 20
+                                }} 
+                              />
+                            )}
+                          </Box>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Today's Summary - Progress */}
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Card sx={{borderRadius:5}}>
+            <CardContent>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                Today's Summary
+              </Typography>
+              <Box>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                  <Typography variant="body2">
+                    Completion towards weekly English Engih target
+                  </Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                    68%
+                  </Typography>
+                </Box>
+                <LinearProgress 
+                  variant="determinate" 
+                  value={68} 
+                  sx={{ 
+                    height: 8, 
+                    borderRadius: 1,
+                    bgcolor: '#E0E0E0',
+                    '& .MuiLinearProgress-bar': {
+                      bgcolor: '#FF9800'
+                    }
+                  }} 
+                />
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Today's Summary - Updates */}
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Card sx={{borderRadius:5}}>
+            <CardContent>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                Today's Summary
+              </Typography>
+              <List sx={{ p: 0 }}>
+                {summaryItems.map((item, index) => (
+                  <ListItem key={index} sx={{ px: 0, py: 0.5 }}>
+                    <ListItemIcon sx={{ minWidth: 28 }}>
+                      <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: 'text.primary' }} />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary={item} 
+                      primaryTypographyProps={{ variant: 'body2' }}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
     </DashboardContent>
   );
 }

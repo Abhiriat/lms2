@@ -36,23 +36,144 @@ const teacherAssignedCourses = [
   'Essay Writing & Formal Writing'
 ];
 
-
-// Sample students with batch assignment
+// Updated students — now ALL enrolled in one of the teacher's assigned courses
 const allStudents = [
-  { id: 1, name: 'Aarav Sharma', email: 'aarav.sharma@email.com', phone: '+91 98765 43210', course: 'IELTS Intensive - Batch A2025', batch: 'A2025', level: 'Advanced' },
-  { id: 2, name: 'Priya Singh', email: 'priya.s@email.com', phone: '+91 98765 43211', course: 'General English - Level 6 (Morning)', batch: 'Level 6 Morning', level: 'Upper-Intermediate' },
-  { id: 3, name: 'Rahul Verma', email: 'rahul.v@email.com', phone: '+91 98765 43212', course: 'IELTS Intensive - Batch A2025', batch: 'A2025', level: 'Advanced' },
-  { id: 4, name: 'Ananya Patel', email: 'ananya.p@email.com', phone: '+91 98765 43213', course: 'Business English - B2 Advanced', batch: 'B2 Advanced', level: 'Advanced' },
-  { id: 5, name: 'Vikram Reddy', email: 'vikram.r@email.com', phone: '+91 98765 43214', course: 'Spoken English - Weekend Batch', batch: 'Weekend 2025', level: 'Intermediate' },
-  { id: 6, name: 'Neha Gupta', email: 'neha.g@email.com', phone: '+91 98765 43215', course: 'IELTS Intensive - Batch A2025', batch: 'A2025', level: 'Advanced' },
-  { id: 7, name: 'Rohan Mehta', email: 'rohan.m@email.com', phone: '+91 98765 43216', course: 'TOEFL Preparation - Evening', batch: 'TOEFL Evening', level: 'Advanced' },
-  { id: 8, name: 'Sanya Kapoor', email: 'sanya.k@email.com', phone: '+91 98765 43217', course: 'General English - Level 6 (Morning)', batch: 'Level 6 Morning', level: 'Upper-Intermediate' },
-  { id: 9, name: 'Arjun Nair', email: 'arjun.n@email.com', phone: '+91 98765 43218', course: 'IELTS Foundation - Batch B2025', batch: 'B2025', level: 'Pre-Intermediate' },
-  { id: 10, name: 'Diya Joshi', email: 'diya.j@email.com', phone: '+91 98765 43219', course: 'Spoken English - Weekend Batch', batch: 'Weekend 2025', level: 'Intermediate' },
-  { id: 11, name: 'Karan Malhotra', email: 'karan.m@email.com', phone: '+91 98765 43220', course: 'Business English - B2 Advanced', batch: 'B2 Advanced', level: 'Advanced' },
-  { id: 12, name: 'Ishaan Khan', email: 'ishaan.k@email.com', phone: '+91 98765 43221', course: 'IELTS Intensive - Batch A2025', batch: 'A2025', level: 'Advanced' },
+  { 
+    id: 1, 
+    name: 'Aarav Sharma', 
+    email: 'aarav.sharma@email.com', 
+    phone: '+91 98765 43210', 
+    course: 'Foundation English (Level 1–3)', 
+    batch: 'Morning Batch 2025', 
+    level: 'Beginner' 
+  },
+  { 
+    id: 2, 
+    name: 'Priya Singh', 
+    email: 'priya.s@email.com', 
+    phone: '+91 98765 43211', 
+    course: 'Grammar Mastery (Beginner to Advanced)', 
+    batch: 'Evening Batch', 
+    level: 'Intermediate' 
+  },
+  { 
+    id: 3, 
+    name: 'Rahul Verma', 
+    email: 'rahul.v@email.com', 
+    phone: '+91 98765 43212', 
+    course: 'Vocabulary Booster – 1000+ Words', 
+    batch: 'Weekend Intensive', 
+    level: 'Intermediate' 
+  },
+  { 
+    id: 4, 
+    name: 'Ananya Patel', 
+    email: 'ananya.p@email.com', 
+    phone: '+91 98765 43213', 
+    course: 'Reading Skills & Comprehension Mastery', 
+    batch: 'Level 5–6', 
+    level: 'Upper-Intermediate' 
+  },
+  { 
+    id: 5, 
+    name: 'Vikram Reddy', 
+    email: 'vikram.r@email.com', 
+    phone: '+91 98765 43214', 
+    course: 'Creative Writing: Paragraph, Story, Letter, Notice', 
+    batch: 'Creative Batch 2025', 
+    level: 'Advanced' 
+  },
+  { 
+    id: 6, 
+    name: 'Neha Gupta', 
+    email: 'neha.g@email.com', 
+    phone: '+91 98765 43215', 
+    course: 'Essay Writing & Formal Writing', 
+    batch: 'Advanced Writers', 
+    level: 'Advanced' 
+  },
+  { 
+    id: 7, 
+    name: 'Rohan Mehta', 
+    email: 'rohan.m@email.com', 
+    phone: '+91 98765 43216', 
+    course: 'Foundation English (Level 1–3)', 
+    batch: 'Morning Batch 2025', 
+    level: 'Beginner' 
+  },
+  { 
+    id: 8, 
+    name: 'Sanya Kapoor', 
+    email: 'sanya.k@email.com', 
+    phone: '+91 98765 43217', 
+    course: 'Grammar Mastery (Beginner to Advanced)', 
+    batch: 'Evening Batch', 
+    level: 'Pre-Intermediate' 
+  },
+  { 
+    id: 9, 
+    name: 'Arjun Nair', 
+    email: 'arjun.n@email.com', 
+    phone: '+91 98765 43218', 
+    course: 'Vocabulary Booster – 1000+ Words', 
+    batch: 'Weekend Intensive', 
+    level: 'Intermediate' 
+  },
+  { 
+    id: 10, 
+    name: 'Diya Joshi', 
+    email: 'diya.j@email.com', 
+    phone: '+91 98765 43219', 
+    course: 'Reading Skills & Comprehension Mastery', 
+    batch: 'Level 5–6', 
+    level: 'Upper-Intermediate' 
+  },
+  { 
+    id: 11, 
+    name: 'Karan Malhotra', 
+    email: 'karan.m@email.com', 
+    phone: '+91 98765 43220', 
+    course: 'Creative Writing: Paragraph, Story, Letter, Notice', 
+    batch: 'Creative Batch 2025', 
+    level: 'Advanced' 
+  },
+  { 
+    id: 12, 
+    name: 'Ishaan Khan', 
+    email: 'ishaan.k@email.com', 
+    phone: '+91 98765 43221', 
+    course: 'Essay Writing & Formal Writing', 
+    batch: 'Advanced Writers', 
+    level: 'Advanced' 
+  },
+  { 
+    id: 13, 
+    name: 'Myra Bhatia', 
+    email: 'myra.b@email.com', 
+    phone: '+91 98765 43222', 
+    course: 'Foundation English (Level 1–3)', 
+    batch: 'Morning Batch 2025', 
+    level: 'Beginner' 
+  },
+  { 
+    id: 14, 
+    name: 'Zara Ahmed', 
+    email: 'zara.a@email.com', 
+    phone: '+91 98765 43223', 
+    course: 'Grammar Mastery (Beginner to Advanced)', 
+    batch: 'Evening Batch', 
+    level: 'Intermediate' 
+  },
+  { 
+    id: 15, 
+    name: 'Kabir Singh', 
+    email: 'kabir.s@email.com', 
+    phone: '+91 98765 43224', 
+    course: 'Vocabulary Booster – 1000+ Words', 
+    batch: 'Weekend Intensive', 
+    level: 'Intermediate' 
+  },
 ];
-
 export function TeacherStudentListView() {
   const [selectedCourse, setSelectedCourse] = useState(teacherAssignedCourses[0]);
   const [page, setPage] = useState(0);
@@ -119,7 +240,20 @@ export function TeacherStudentListView() {
           scrollButtons="auto"
           sx={{
             bgcolor: 'background.paper',
+             '& .MuiTabs-indicator': {
+      backgroundColor: '#173345',   // Your desired color for the underline
+      height: 3,
+    },
             '& .MuiTab-root': { textTransform: 'none', fontWeight: 500 },
+              '& .Mui-selected': {
+      color: '#173345 !important',   // Selected tab text color
+      fontWeight: 600,
+      opacity: 1,
+    },
+    '& .MuiTab-root:hover': {
+      color: '#173345',
+      opacity: 1,
+    },
           }}
         >
           {teacherAssignedCourses.map((course) => {
@@ -139,7 +273,7 @@ export function TeacherStudentListView() {
                         {course.split(' - ')[1] || course}
                       </Typography>
                     </Box>
-                    <Badge badgeContent={count} color="primary" sx={{ ml: 1 }}>
+                    <Badge badgeContent={count} sx={{ ml: 1 }}>
                       <Icon icon="eva:people-fill" />
                     </Badge>
                   </Box>

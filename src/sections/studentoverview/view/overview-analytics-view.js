@@ -1,444 +1,110 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { DashboardContent } from 'src/layouts/dashboard';
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import Avatar from '@mui/material/Avatar';
+import LinearProgress from '@mui/material/LinearProgress';
 import Chip from '@mui/material/Chip';
-import Button from '@mui/material/Button';
-import { Icon } from '@iconify/react';
-import SearchIcon from '@mui/icons-material/Search';
-import Grid from '@mui/material/GridLegacy';
-import { Box, Container, FormControl, InputAdornment, MenuItem, Select, TextField, IconButton, Stack, Avatar } from '@mui/material';
-import { useState } from 'react';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import PeopleIcon from '@mui/icons-material/People';
-import StarIcon from '@mui/icons-material/Star';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import { useRouter } from 'src/routes/hooks';
-import learning from './learning.png';
-import img1 from '../../../../public/assets/1.jpg';
-import img2 from '../../../../public/assets/2.jpg';
-import img3 from '../../../../public/assets/3.jpg';
-import img4 from '../../../../public/assets/4.jpg';
-// ----------------------------------------------------------------------
-const allCourses = [
-    // -----------------------------
-    // A. Core English Courses
-    // -----------------------------
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import { DashboardContent } from 'src/layouts/dashboard';
+const assignments = [
     {
-        id: 1,
-        title: "Foundation English (Level 1–3)",
-        category: "Core English",
-        institute: "English Learning Academy",
-        badge: "Certified Course",
-        duration: "6 weeks",
-        enrolled: "1.2k",
-        rating: 4.7,
-        image: img1,
-        instructor: "Ms. Riya Sharma",
-        difficulty: "Beginner"
+        title: 'Chapter 3 - Grammar Quiz (Tenses)',
+        subtitle: 'Auto synced on revised',
+        skill: 'Grammar MCQ',
+        due: '21 Nov',
+        status: 'Start',
+        statusColor: '#FFF4E6',
+        textColor: '#FF9800'
     },
     {
-        id: 2,
-        title: "Grammar Mastery (Beginner to Advanced)",
-        category: "Core English",
-        institute: "English Learning Academy",
-        badge: "Certified Course",
-        duration: "8 weeks",
-        enrolled: "2.1k",
-        rating: 4.8,
-        image: img2,
-        instructor: "Mr. Arjun Patel",
-        difficulty: "Intermediate"
+        title: 'Listening Task - Flood Story',
+        subtitle: 'New redeue',
+        skill: 'Listening',
+        due: '25 Nov',
+        status: 'Listen',
+        statusColor: '#E3F2FD',
+        textColor: '#2196F3'
     },
     {
-        id: 3,
-        title: "Vocabulary Booster – 1000+ Words",
-        category: "Core English",
-        institute: "English Learning Academy",
-        badge: "Certified Course",
-        duration: "4 weeks",
-        enrolled: "2.9k",
-        rating: 4.6,
-        image: img4,
-        instructor: "Dr. Swati Mehta",
-        difficulty: "Beginner"
+        title: 'Pronunciation Practice – Modals',
+        subtitle: 'New',
+        skill: 'Speaking',
+        due: '25 Nov',
+        status: 'Now',
+        statusColor: '#E3F2FD',
+        textColor: '#2196F3'
     },
     {
-        id: 4,
-        title: "Reading Skills & Comprehension Mastery",
-        category: "Core English",
-        institute: "English Learning Academy",
-        badge: "Certified Course",
-        duration: "5 weeks",
-        enrolled: "3.1k",
-        rating: 4.7,
-        image: img3,
-        instructor: "Prof. Kavita Rao",
-        difficulty: "Intermediate"
-    },
-    {
-        id: 5,
-        title: "Creative Writing: Paragraph, Story, Letter, Notice",
-        category: "Core English",
-        institute: "English Learning Academy",
-        badge: "Certified Course",
-        duration: "6 weeks",
-        enrolled: "2.5k",
-        rating: 4.8,
-        image: img4,
-        instructor: "Ms. Nidhi Sharma",
-        difficulty: "Beginner"
-    },
-    {
-        id: 6,
-        title: "Essay Writing & Formal Writing",
-        category: "Core English",
-        institute: "English Learning Academy",
-        badge: "Certified Course",
-        duration: "5 weeks",
-        enrolled: "2.3k",
-        rating: 4.7,
-        image: img2,
-        instructor: "Mr. Rohan Malhotra",
-        difficulty: "Intermediate"
-    },
-    {
-        id: 7,
-        title: "Spoken English & Confidence Building",
-        category: "Core English",
-        institute: "English Learning Academy",
-        badge: "Certified Course",
-        duration: "8 weeks",
-        enrolled: "4.8k",
-        rating: 4.9,
-        image: img1,
-        instructor: "Ms. Shruti Verma",
-        difficulty: "Beginner"
-    },
-    {
-        id: 8,
-        title: "Pronunciation + Accent Training",
-        category: "Core English",
-        institute: "English Learning Academy",
-        badge: "Certified Course",
-        duration: "6 weeks",
-        enrolled: "3.6k",
-        rating: 4.8,
-        image: img2,
-        instructor: "Dr. Mahesh Sharma",
-        difficulty: "Intermediate"
-    },
-    {
-        id: 9,
-        title: "Public Speaking & Presentation Skills",
-        category: "Core English",
-        institute: "English Learning Academy",
-        badge: "Certified Course",
-        duration: "6 weeks",
-        enrolled: "4.2k",
-        rating: 4.9,
-        image: img4,
-        instructor: "Prof. Aisha Khan",
-        difficulty: "Advanced"
-    },
-    {
-        id: 10,
-        title: "Exam English for Classes 6–12",
-        category: "Core English",
-        institute: "English Learning Academy",
-        badge: "Certified Course",
-        duration: "10 weeks",
-        enrolled: "3.9k",
-        rating: 4.7,
-        image: img2,
-        instructor: "Mr. Vivek Gupta",
-        difficulty: "Intermediate"
-    },
-    // -----------------------------
-    // B. Skill Development Courses
-    // -----------------------------
-    {
-        id: 11,
-        title: "Communication Skills for Students",
-        category: "Skill Development",
-        institute: "Skill Development Academy",
-        badge: "Professional Course",
-        duration: "5 weeks",
-        enrolled: "2.2k",
-        rating: 4.6,
-        image: img3,
-        instructor: "Ms. Preeti Rao",
-        difficulty: "Beginner"
-    },
-    {
-        id: 12,
-        title: "Interview Skills + Resume Building",
-        category: "Skill Development",
-        institute: "Skill Development Academy",
-        badge: "Professional Course",
-        duration: "4 weeks",
-        enrolled: "2.8k",
-        rating: 4.8,
-        image: img3,
-        instructor: "Mr. Karan Meena",
-        difficulty: "Intermediate"
-    },
-    {
-        id: 13,
-        title: "Critical Thinking & Problem Solving",
-        category: "Skill Development",
-        institute: "Skill Development Academy",
-        badge: "Professional Course",
-        duration: "6 weeks",
-        enrolled: "3.1k",
-        rating: 4.7,
-        image: img4,
-        instructor: "Prof. Seema Nair",
-        difficulty: "Intermediate"
-    },
-    {
-        id: 14,
-        title: "Digital Literacy & Online Learning Skills",
-        category: "Skill Development",
-        institute: "Skill Development Academy",
-        badge: "Professional Course",
-        duration: "4 weeks",
-        enrolled: "1.9k",
-        rating: 4.5,
-        image: img1,
-        instructor: "Dr. Niraj Tyagi",
-        difficulty: "Beginner"
-    },
-    {
-        id: 15,
-        title: "Soft Skills Development",
-        category: "Skill Development",
-        institute: "Skill Development Academy",
-        badge: "Professional Course",
-        duration: "5 weeks",
-        enrolled: "2.6k",
-        rating: 4.7,
-        image: img2,
-        instructor: "Mrs. Pooja Sethi",
-        difficulty: "Intermediate"
-    },
-    // -----------------------------
-    // C. Special Courses
-    // -----------------------------
-    {
-        id: 16,
-        title: "Listening Lab",
-        category: "Special Courses",
-        institute: "Learning Labs",
-        badge: "Practical Module",
-        duration: "4 weeks",
-        enrolled: "1.5k",
-        rating: 4.6,
-        image: img3,
-        instructor: "Mr. Deepak Rana",
-        difficulty: "Beginner"
-    },
-    {
-        id: 17,
-        title: "Writing Lab",
-        category: "Special Courses",
-        institute: "Learning Labs",
-        badge: "Practical Module",
-        duration: "4 weeks",
-        enrolled: "1.7k",
-        rating: 4.7,
-        image: img4,
-        instructor: "Ms. Aparna Joshi",
-        difficulty: "Intermediate"
-    },
-    {
-        id: 18,
-        title: "Speaking Lab",
-        category: "Special Courses",
-        institute: "Learning Labs",
-        badge: "Practical Module",
-        duration: "4 weeks",
-        enrolled: "2.0k",
-        rating: 4.8,
-        image: img2,
-        instructor: "Prof. Sanjay Rao",
-        difficulty: "Intermediate"
-    },
-    {
-        id: 19,
-        title: "Daily Practice Lab (Assignments + Tests)",
-        category: "Special Courses",
-        institute: "Learning Labs",
-        badge: "Practical Module",
-        duration: "12 weeks",
-        enrolled: "3.4k",
-        rating: 4.9,
-        image: img1,
-        instructor: "Ms. Radhika Kapoor",
-        difficulty: "Advanced"
-    },
-    {
-        id: 20,
-        title: "Teacher Training Module (for Educators)",
-        category: "Special Courses",
-        institute: "Learning Labs",
-        badge: "Professional Certification",
-        duration: "8 weeks",
-        enrolled: "1.3k",
-        rating: 4.8,
-        image: img4,
-        instructor: "Dr. Hemant Mishra",
-        difficulty: "Advanced"
-    },
-];
-const getDifficultyColor = (difficulty) => {
-    switch (difficulty) {
-        case 'Beginner': return '#4CAF50';
-        case 'Intermediate': return '#FF9800';
-        case 'Advanced': return '#F44336';
-        default: return '#757575';
+        title: 'Paragraph Writing – My Village',
+        subtitle: 'Submitted',
+        skill: 'Writing',
+        due: '18 Nov',
+        status: 'Upload',
+        statusColor: '#E8F5E9',
+        textColor: '#4CAF50'
     }
-};
-const WelcomeCard = () => {
-    return (_jsxs(Card, { sx: {
-            background: 'white',
-            border: '1px solid #8dbbf7',
-            color: 'black',
-            borderRadius: 3,
-            overflow: 'hidden',
-            position: 'relative',
-            mb: 4,
-            // boxShadow: '0 8px 32px rgba(102, 126, 234, 0.3)',
-        }, children: [_jsx(Box, { sx: {
-                    position: 'absolute',
-                    top: -50,
-                    right: -50,
-                    width: 200,
-                    height: 200,
-                    borderRadius: '50%',
-                    background: 'rgba(255,255,255,0.1)',
-                    backdropFilter: 'blur(10px)',
-                } }), _jsx(Box, { sx: {
-                    position: 'absolute',
-                    bottom: -30,
-                    left: -30,
-                    width: 150,
-                    height: 100,
-                    borderRadius: '50%',
-                    background: 'rgba(255,255,255,0.08)',
-                    backdropFilter: 'blur(10px)',
-                } }), _jsx(Box, { sx: { p: 4, position: 'relative', zIndex: 1 }, children: _jsxs(Stack, { direction: { xs: 'column', md: 'row' }, spacing: 4, alignItems: "center", children: [_jsx(Box, { sx: { flex: 1 }, children: _jsx(Stack, { spacing: 2, children: _jsxs(Box, { children: [_jsx(Typography, { variant: "h2", sx: { fontWeight: 700, mb: 1 }, children: "Welcome Back, Parvinder! \uD83C\uDF89" }), _jsx(Typography, { variant: "body1", sx: { opacity: 0.95, mb: 3 }, children: "Continue your learning journey and achieve your goals" })] }) }) }), _jsx(Box, { sx: {
-                                width: { xs: '100%', md: 'auto' },
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center'
-                            }, children: _jsx(Box, { component: 'img', src: learning, alt: "Learning illustration", sx: {
-                                    width: { xs: '200px', md: '250px', lg: '300px' },
-                                    height: 'auto',
-                                    maxWidth: '100%',
-                                    objectFit: 'contain'
-                                } }) })] }) })] }));
-};
-export default WelcomeCard;
+];
+const aiLabs = [
+    {
+        title: 'Listening Lab',
+        subtitle: 'states announcements dialogues',
+        progress: '12/20 Task completed',
+        icon: '🎧',
+        color: '#FF9800'
+    },
+    {
+        title: 'Reading Lab',
+        subtitle: 'Unseen passages & lessons',
+        progress: 'Average score: 62%',
+        icon: '📚',
+        color: '#2196F3'
+    },
+    {
+        title: 'Speaking & Pronunciation',
+        subtitle: 'Record and get AI feedback',
+        badge: 'Level 2 - Fluency Badge',
+        badgeColor: '#2196F3',
+        icon: '🗣️',
+        color: '#2196F3'
+    },
+    {
+        title: 'Writing & Handwriting',
+        subtitle: 'Upload notebook p...',
+        badge: 'Next Writer - Level 1',
+        badgeColor: '#4CAF50',
+        icon: '✍️',
+        color: '#FF5722'
+    }
+];
+const summaryItems = [
+    'WhatsApp reminder set for "Paragraph Writing – In Village."',
+    'New AI Listening Task added by your teacher.',
+    'Speaking Lab suggests revising "modals pronunciation".'
+];
 export function OverviewAnalyticsView() {
-    const [tabValue, setTabValue] = useState(0);
-    const [hoveredCard, setHoveredCard] = useState(null);
-    const route = useRouter();
-    const handleRoute = () => {
-        route.push('/lmsintropage');
-    };
-    const handleTabChange = (event, newValue) => {
-        setTabValue(newValue);
-    };
-    return (_jsxs(DashboardContent, { maxWidth: "xl", children: [_jsx(WelcomeCard, {}), _jsxs(Container, { maxWidth: "xl", sx: { py: 8 }, children: [_jsx(Typography, { variant: "h2", sx: { fontWeight: 700, mb: 1, textAlign: 'center' }, children: "Explore Courses" }), _jsx(Typography, { variant: "body2", color: "text.secondary", sx: { textAlign: 'center' }, children: "Discover and enroll in top-rated courses from premier institutions" }), _jsx(Box, { sx: {
-                            background: 'transparent',
-                            borderRadius: 3,
-                            p: 4,
-                            mb: 4,
-                            mt: 4,
-                            color: 'black',
-                            // boxShadow: '0 8px 32px rgba(102, 126, 234, 0.3)',
-                        }, children: _jsxs(Grid, { container: true, spacing: 2, sx: { gap: 1 }, alignItems: "center", children: [_jsx(Grid, { xs: 12, md: 3, children: _jsx(TextField, { fullWidth: true, placeholder: "Search courses, instructors...", InputProps: {
-                                            startAdornment: (_jsx(InputAdornment, { position: "start", children: _jsx(SearchIcon, { sx: { color: 'black' } }) })),
-                                            sx: {
-                                                bgcolor: 'rgba(255,255,255,0.2)',
-                                                borderRadius: 2,
-                                                color: 'black',
-                                                '& input': { color: 'black' },
-                                                '& input::placeholder': { color: 'rgba(255,255,255,0.7)' },
-                                                '& .MuiOutlinedInput-notchedOutline': { border: '1px solid black' },
-                                                backdropFilter: 'blur(10px)',
-                                            },
-                                        }, variant: "outlined" }) }), _jsx(Grid, { xs: 12, sm: 6, md: 2.5, children: _jsx(FormControl, { fullWidth: true, children: _jsxs(Select, { defaultValue: "all", displayEmpty: true, sx: {
-                                                bgcolor: 'rgba(255,255,255,0.2)',
-                                                color: 'black',
-                                                borderRadius: 2,
-                                                '.MuiOutlinedInput-notchedOutline': { border: '1px solid black' },
-                                                '.MuiSelect-icon': { color: 'black' },
-                                                backdropFilter: 'blur(10px)',
-                                            }, children: [_jsx(MenuItem, { value: "all", children: "All Categories" }), _jsx(MenuItem, { value: "engineering", children: "Engineering" }), _jsx(MenuItem, { value: "management", children: "Management" }), _jsx(MenuItem, { value: "science", children: "Science" })] }) }) }), _jsx(Grid, { xs: 12, sm: 6, md: 2.5, children: _jsx(FormControl, { fullWidth: true, children: _jsxs(Select, { defaultValue: "all", displayEmpty: true, sx: {
-                                                bgcolor: 'rgba(255,255,255,0.2)',
-                                                color: 'black',
-                                                borderRadius: 2,
-                                                '.MuiOutlinedInput-notchedOutline': { border: '1px solid black' },
-                                                '.MuiSelect-icon': { color: 'black' },
-                                                backdropFilter: 'blur(10px)',
-                                            }, children: [_jsx(MenuItem, { value: "all", children: "All Durations" }), _jsx(MenuItem, { value: "4weeks", children: "\u2264 4 weeks" }), _jsx(MenuItem, { value: "8weeks", children: "4\u20138 weeks" }), _jsx(MenuItem, { value: "12weeks", children: "\u2265 12 weeks" })] }) }) }), _jsx(Grid, { xs: 12, md: 3, children: _jsx(FormControl, { fullWidth: true, children: _jsxs(Select, { defaultValue: "upcoming", sx: {
-                                                bgcolor: 'rgba(255,255,255,0.2)',
-                                                color: 'black',
-                                                borderRadius: 2,
-                                                '.MuiOutlinedInput-notchedOutline': { border: '1px solid black' },
-                                                '.MuiSelect-icon': { color: 'black' },
-                                                backdropFilter: 'blur(10px)',
-                                            }, children: [_jsx(MenuItem, { value: "upcoming", children: "Enrollment Open" }), _jsx(MenuItem, { value: "ongoing", children: "Ongoing" }), _jsx(MenuItem, { value: "completed", children: "Completed" })] }) }) })] }) }), _jsx(Grid, { container: true, spacing: 2, sx: { gap: 1, py: 2 }, children: allCourses.map((course) => (_jsx(Grid, { xs: 12, sm: 6, md: 2.8, children: _jsxs(Card, { onMouseEnter: () => setHoveredCard(course.id), onMouseLeave: () => setHoveredCard(null), sx: {
-                                    height: '100%',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                    cursor: 'pointer',
-                                    borderRadius: 2,
-                                    overflow: 'hidden',
-                                    boxShadow: hoveredCard === course.id ? '0 12px 40px rgba(0,0,0,0.15)' : '0 2px 8px rgba(0,0,0,0.08)',
-                                    transform: hoveredCard === course.id ? 'translateY(-8px)' : 'translateY(0)',
-                                    '&:hover .course-image': {
-                                        transform: 'scale(1.1)',
-                                    },
-                                }, children: [_jsxs(Box, { sx: { position: 'relative', overflow: 'hidden', height: 180 }, children: [_jsx(Box, { className: "course-image", component: 'img', src: course.image, sx: {
-                                                    width: '100%',
-                                                    height: '100%',
-                                                    background: `linear-gradient(135deg, ${getDifficultyColor(course.difficulty)}22 0%, ${getDifficultyColor(course.difficulty)}44 100%)`,
-                                                    transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                                                } }), _jsx(IconButton, { sx: {
-                                                    position: 'absolute',
-                                                    top: 12,
-                                                    right: 12,
-                                                    bgcolor: 'rgba(255,255,255,0.95)',
-                                                    backdropFilter: 'blur(10px)',
-                                                    '&:hover': { bgcolor: 'white' },
-                                                }, children: _jsx(BookmarkBorderIcon, { fontSize: "small" }) }), _jsx(Chip, { label: course.difficulty, size: "small", sx: {
-                                                    position: 'absolute',
-                                                    bottom: 12,
-                                                    left: 12,
-                                                    bgcolor: 'rgba(255,255,255,0.95)',
-                                                    color: getDifficultyColor(course.difficulty),
-                                                    fontWeight: 700,
-                                                    backdropFilter: 'blur(10px)',
-                                                } })] }), _jsx(CardContent, { sx: { flexGrow: 1, p: 3 }, children: _jsxs(Stack, { spacing: 2, children: [_jsxs(Box, { children: [_jsx(Typography, { variant: "h6", gutterBottom: true, sx: { fontWeight: 600, lineHeight: 1.3 }, children: course.title }), _jsxs(Typography, { variant: "body2", color: "text.secondary", sx: { display: 'flex', alignItems: 'center', gap: 0.5 }, children: [_jsx(Icon, { icon: "mdi:school", width: 16 }), course.institute] })] }), _jsx(Chip, { label: course.badge, size: "small", sx: {
-                                                        bgcolor: '#E8F5E9',
-                                                        color: '#2E7D32',
-                                                        fontWeight: 600,
-                                                        height: 28,
-                                                        fontSize: '0.75rem',
-                                                    } }), _jsxs(Stack, { direction: "row", spacing: 2, sx: { pt: 1 }, children: [_jsxs(Box, { sx: { display: 'flex', alignItems: 'center', gap: 0.5 }, children: [_jsx(AccessTimeIcon, { sx: { fontSize: 16, color: 'text.secondary' } }), _jsx(Typography, { variant: "caption", color: "text.secondary", children: course.duration })] }), _jsxs(Box, { sx: { display: 'flex', alignItems: 'center', gap: 0.5 }, children: [_jsx(PeopleIcon, { sx: { fontSize: 16, color: 'text.secondary' } }), _jsx(Typography, { variant: "caption", color: "text.secondary", children: course.enrolled })] }), _jsxs(Box, { sx: { display: 'flex', alignItems: 'center', gap: 0.5 }, children: [_jsx(StarIcon, { sx: { fontSize: 16, color: '#FFA726' } }), _jsx(Typography, { variant: "caption", fontWeight: 600, children: course.rating })] })] }), _jsx(Box, { sx: { pt: 1, borderTop: '1px solid', borderColor: 'divider' }, children: _jsxs(Typography, { variant: "caption", color: "text.secondary", sx: { display: 'flex', alignItems: 'center', gap: 0.5 }, children: [_jsx(Avatar, { sx: { width: 20, height: 20, fontSize: '0.7rem', bgcolor: 'primary.main' }, children: course.instructor.split(' ')[0][0] }), course.instructor] }) }), _jsx(Button, { variant: "contained", fullWidth: true, sx: {
-                                                        mt: 2,
-                                                        textTransform: 'none',
-                                                        fontWeight: 600,
-                                                        py: 1.2,
-                                                        borderRadius: 1.5,
-                                                        background: '#055cad',
-                                                        '&:hover': {
-                                                            background: '#265785',
-                                                        },
-                                                    }, endIcon: _jsx(Icon, { icon: "mdi:arrow-right" }), onClick: handleRoute, children: "View Details" })] }) })] }) }, course.id))) })] })] }));
+    return (_jsxs(DashboardContent, { maxWidth: "xl", children: [_jsx(Box, { sx: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }, children: _jsxs(Box, { children: [_jsx(Typography, { variant: "h3", sx: { fontWeight: 600, mb: 0.5 }, children: "Welcome, Parvinder!" }), _jsx(Typography, { variant: "body2", color: "text.secondary", children: "Class 9 \u00B7 English Learning Dashboard" })] }) }), _jsxs(Grid, { container: true, spacing: 3, children: [_jsx(Grid, { size: { xs: 12, sm: 6, md: 3 }, children: _jsx(Card, { sx: { height: '100%', borderRadius: 5 }, children: _jsxs(CardContent, { children: [_jsx(Typography, { variant: "subtitle2", color: "text.secondary", gutterBottom: true, children: "New Assignments" }), _jsx(Typography, { variant: "h3", sx: { fontWeight: 600, mb: 1 }, children: "3" }), _jsx(Typography, { variant: "body2", color: "primary", children: "7 from English \u00B7 1 from Science" })] }) }) }), _jsx(Grid, { size: { xs: 12, sm: 6, md: 3 }, children: _jsx(Card, { sx: { height: '100%', borderRadius: 5 }, children: _jsxs(CardContent, { children: [_jsx(Typography, { variant: "subtitle2", color: "text.secondary", gutterBottom: true, children: "Due This Week" }), _jsx(Typography, { variant: "h3", sx: { fontWeight: 600, mb: 1 }, children: "5" }), _jsx(Typography, { variant: "body2", color: "error.main", children: "Next due:- Grammar Quiz \u00B7 Tomorrow" })] }) }) }), _jsx(Grid, { size: { xs: 12, sm: 6, md: 3 }, children: _jsx(Card, { sx: { height: '100%', borderRadius: 5 }, children: _jsxs(CardContent, { children: [_jsx(Typography, { variant: "subtitle2", color: "text.secondary", gutterBottom: true, children: "Overdue" }), _jsx(Typography, { variant: "h3", sx: { fontWeight: 600, mb: 1 }, children: "1" }), _jsx(Typography, { variant: "body2", color: "primary", children: "Due Tomorrow" })] }) }) }), _jsx(Grid, { size: { xs: 12, sm: 6, md: 3 }, children: _jsx(Card, { sx: { height: '100%', borderRadius: 5 }, children: _jsxs(CardContent, { children: [_jsx(Typography, { variant: "subtitle2", color: "text.secondary", gutterBottom: true, children: "Overall Progress" }), _jsx(Typography, { variant: "h3", sx: { fontWeight: 600, mb: 1 }, children: "78%" }), _jsx(Typography, { variant: "body2", color: "success.main", children: "Keep it up - target 88%" })] }) }) }), _jsx(Grid, { size: { xs: 12, lg: 7 }, children: _jsx(Card, { sx: { borderRadius: 5 }, children: _jsxs(CardContent, { children: [_jsx(Typography, { variant: "h6", sx: { fontWeight: 600, mb: 3 }, children: "My English Assignments" }), _jsxs(Box, { sx: { display: 'flex', gap: 2, mb: 2, pb: 1, borderBottom: '1px solid', borderColor: 'divider' }, children: [_jsx(Typography, { variant: "subtitle2", sx: { flex: 2, color: 'text.secondary' }, children: "Title" }), _jsx(Typography, { variant: "subtitle2", sx: { flex: 1, color: 'text.secondary' }, children: "Skill" }), _jsx(Typography, { variant: "subtitle2", sx: { flex: 1, color: 'text.secondary' }, children: "Due" }), _jsx(Typography, { variant: "subtitle2", sx: { flex: 1, color: 'text.secondary' }, children: "Status" })] }), assignments.map((assignment, index) => (_jsxs(Box, { sx: { display: 'flex', gap: 2, py: 2, borderBottom: index < assignments.length - 1 ? '1px solid' : 'none', borderColor: 'divider' }, children: [_jsxs(Box, { sx: { flex: 2 }, children: [_jsx(Typography, { variant: "body2", sx: { fontWeight: 500, mb: 0.5 }, children: assignment.title }), _jsx(Typography, { variant: "caption", color: "text.secondary", children: assignment.subtitle })] }), _jsx(Box, { sx: { flex: 1, display: 'flex', alignItems: 'center' }, children: _jsx(Typography, { variant: "body2", children: assignment.skill }) }), _jsx(Box, { sx: { flex: 1, display: 'flex', alignItems: 'center' }, children: _jsx(Typography, { variant: "body2", children: assignment.due }) }), _jsx(Box, { sx: { flex: 1, display: 'flex', alignItems: 'center' }, children: _jsx(Chip, { label: assignment.status, size: "small", sx: {
+                                                        bgcolor: assignment.statusColor,
+                                                        color: assignment.textColor,
+                                                        fontWeight: 500,
+                                                        fontSize: '0.75rem'
+                                                    } }) })] }, index)))] }) }) }), _jsx(Grid, { size: { xs: 12, lg: 5 }, children: _jsx(Card, { sx: { borderRadius: 5 }, children: _jsxs(CardContent, { children: [_jsx(Typography, { variant: "h6", sx: { fontWeight: 600, mb: 3 }, children: "AI Skill Labs" }), _jsx(Grid, { container: true, spacing: 2, children: aiLabs.map((lab, index) => (_jsx(Grid, { size: { xs: 12, sm: 6 }, children: _jsx(Card, { variant: "outlined", sx: { height: '100%', borderRadius: 5 }, children: _jsx(CardContent, { sx: { p: 2 }, children: _jsxs(Box, { sx: { display: 'flex', alignItems: 'flex-start', gap: 1.5, mb: 1 }, children: [_jsx(Avatar, { sx: { bgcolor: `${lab.color}20`, color: lab.color, width: 40, height: 40 }, children: lab.icon }), _jsxs(Box, { sx: { flex: 1 }, children: [_jsx(Typography, { variant: "subtitle2", sx: { fontWeight: 600, mb: 0.5 }, children: lab.title }), _jsx(Typography, { variant: "caption", color: "text.secondary", sx: { display: 'block', mb: 1 }, children: lab.subtitle }), lab.progress && (_jsx(Typography, { variant: "caption", sx: { display: 'block' }, children: lab.progress })), lab.badge && (_jsx(Chip, { label: lab.badge, size: "small", sx: {
+                                                                            mt: 1,
+                                                                            bgcolor: `${lab.badgeColor}20`,
+                                                                            color: lab.badgeColor,
+                                                                            fontSize: '0.7rem',
+                                                                            height: 20
+                                                                        } }))] })] }) }) }) }, index))) })] }) }) }), _jsx(Grid, { size: { xs: 12, md: 6 }, children: _jsx(Card, { sx: { borderRadius: 5 }, children: _jsxs(CardContent, { children: [_jsx(Typography, { variant: "h6", sx: { fontWeight: 600, mb: 3 }, children: "Today's Summary" }), _jsxs(Box, { children: [_jsxs(Box, { sx: { display: 'flex', justifyContent: 'space-between', mb: 1 }, children: [_jsx(Typography, { variant: "body2", children: "Completion towards weekly English Engih target" }), _jsx(Typography, { variant: "body2", sx: { fontWeight: 600 }, children: "68%" })] }), _jsx(LinearProgress, { variant: "determinate", value: 68, sx: {
+                                                    height: 8,
+                                                    borderRadius: 1,
+                                                    bgcolor: '#E0E0E0',
+                                                    '& .MuiLinearProgress-bar': {
+                                                        bgcolor: '#FF9800'
+                                                    }
+                                                } })] })] }) }) }), _jsx(Grid, { size: { xs: 12, md: 6 }, children: _jsx(Card, { sx: { borderRadius: 5 }, children: _jsxs(CardContent, { children: [_jsx(Typography, { variant: "h6", sx: { fontWeight: 600, mb: 3 }, children: "Today's Summary" }), _jsx(List, { sx: { p: 0 }, children: summaryItems.map((item, index) => (_jsxs(ListItem, { sx: { px: 0, py: 0.5 }, children: [_jsx(ListItemIcon, { sx: { minWidth: 28 }, children: _jsx(Box, { sx: { width: 6, height: 6, borderRadius: '50%', bgcolor: 'text.primary' } }) }), _jsx(ListItemText, { primary: item, primaryTypographyProps: { variant: 'body2' } })] }, index))) })] }) }) })] })] }));
 }

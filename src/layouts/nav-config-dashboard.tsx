@@ -11,6 +11,7 @@ export type NavItem = {
   path: string;
   icon: React.ReactNode;
   info?: React.ReactNode;
+  children?: NavItem[];
 };
 
 export const useNavData = (): NavItem[] => {
@@ -89,11 +90,28 @@ export const useNavData = (): NavItem[] => {
         path: '/teacherdashboard',
         icon: icon('ic-analytics'),
       }, {
+        title: 'Classes',
+        path: '', // no direct path → acts as group
+        icon: icon('ic-class'),
+        children: [{
       title: 'Students',
       path: '/teacherstudent',
       icon: icon('ic-student'),
-    },]
-  }
+  }, {
+      title: 'Quiz Result',
+      path: '/quizresult',
+      icon: icon('ic-result'),
+    },
+     {
+      title: 'Assignment',
+      path: '/assignment',
+      icon: icon('ic-assignment'),
+    },
+  ]
+}
+]
+}
+  
 
   return [
     {

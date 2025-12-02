@@ -15,6 +15,7 @@ import { DashboardLayout } from 'src/layouts/dashboard';
 export const DashboardPage = lazy(() => import('src/pages/dashboard'));
 export const Blog2Page = lazy(() => import('src/pages/blog2'));
 export const StudentDashboardPage = lazy(() => import('src/pages/studentdashboard'));
+export const AssignmentViewPage = lazy(() => import('src/pages/assignment'));
 export const TeacherPage = lazy(() => import('src/pages/teacherdashboard'));
 export const TeacherStudentListPage = lazy(() => import('src/pages/teacherstudent'));
 export const InstructorListPage = lazy(() => import('src/pages/instructors'));
@@ -25,6 +26,7 @@ export const LMSSpeakingPage =lazy(()=> import('src/pages/lmsspeaking'))
 export const LMSWritingPage =lazy(()=> import('src/pages/lmswriting'))
 export const QuizResultPage =lazy(()=> import('src/pages/quizresult'))
 export const QuizDetailResultViewPage =lazy(()=> import('src/pages/quizdetailresultview'))
+export const TeacherDetailViewPage =lazy(()=> import('src/pages/teacherdetail'))
 export const QuizSuccessPage = lazy(() => import('src/pages/quizsuccess'));
 export const CoursesPage = lazy(() => import('src/pages/courses'));
 export const QuizPage = lazy(() => import('src/pages/quiz'));
@@ -69,6 +71,7 @@ export const routesSection: RouteObject[] = [
     children: [
       { path: 'admindashboard', element: <DashboardPage /> },
       { path: 'studentdashboard', element: <StudentDashboardPage/> },
+      { path: 'assignment', element: <AssignmentViewPage/> },
       { path: 'teacherdashboard', element: <TeacherPage/> },
       { path: 'teacherstudent', element: <TeacherStudentListPage/> },
       { path: 'lmsintropage', element: <IntroLmsPage/> },
@@ -78,6 +81,7 @@ export const routesSection: RouteObject[] = [
       { path: 'classdetail', element: <ClassDetailViewPage/> },
       { path: 'quizresult', element: <QuizResultPage/> },
       { path: 'quizdetailresultview/:id', element: <QuizDetailResultViewPage /> },
+      { path: 'teacherdetail/:id', element: <TeacherDetailViewPage /> },
       { path: 'lmspage', element: <LMSPage/> },
       { path: 'lmsspeaking', element: <LMSSpeakingPage/> },
       { path: 'lmswriting', element: <LMSWritingPage/> },

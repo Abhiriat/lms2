@@ -74,10 +74,26 @@ export const useNavData = () => {
                 path: '/teacherdashboard',
                 icon: icon('ic-analytics'),
             }, {
-                title: 'Students',
-                path: '/teacherstudent',
-                icon: icon('ic-student'),
-            },];
+                title: 'Classes',
+                path: '', // no direct path → acts as group
+                icon: icon('ic-class'),
+                children: [{
+                        title: 'Students',
+                        path: '/teacherstudent',
+                        icon: icon('ic-student'),
+                    }, {
+                        title: 'Quiz Result',
+                        path: '/quizresult',
+                        icon: icon('ic-result'),
+                    },
+                    {
+                        title: 'Assignment',
+                        path: '/assignment',
+                        icon: icon('ic-assignment'),
+                    },
+                ]
+            }
+        ];
     }
     return [
         {

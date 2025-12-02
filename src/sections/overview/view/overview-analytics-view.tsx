@@ -1,3 +1,4 @@
+import React from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -12,83 +13,37 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { DashboardContent } from 'src/layouts/dashboard';
+import {
+  School,
+  AssignmentTurnedIn,
+  Schedule,
+  TrendingUp,
+  People,
+  Warning,
+  CheckCircle,
+  PendingActions,
+} from '@mui/icons-material';
 
-const assignments = [
-  {
-    title: 'Chapter 3 - Grammar Quiz (Tenses)',
-    subtitle: 'Auto synced on revised',
-    skill: 'Grammar MCQ',
-    due: '21 Nov',
-    status: 'Start',
-    statusColor: '#FFF4E6',
-    textColor: '#FF9800'
-  },
-  {
-    title: 'Listening Task - Flood Story',
-    subtitle: 'New redeue',
-    skill: 'Listening',
-    due: '25 Nov',
-    status: 'Listen',
-    statusColor: '#E3F2FD',
-    textColor: '#2196F3'
-  },
-  {
-    title: 'Pronunciation Practice – Modals',
-    subtitle: 'New',
-    skill: 'Speaking',
-    due: '25 Nov',
-    status: 'Now',
-    statusColor: '#E3F2FD',
-    textColor: '#2196F3'
-  },
-  {
-    title: 'Paragraph Writing – My Village',
-    subtitle: 'Submitted',
-    skill: 'Writing',
-    due: '18 Nov',
-    status: 'Upload',
-    statusColor: '#E8F5E9',
-    textColor: '#4CAF50'
-  }
+const recentActivities = [
+  'Assigned "Chapter 3 - Grammar Quiz" to Class 9A',
+  'Received 23 submissions for "Flood Story Listening Task"',
+  'Updated due date for "My Village Paragraph" to 25 Nov',
+  'Added 5 new AI Listening tasks to Grade 10',
+  'Reviewed speaking recordings — 18 pending feedback',
 ];
 
-const aiLabs = [
-  {
-    title: 'Listening Lab',
-    subtitle: 'states announcements dialogues',
-    progress: '12/20 Task completed',
-    icon: '🎧',
-    color: '#FF9800'
-  },
-  {
-    title: 'Reading Lab',
-    subtitle: 'Unseen passages & lessons',
-    progress: 'Average score: 62%',
-    icon: '📚',
-    color: '#2196F3'
-  },
-  {
-    title: 'Speaking & Pronunciation',
-    subtitle: 'Record and get AI feedback',
-    badge: 'Level 2 - Fluency Badge',
-    badgeColor: '#2196F3',
-    icon: '🗣️',
-    color: '#2196F3'
-  },
-  {
-    title: 'Writing & Handwriting',
-    subtitle: 'Upload notebook p...',
-    badge: 'Next Writer - Level 1',
-    badgeColor: '#4CAF50',
-    icon: '✍️',
-    color: '#FF5722'
-  }
+const classPerformance = [
+  { class: 'Class 9A', progress: 82, color: '#4CAF50' },
+  { class: 'Class 9B', progress: 74, color: '#FF9800' },
+  { class: 'Class 10A', progress: 68, color: '#2196F3' },
+  { class: 'Class 10B', progress: 91, color: '#4CAF50' },
 ];
 
-const summaryItems = [
-  'WhatsApp reminder set for "Paragraph Writing – In Village."',
-  'New AI Listening Task added by your teacher.',
-  'Speaking Lab suggests revising "modals pronunciation".'
+const skillOverview = [
+  { skill: 'Grammar', avgScore: 78, trend: 'up' },
+  { skill: 'Listening', avgScore: 65, trend: 'up' },
+  { skill: 'Speaking', avgScore: 71, trend: 'same' },
+  { skill: 'Writing', avgScore: 88, trend: 'up' },
 ];
 
 export function OverviewAnalyticsView() {
@@ -97,233 +52,223 @@ export function OverviewAnalyticsView() {
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
         <Box>
           <Typography variant="h3" sx={{ fontWeight: 600, mb: 0.5 }}>
-            Welcome, Parvinder!
+            Welcome back, Admin!
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Class 9 · English Learning Dashboard
+            English Department • Academic Year 2024–2025
           </Typography>
         </Box>
-       
       </Box>
 
       <Grid container spacing={3}>
         {/* Summary Cards */}
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <Card sx={{ height: '100%',borderRadius:5 }}>
+          <Card sx={{ height: '100%', borderRadius: 5, bgcolor: '#E3F2FD' }}>
             <CardContent>
-              <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                New Assignments
-              </Typography>
-              <Typography variant="h3" sx={{ fontWeight: 600, mb: 1 }}>
-                3
-              </Typography>
-              <Typography variant="body2" color="primary">
-                7 from English · 1 from Science
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Avatar sx={{ bgcolor: '#1976d2', width: 56, height: 56 }}>
+                  <People fontSize="large" />
+                </Avatar>
+                <Box>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    Total Students
+                  </Typography>
+                  <Typography variant="h3" sx={{ fontWeight: 600 }}>
+                    248
+                  </Typography>
+                </Box>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <Card sx={{ height: '100%',borderRadius:5 }}>
+          <Card sx={{ height: '100%', borderRadius: 5, bgcolor: '#E8F5E9' }}>
             <CardContent>
-              <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                Due This Week
-              </Typography>
-              <Typography variant="h3" sx={{ fontWeight: 600, mb: 1 }}>
-                5
-              </Typography>
-              <Typography variant="body2" color="error.main">
-                Next due:- Grammar Quiz · Tomorrow
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Avatar sx={{ bgcolor: '#2e7d32', width: 56, height: 56 }}>
+                  <AssignmentTurnedIn fontSize="large" />
+                </Avatar>
+                <Box>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    Active Assignments
+                  </Typography>
+                  <Typography variant="h3" sx={{ fontWeight: 600 }}>
+                    18
+                  </Typography>
+                </Box>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <Card sx={{ height: '100%',borderRadius:5 }}>
+          <Card sx={{ height: '100%', borderRadius: 5, bgcolor: '#FFF3E0' }}>
             <CardContent>
-              <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                Overdue
-              </Typography>
-              <Typography variant="h3" sx={{ fontWeight: 600, mb: 1 }}>
-                1
-              </Typography>
-              <Typography variant="body2" color="primary">
-                Due Tomorrow
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Avatar sx={{ bgcolor: '#f57c00', width: 56, height: 56 }}>
+                  <PendingActions fontSize="large" />
+                </Avatar>
+                <Box>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    Pending Submissions
+                  </Typography>
+                  <Typography variant="h3" sx={{ fontWeight: 600 }}>
+                    67
+                  </Typography>
+                </Box>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <Card sx={{ height: '100%',borderRadius:5 }}>
+          <Card sx={{ height: '100%', borderRadius: 5, bgcolor: '#FCE4EC' }}>
             <CardContent>
-              <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                Overall Progress
-              </Typography>
-              <Typography variant="h3" sx={{ fontWeight: 600, mb: 1 }}>
-                78%
-              </Typography>
-              <Typography variant="body2" color="success.main">
-                Keep it up - target 88%
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Avatar sx={{ bgcolor: '#c2185b', width: 56, height: 56 }}>
+                  <Warning fontSize="large" />
+                </Avatar>
+                <Box>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    Overdue Tasks
+                  </Typography>
+                  <Typography variant="h3" sx={{ fontWeight: 600 }}>
+                    12
+                  </Typography>
+                </Box>
+              </Box>
             </CardContent>
           </Card>
         </Grid>
 
-        {/* My English Assignments */}
-        <Grid size={{ xs: 12, lg: 7 }}>
-          <Card sx={{borderRadius:5}}>
+        {/* Class Performance Overview */}
+        <Grid size={{ xs: 12, lg: 8 }}>
+          <Card sx={{ borderRadius: 5 }}>
             <CardContent>
               <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                My English Assignments
+                Class Performance Overview
               </Typography>
-              <Box sx={{ display: 'flex', gap: 2, mb: 2, pb: 1, borderBottom: '1px solid', borderColor: 'divider' }}>
-                <Typography variant="subtitle2" sx={{ flex: 2, color: 'text.secondary' }}>Title</Typography>
-                <Typography variant="subtitle2" sx={{ flex: 1, color: 'text.secondary' }}>Skill</Typography>
-                <Typography variant="subtitle2" sx={{ flex: 1, color: 'text.secondary' }}>Due</Typography>
-                <Typography variant="subtitle2" sx={{ flex: 1, color: 'text.secondary' }}>Status</Typography>
-              </Box>
-              {assignments.map((assignment, index) => (
-                <Box key={index} sx={{ display: 'flex', gap: 2, py: 2, borderBottom: index < assignments.length - 1 ? '1px solid' : 'none', borderColor: 'divider' }}>
-                  <Box sx={{ flex: 2 }}>
-                    <Typography variant="body2" sx={{ fontWeight: 500, mb: 0.5 }}>
-                      {assignment.title}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {assignment.subtitle}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-                    <Typography variant="body2">{assignment.skill}</Typography>
-                  </Box>
-                  <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-                    <Typography variant="body2">{assignment.due}</Typography>
-                  </Box>
-                  <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-                    <Chip 
-                      label={assignment.status} 
-                      size="small"
-                      sx={{ 
-                        bgcolor: assignment.statusColor, 
-                        color: assignment.textColor,
-                        fontWeight: 500,
-                        fontSize: '0.75rem'
-                      }} 
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                {classPerformance.map((cls) => (
+                  <Box key={cls.class}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                      <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                        {cls.class}
+                      </Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                        {cls.progress}%
+                      </Typography>
+                    </Box>
+                    <LinearProgress
+                      variant="determinate"
+                      value={cls.progress}
+                      sx={{
+                        height: 10,
+                        borderRadius: 5,
+                        bgcolor: '#e0e0e0',
+                        '& .MuiLinearProgress-bar': {
+                          bgcolor: cls.color,
+                        },
+                      }}
                     />
                   </Box>
-                </Box>
-              ))}
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* AI Skill Labs */}
-        <Grid size={{ xs: 12, lg: 5 }}>
-          <Card sx={{borderRadius:5}}>
-            <CardContent>
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                AI Skill Labs
-              </Typography>
-              <Grid container spacing={2}>
-                {aiLabs.map((lab, index) => (
-                  <Grid size={{ xs: 12, sm: 6 }} key={index}>
-                    <Card variant="outlined" sx={{ height: '100%',borderRadius:5 }}>
-                      <CardContent sx={{ p: 2 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5, mb: 1 }}>
-                          <Avatar sx={{ bgcolor: `${lab.color}20`, color: lab.color, width: 40, height: 40 }}>
-                            {lab.icon}
-                          </Avatar>
-                          <Box sx={{ flex: 1 }}>
-                            <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5 }}>
-                              {lab.title}
-                            </Typography>
-                            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1 }}>
-                              {lab.subtitle}
-                            </Typography>
-                            {lab.progress && (
-                              <Typography variant="caption" sx={{ display: 'block' }}>
-                                {lab.progress}
-                              </Typography>
-                            )}
-                            {lab.badge && (
-                              <Chip 
-                                label={lab.badge} 
-                                size="small"
-                                sx={{ 
-                                  mt: 1,
-                                  bgcolor: `${lab.badgeColor}20`, 
-                                  color: lab.badgeColor,
-                                  fontSize: '0.7rem',
-                                  height: 20
-                                }} 
-                              />
-                            )}
-                          </Box>
-                        </Box>
-                      </CardContent>
-                    </Card>
-                  </Grid>
                 ))}
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Today's Summary - Progress */}
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Card sx={{borderRadius:5}}>
-            <CardContent>
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                Today's Summary
-              </Typography>
-              <Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography variant="body2">
-                    Completion towards weekly English Engih target
-                  </Typography>
-                  <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                    68%
-                  </Typography>
-                </Box>
-                <LinearProgress 
-                  variant="determinate" 
-                  value={68} 
-                  sx={{ 
-                    height: 8, 
-                    borderRadius: 1,
-                    bgcolor: '#E0E0E0',
-                    '& .MuiLinearProgress-bar': {
-                      bgcolor: '#FF9800'
-                    }
-                  }} 
-                />
               </Box>
             </CardContent>
           </Card>
         </Grid>
 
-        {/* Today's Summary - Updates */}
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Card sx={{borderRadius:5}}>
+        {/* Skill-wise Average */}
+        <Grid size={{ xs: 12, lg: 4 }}>
+          <Card sx={{ borderRadius: 5, height: '100%' }}>
             <CardContent>
               <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                Today's Summary
+                Skill-wise Average Score
+              </Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+                {skillOverview.map((skill) => (
+                  <Box key={skill.skill} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                      <TrendingUp
+                        sx={{
+                          fontSize: 20,
+                          color: skill.trend === 'up' ? '#4caf50' : skill.trend === 'down' ? '#f44336' : '#9e9e9e',
+                        }}
+                      />
+                      <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                        {skill.skill}
+                      </Typography>
+                    </Box>
+                    <Chip
+                      label={`${skill.avgScore}%`}
+                      size="small"
+                      sx={{
+                        bgcolor: skill.avgScore >= 80 ? '#E8F5E9' : skill.avgScore >= 70 ? '#FFF3E0' : '#FFEBEE',
+                        color: skill.avgScore >= 80 ? '#2e7d32' : skill.avgScore >= 70 ? '#f57c00' : '#c62828',
+                        fontWeight: 600,
+                      }}
+                    />
+                  </Box>
+                ))}
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Recent Activity */}
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Card sx={{ borderRadius: 5 }}>
+            <CardContent>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                Recent Activity
               </Typography>
               <List sx={{ p: 0 }}>
-                {summaryItems.map((item, index) => (
-                  <ListItem key={index} sx={{ px: 0, py: 0.5 }}>
-                    <ListItemIcon sx={{ minWidth: 28 }}>
-                      <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: 'text.primary' }} />
+                {recentActivities.map((activity, index) => (
+                  <ListItem key={index} sx={{ px: 0, py: 1.2, alignItems: 'flex-start' }}>
+                    <ListItemIcon sx={{ minWidth: 32, mt: 0.5 }}>
+                      <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'primary.main' }} />
                     </ListItemIcon>
-                    <ListItemText 
-                      primary={item} 
-                      primaryTypographyProps={{ variant: 'body2' }}
+                    <ListItemText
+                      primary={activity}
+                      primaryTypographyProps={{ variant: 'body2', color: 'text.primary' }}
                     />
                   </ListItem>
                 ))}
               </List>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Quick Actions */}
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Card sx={{ borderRadius: 5 }}>
+            <CardContent>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                Quick Actions
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid size={6}>
+                  <Button fullWidth variant="outlined" size="large" color='success' startIcon={<School />}>
+                    Manage Classes
+                  </Button>
+                </Grid>
+                <Grid size={6}>
+                  <Button fullWidth variant="outlined" size="large" color='success' startIcon={<AssignmentTurnedIn />}>
+                    Review Submissions
+                  </Button>
+                </Grid>
+                <Grid size={6}>
+                  <Button fullWidth variant="outlined" size="large" color='success' startIcon={<CheckCircle />}>
+                    Grade Assignments
+                  </Button>
+                </Grid>
+                <Grid size={6}>
+                  <Button fullWidth variant="outlined" size="large" color='success' startIcon={<Schedule />}>
+                    Schedule Reminder
+                  </Button>
+                </Grid>
+              </Grid>
             </CardContent>
           </Card>
         </Grid>

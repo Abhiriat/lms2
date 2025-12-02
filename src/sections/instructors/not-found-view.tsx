@@ -22,6 +22,7 @@ import {
   Stack,
 } from '@mui/material';
 import { Icon } from '@iconify/react';
+import { Link } from 'react-router-dom';
 
 const initialInstructors = [
   {
@@ -338,11 +339,13 @@ export function InstructorsListView() {
                 paginatedInstructors.map((instructor) => (
                   <TableRow key={instructor.id} hover>
                     <TableCell>
+                      <Link to={`/teacherdetail/${instructor.id}`} style={{textDecoration:'none',color:'black'}}>
                       <Stack direction="row" spacing={1} alignItems="center">
                         <Typography variant="body2" sx={{ fontWeight: 500 }}>
                           {instructor.name}
                         </Typography>
                       </Stack>
+                      </Link>
                     </TableCell>
                     <TableCell>
                       <Typography variant="body2" sx={{ color: '#666' }}>

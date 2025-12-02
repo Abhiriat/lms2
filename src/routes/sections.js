@@ -10,6 +10,7 @@ import { DashboardLayout } from 'src/layouts/dashboard';
 export const DashboardPage = lazy(() => import('src/pages/dashboard'));
 export const Blog2Page = lazy(() => import('src/pages/blog2'));
 export const StudentDashboardPage = lazy(() => import('src/pages/studentdashboard'));
+export const AssignmentViewPage = lazy(() => import('src/pages/assignment'));
 export const TeacherPage = lazy(() => import('src/pages/teacherdashboard'));
 export const TeacherStudentListPage = lazy(() => import('src/pages/teacherstudent'));
 export const InstructorListPage = lazy(() => import('src/pages/instructors'));
@@ -20,6 +21,7 @@ export const LMSSpeakingPage = lazy(() => import('src/pages/lmsspeaking'));
 export const LMSWritingPage = lazy(() => import('src/pages/lmswriting'));
 export const QuizResultPage = lazy(() => import('src/pages/quizresult'));
 export const QuizDetailResultViewPage = lazy(() => import('src/pages/quizdetailresultview'));
+export const TeacherDetailViewPage = lazy(() => import('src/pages/teacherdetail'));
 export const QuizSuccessPage = lazy(() => import('src/pages/quizsuccess'));
 export const CoursesPage = lazy(() => import('src/pages/courses'));
 export const QuizPage = lazy(() => import('src/pages/quiz'));
@@ -48,6 +50,7 @@ export const routesSection = [
         children: [
             { path: 'admindashboard', element: _jsx(DashboardPage, {}) },
             { path: 'studentdashboard', element: _jsx(StudentDashboardPage, {}) },
+            { path: 'assignment', element: _jsx(AssignmentViewPage, {}) },
             { path: 'teacherdashboard', element: _jsx(TeacherPage, {}) },
             { path: 'teacherstudent', element: _jsx(TeacherStudentListPage, {}) },
             { path: 'lmsintropage', element: _jsx(IntroLmsPage, {}) },
@@ -57,6 +60,7 @@ export const routesSection = [
             { path: 'classdetail', element: _jsx(ClassDetailViewPage, {}) },
             { path: 'quizresult', element: _jsx(QuizResultPage, {}) },
             { path: 'quizdetailresultview/:id', element: _jsx(QuizDetailResultViewPage, {}) },
+            { path: 'teacherdetail/:id', element: _jsx(TeacherDetailViewPage, {}) },
             { path: 'lmspage', element: _jsx(LMSPage, {}) },
             { path: 'lmsspeaking', element: _jsx(LMSSpeakingPage, {}) },
             { path: 'lmswriting', element: _jsx(LMSWritingPage, {}) },
